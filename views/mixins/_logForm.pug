@@ -1,0 +1,44 @@
+mixin logForm(log = {})
+  form(id='logForm' action=`/add/${log._id || ''}` method="POST" class="card" enctype="multipart/form-data" multiple)
+    label(for="name") Name
+    input(type="text" name="name" value=log.name)
+    label(for="vehicle") Vehicle (TODO make dropdown)
+    input(type="text" name="vehicle" value=log.vehicle)
+
+    label(for="dateStarted") Date Started
+    input(type="date" name="dateStarted" unformattedDate=log.dateStarted)
+
+    label(for="dateCompleted") Date Completed
+    input(type="date" name="dateCompleted" unformattedDate=log.dateCompleted)
+
+    label(for="shortDescription") Short Description
+    textarea(name="shortDescription")= log.shortDescription
+    label(for="longDescription") Long Description
+    textarea(name="longDescription")= log.longDescription
+
+    label(for="tools") Tools
+    - const toolsString = log.tools ? log.tools.toString() : '' 
+    input(type="text" name="tools" value=toolsString)
+
+    label(for="parts") Parts
+    - const partsString = log.parts ? log.parts.toString() : ''
+    input(type="text" name="parts" value=partsString)
+
+    label(for="partsCost") Cost of Parts
+    span.moneySign $
+      input.moneyInput(type="number" name="partsCost" min="0" step="0.01" value=log.partsCost)
+    label(for="laborCost") Cost of Labor
+    span.moneySign $
+      input.moneyInput(type="text" name="laborCost" min="0" step="0.01" value=log.laborCost)
+
+    label(for="serviceLocation") Service Location (Name and Address of Mechanic or Self)
+    input(type="text" name="serviceLocation" value=log.serviceLocation)
+
+    label(for="odometer") Odometer
+    input(type="number" name="odometer" min="0" value=log.odometer)
+
+    label(for="receipts") Upload parts/labor receipt images
+      input(type="file" name="receipts" id="photo" accept="image/gif, image/png, image/jpeg")
+      if log.photo
+        img(src=`/uploads/${log.photo}`, alt=log.name width=200)
+    input(type="submit" value="Save to Log" class="button")

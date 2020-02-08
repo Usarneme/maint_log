@@ -1,0 +1,17 @@
+[{
+"name": "Test",
+"dateEntered": "2019-08-19T23:15:30.000Z",
+"dateStarted": "2019-08-19T23:15:30.000Z",
+"dateCompleted": "2019-08-19T23:15:30.000Z",
+"shortDescription": "Test",
+"longDescription": "Test",
+"toolsUsed": ["Test"],
+"parts": ["Test"],
+"partsCost": 1200,
+"laborCost": 1200,
+"serviceLocation": "Test",
+"receipts": ["Test"],
+"odometer": 120000,
+"slug": "Test",
+"author": "5e3cdd7be49c79249746a364"
+}]

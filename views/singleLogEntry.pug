@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  .single
+    .single__hero
+      //- img.single__image(src=`/uploads/${store.photo || 'store.png'}`)
+      h2.title.title--single
+        a(href=`/log/${log.slug}`) #{log.name}
+
+  .single__details.inner
+    p 
+      strong Vehicle: 
+      span #{log.vehicle}
+    p 
+      strong Short Description: 
+      span #{log.shortDescription}
+    p 
+      strong Long Description: 
+      span #{log.longDescription}
+    p 
+      strong Date Started: 
+      span #{h.moment(log.dateStarted).format("MMM Do YY")}
+    p 
+      strong Date Completed: 
+      span #{h.moment(log.dateCompleted).format("MMM Do YY")}
+    p 
+      strong Date Entered into Log: 
+      span #{h.moment(log.dateEntered).format("MMM Do YY")}
+    p 
+      strong Tools: 
+      span #{log.tools.toString()}
+    p 
+      strong Parts: 
+      span #{log.parts.toString()}
+    p 
+      strong Parts Cost: 
+      span $#{log.partsCost}
+    p 
+      strong Labor Cost: 
+      span $#{log.laborCost}
+    p 
+      strong Service Location: 
+      span #{log.serviceLocation}
+    p 
+      strong Odometer: 
+      span #{Number(log.odometer).toLocaleString()}
+
+    if user && log.author.equals(user._id)
+      strong
+        a(href=`/log/${log._id}/edit` class='editPencil') 
+          != h.icon('pencil')
+          span Edit

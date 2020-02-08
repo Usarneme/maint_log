@@ -1,0 +1,97 @@
+.log {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+}
+
+.log_entry {
+  background:white;
+  margin: 10px 0;
+  width:30%;
+  &__details {
+    padding: 2rem;
+    p {
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+  }
+  @media all and (max-width: 850px) {
+    width: 48%;
+  }
+  @media all and (max-width: 550px) {
+    width: 100%;
+  }
+}
+
+.log_entry__actions {
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.log_entry__action {
+  font-size: 10px;
+  svg {
+    width: 25px;
+    fill: black;
+  }
+  &--edit {
+    a {
+      border-bottom: 0;
+    }
+  }
+}
+
+
+.log_entry__hero {
+  position: relative;
+  padding: 0 10px 0 10px;
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    opacity: 0.6;
+    z-index: 1;
+  }
+  img {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    left: 0;
+    object-fit: cover;
+  }
+}
+
+.moneySign {
+  display: inline-flex;
+  align-items: center;
+}
+
+.largeScreens {
+  display: none;
+}
+
+.smallScreens {
+  display: flex;
+}
+
+@media all and (min-width: 768px) {
+  .largeScreens {
+    display: initial;
+  }
+  .smallScreens {
+    display: none;
+  }
+}

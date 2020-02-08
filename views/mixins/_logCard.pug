@@ -1,0 +1,16 @@
+mixin logCard(log = {})
+  .log_entry
+    .log_entry__hero
+      .log_entry__actions
+        if user && log.author.equals(user._id)
+          .log_entry__action.log_entry__action--edit
+            a(href=`/log/${log._id}/edit`)
+              != h.icon('pencil')
+
+      //- img(src=`/uploads/${log.photo || 'store.png'}`)
+      h2.title
+        a(href=`/log/${log.slug}`) #{log.name}
+    .log_entry__details
+      p= log.shortDescription
+      hr
+      p= h.moment(log.dateCompleted).fromNow()

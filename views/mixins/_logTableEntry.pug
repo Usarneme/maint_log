@@ -1,0 +1,22 @@
+mixin logTableEntry(log)
+  td
+    if user && log.author.equals(user._id)
+      a(href=`/log/${log._id}/edit` class='editPencil')
+        != h.icon('pencil')
+
+  td 
+    a(href=`/log/${log.slug}`) #{log.name}
+
+  td= log.vehicle
+  td= log.shortDescription.length > 150 ? `${log.shortDescription.substring(0,140)}...` : log.shortDescription
+  td= log.longDescription.length > 150 ? `${log.longDescription.substring(0,140)}...` : log.longDescription
+  td= h.moment(log.dateStarted).format("MMM Do YY")
+  td= h.moment(log.dateCompleted).format("MMM Do YY")
+  td= h.moment(log.dateEntered).format("MMM Do YY")
+  td= log.tools.toString()
+  td= log.parts.toString()
+  td $#{log.partsCost}
+  td $#{log.laborCost}
+
+  td= log.serviceLocation
+  td= Number(log.odometer).toLocaleString()
