@@ -1,11 +1,11 @@
 import axios from 'axios';
 import dompurify from 'dompurify';
 
-function searchResultsHTML(stores) {
-  return stores.map(store => {
+function searchResultsHTML(logEntries) {
+  return logEntries.map(log => {
     return `
-      <a href="/store/${store.slug}" class="search__result">
-        <strong>${store.name}</strong>
+      <a href="/log/${log.slug}" class="search__result">
+        <strong>${log.name}</strong>
       </a>
     `;
   }).join('');
@@ -18,23 +18,24 @@ function typeAhead(search) {
   const searchResults = search.querySelector('.search__results');
 
   searchInput.on('input', function() {
-    // if there is no value, quit it!
     if (!this.value) {
       searchResults.style.display = 'none';
-      return; // stop!
+      return; 
     }
 
-    // show the search results!
     searchResults.style.display = 'block';
 
     axios
       .get(`/api/search?q=${this.value}`)
       .then(res => {
+        // console.log('CLIENT - api search for '+this.value+'. Result: ')
+        // console.table(res.data)
+
         if (res.data.length) {
           searchResults.innerHTML = dompurify.sanitize(searchResultsHTML(res.data));
           return;
         }
-        // tell them nothing came back
+        // If nothing came back...
         searchResults.innerHTML = dompurify.sanitize(`<div class="search__result">No results for ${this.value}</div>`);
       })
       .catch(err => {

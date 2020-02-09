@@ -23,6 +23,9 @@ const logSchema = new mongoose.Schema({
   dateCompleted: {
     type: Date,
   },
+  dateDue: {
+    type: Date
+  },
   shortDescription: {
     type: String,
     required: 'Please include a short description of this maintenance item.'
@@ -57,7 +60,8 @@ const logSchema = new mongoose.Schema({
 
 logSchema.indexes({
   name: 'text',
-  shortDescription: 'text'
+  shortDescription: 'text',
+  longDescription: 'text'
 })
 
 logSchema.pre('save', async function(next) {

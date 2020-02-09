@@ -26,6 +26,8 @@ router.post('/add/:id',
 router.get('/log/:id/edit', authController.isLoggedIn, catchErrors(logController.editLog))
 router.get('/log/:slug', catchErrors(logController.getLogBySlug))
 
+router.get('/upcoming-maintenance', authController.isLoggedIn, catchErrors(logController.upcomingMaintenance))
+
 router.get('/login', userController.loginForm)
 router.post('/login', authController.login)
 router.get('/register', userController.registerForm)

@@ -9,5 +9,4 @@ exports.menu = [
   { slug: '/log', title: 'Log', icon: 'map', },
   { slug: '/add', title: 'Add', icon: 'add', },
   { slug: '/upcoming-maintenance', title: 'Todo', icon: 'tag', },
-  { slug: '/search', title: 'Search', icon: 'top', }
 ]

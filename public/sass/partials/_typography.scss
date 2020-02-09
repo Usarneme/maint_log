@@ -21,6 +21,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Panama';
   font-weight: 600;
   letter-spacing:-1px;
+  text-align: center;
 }
 
 a {
@@ -42,24 +43,12 @@ p {
   position: relative;
   z-index: 2;
   margin:0;
-  font-size: 40px;
+  // font-size: 40px;
   z-index: 2;
   line-height:1.1;
   // transform: skew(0, -3deg);
   &--long {
-    font-size: 30px;
-  }
-  &:before {
-    content: '';
-    width:50px;
-    left:0;
-    top:0;
-    height:100%;
-    // top:10%;
-    display: block;
-    position: absolute;
-    z-index: -1;
-    // transform:skew(-5deg)
+    // font-size: 30px;
   }
   line-height:1.1;
   // inline link inside
@@ -72,7 +61,8 @@ p {
 
 .title--single {
   max-width: 600px;
-  margin-top: -9rem;
-  font-size: 10rem;
+  padding: 20px;
+  // margin-top: -9rem;
+  // font-size: 10rem;
   text-align: center;
 }

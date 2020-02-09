@@ -102,8 +102,14 @@ exports.getLogBySlug = async (req, res, next) => {
   res.render('singleLogEntry', { log, title: log.name })
 }
 
+exports.upcomingMaintenance = async (req, res, next) => {
+  res.json("ok")
+}
+
 exports.searchLog = async (req, res) => {
-  const logs = await Log
+  // console.log('Log Controller - Search Log. Query: '+req.query.q)
+
+  const logResults = await Log
   .find({
     $text: {
       $search: req.query.q
@@ -114,7 +120,6 @@ exports.searchLog = async (req, res) => {
   .sort({
     score: { $meta: 'textScore' }
   })
-  // limit to only 5 results
   // .limit(5)
-  res.json(logs)
+  res.json(logResults)
 }

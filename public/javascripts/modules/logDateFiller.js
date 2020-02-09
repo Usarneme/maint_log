@@ -3,6 +3,7 @@
 // <input type="date" valueasdate=datestring> but the element as rendered will be an empty date-picker
 export default function logDateFiller() {
     const el = document.querySelector('input[name="dateStarted"]')
+    if (!el) return
     el.valueAsDate = new Date(el.attributes.unformatteddate.value)
 
     const el2 = document.querySelector('input[name="dateCompleted"]')
