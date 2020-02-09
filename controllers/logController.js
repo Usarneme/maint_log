@@ -36,11 +36,11 @@ exports.resize = async (req, res, next) => {
   next()
 }
 
-exports.homePage = (req, res) => {
+exports.homePage = async (req, res) => {
   res.render('index', { title: 'Vehicle Maintenance Log' })
 }
 
-exports.addLog = (req, res) => {
+exports.addLog = async (req, res) => {
   res.render('editLog', { title: 'Add Log' })
 }
 

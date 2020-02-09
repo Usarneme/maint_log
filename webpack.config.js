@@ -23,6 +23,17 @@ const styles = {
   use: ExtractTextPlugin.extract(['css-loader?sourceMap', postcss, 'sass-loader?sourceMap'])
 };
 
+const fonts = {
+  test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+  use: [{
+    loader: 'file-loader',
+    options: {
+      name: '[name].[ext]',
+      outputPath: 'fonts/'
+    }
+  }],
+};
+
 const uglify = new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } });
 
 const config = {
@@ -36,7 +47,7 @@ const config = {
   },
 
   module: {
-    rules: [javascript, styles]
+    rules: [javascript, styles, fonts]
   },
   plugins: [
     uglify,
