@@ -6,11 +6,18 @@ mixin logForm(log = {})
     label(for="vehicle") Vehicle (TODO make dropdown)
     input(type="text" name="vehicle" value=log.vehicle)
 
+    //- .dates
     label(for="dateStarted") Date Started
     input(type="date" name="dateStarted" unformattedDate=log.dateStarted)
 
     label(for="dateCompleted") Date Completed
     input(type="date" name="dateCompleted" unformattedDate=log.dateCompleted)
+
+    label(for="dateDue") On what date will this item need to be completed next?
+    input(type="date" name="dateDue" unformattedDate=log.dateDue)
+
+    label(for="mileageDue") At what mileage will this item need to be completed next?
+    input(type="number" name="mileageDue" min="0" step="1" value=log.mileageDue)
 
     label(for="shortDescription") Short Description
     textarea(name="shortDescription" autocomplete="on" spellcheck="true")= log.shortDescription

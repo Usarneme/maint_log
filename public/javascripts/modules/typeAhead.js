@@ -30,8 +30,8 @@ function typeAhead(search) {
     axios
       .get(`/api/search?q=${this.value}`)
       .then(res => {
-        console.log('CLIENT - api search for '+this.value+'. Result: ')
-        console.log(res.data)
+        // console.log('CLIENT - api search for '+this.value+'. Result: ')
+        // console.log(res.data)
 
         if (res.data.length) {
           searchResults.innerHTML = dompurify.sanitize(searchResultsHTML(res.data));

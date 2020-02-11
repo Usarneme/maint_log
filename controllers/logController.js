@@ -76,7 +76,7 @@ exports.getLog = async (req, res) => {
   const skip = (page * limit) - limit
 
   const logPromise = Log
-    .find()
+    .find({ author: req.user._id })
     .skip(skip)
     .limit(limit)
     .sort({ created: 'desc' })
@@ -91,6 +91,7 @@ exports.getLog = async (req, res) => {
     return
   }
 
+  // console.log(`Log requestd for user ${req.user._id} returned: ${log}`)
   res.render('log', { title: 'Log', log, page, pages, count })
 }
 
@@ -107,8 +108,35 @@ const confirmOwner = (log, user) => {
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
-  // TODO lookup for entries with a future due date
-  res.render('upcoming', { title: 'Upcoming Maintenance' })
+
+  // ------------------------MONGO STUFF------------------------
+  // Log.find({ dateDue: { $gte: new Date() } }).pretty()
+  // Log.find({ mileageDue: { $gte: User.find({ vehicle.odometer.latest }) } })
+  // Log.find({ $or: [{ slug: "brake-check" }, { slug: "rust-treatment" }]  })
+  // -----------------------------------------------------------
+
+  const page = req.params.page || 1
+  const limit = 4
+  const skip = (page * limit) - limit
+
+  const logPromise = Log
+    .find({ author: req.user._id })
+    .skip(skip)
+    .limit(limit)
+    .sort({ created: 'desc' })
+
+  const countPromise = Log.count()
+
+  const [log, count] = await Promise.all([logPromise, countPromise])
+  const pages = Math.ceil(count / limit)
+  if (!log.length && skip) {
+    req.flash('info', `Requested page ${page} doesn't exist. Redirected to page ${pages}`)
+    res.redirect(`/log/page/${pages}`)
+    return
+  }
+
+  // console.log(`Log requestd for user ${req.user._id} returned: ${log}`)
+  res.render('upcoming', { title: 'Upcoming Maintenance', log, page, pages, count })
 }
 
 exports.searchPage = async (req, res) => {
