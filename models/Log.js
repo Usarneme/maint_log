@@ -67,8 +67,6 @@ logSchema.indexes({
 
 logSchema.pre('save', async function(next) {
   this.dateEntered = Date.now()
-  this.tools = this.tools.split(",")
-  console.log(this)
   if (!this.isModified('name')) {
     next() 
     return

@@ -1,5 +1,6 @@
 mixin logForm(log = {})
-  form(id='logForm' action=`/add/${log._id || ''}` method="POST" class="card" enctype="multipart/form-data" multiple)
+  - const postRoute = log._id ? `/add/${log._id}` : '/add'
+  form(id='logForm' action=postRoute method="POST" class="card" enctype="multipart/form-data" multiple)
     label(for="name") Name
     input(type="text" name="name" value=log.name)
     label(for="vehicle") Vehicle (TODO make dropdown)

@@ -45,10 +45,29 @@ exports.addLog = async (req, res) => {
 }
 
 exports.createLog = async (req, res) => {
+  console.log('Creating new log entry...')
+  console.log(req.body.tools)
+  console.log(typeof req.body.tools)
+
   req.body.author = req.user._id
   const log = await (new Log(req.body)).save()
   req.flash('success', `Successfully Created ${log.name}.`)
   res.redirect(`/log/${log.slug}`)
+}
+
+exports.editLog = async (req, res) => {
+  const log = await Log.findOne({ _id: req.params.id })
+  confirmOwner(log, req.user)
+  res.render('editLog', { title: `Edit ${log.name}`, log })
+}
+
+exports.updateLog = async (req, res) => {
+  const log = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true, // return the new log instead of the old one
+    runValidators: true
+  }).exec()
+  req.flash('success', `Successfully updated <strong>${log.name}</strong>. <a href="/log/${log.slug}">View Log →</a>`)
+  res.redirect(`/log/${log._id}/edit`)
 }
 
 exports.getLog = async (req, res) => {
@@ -75,31 +94,16 @@ exports.getLog = async (req, res) => {
   res.render('log', { title: 'Log', log, page, pages, count })
 }
 
-const confirmOwner = (log, user) => {
-  if (!log.author.equals(user._id)) {
-    throw Error('You must own a log in order to edit it!')
-  }
-}
-
-exports.editLog = async (req, res) => {
-  const log = await Log.findOne({ _id: req.params.id })
-  confirmOwner(log, req.user)
-  res.render('editLog', { title: `Edit ${log.name}`, log })
-}
-
-exports.updateLog = async (req, res) => {
-  const log = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true, // return the new log instead of the old one
-    runValidators: true
-  }).exec()
-  req.flash('success', `Successfully updated <strong>${log.name}</strong>. <a href="/log/${log.slug}">View Log →</a>`)
-  res.redirect(`/log/${log._id}/edit`)
-}
-
 exports.getLogBySlug = async (req, res, next) => {
   const log = await Log.findOne({ slug: req.params.slug }).populate('author')
   if (!log) return next()
   res.render('singleLogEntry', { log, title: log.name })
+}
+
+const confirmOwner = (log, user) => {
+  if (!log.author.equals(user._id)) {
+    throw Error('You must own a log in order to edit it!')
+  }
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
