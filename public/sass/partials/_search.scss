@@ -1,6 +1,6 @@
 .search {
-  position: relative;
   width: 100%;
+  grid-column-start: span 3;
   display: flex;
   &__results {
     background: white;

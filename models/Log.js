@@ -26,6 +26,9 @@ const logSchema = new mongoose.Schema({
   dateDue: {
     type: Date
   },
+  mileageDue: {
+    type: Number
+  },
   shortDescription: {
     type: String,
     required: 'Please include a short description of this maintenance item.'
