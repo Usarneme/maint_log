@@ -2,7 +2,7 @@ mixin logTableEntry(log)
   td
     if user && log.author.equals(user._id)
       a(href=`/log/${log._id}/edit` class='editPencil')
-        != h.icon('pencil')
+        != h.icon('pencil.svg')
 
   td 
     a(href=`/log/${log.slug}`) #{log.name}

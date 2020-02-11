@@ -49,6 +49,7 @@ router.post('/account', catchErrors(userController.updateAccount))
 //   catchErrors(authController.update)
 // )
 
+router.get('/search', authController.isLoggedIn, catchErrors(logController.searchPage))
 router.get('/api/search', catchErrors(logController.searchLog))
 
 module.exports = router

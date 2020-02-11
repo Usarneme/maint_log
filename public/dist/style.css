@@ -21,6 +21,25 @@ body {
   .inner--flashes {
     padding: 0; }
 
+svg {
+  fill: black;
+  max-width: 40px;
+  max-height: 40px; }
+
+.main {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  background: #fff; }
+  .main:hover {
+    -ms-transform: scale(1.005);
+        transform: scale(1.005); }
+
+a.main {
+  width: 100%;
+  height: 100%;
+  display: inline-block; }
+
 html {
   box-sizing: border-box; }
 
@@ -506,22 +525,14 @@ label {
     border-bottom: 1px solid #e6e6e6; }
 
 .search {
-  width: 100%;
-  -ms-grid-column: span 3;
-      grid-column-start: span 3;
-  display: -ms-flexbox;
-  display: flex; }
+  margin: 14px; }
   .search__results {
-    background: white;
-    position: absolute;
     width: 100%;
     top: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 5; }
   .search__input {
     font-size: 30px;
-    background: none;
-    color: white;
     outline: 0;
     border: 0; }
   .search__result {
@@ -530,6 +541,10 @@ label {
     border-bottom: 1px solid #ececec; }
     .search__result--active {
       background: #f1f1f1; }
+
+@media all and (min-width: 650px) {
+  .search {
+    margin: 25px; } }
 
 @keyframes slideIn {
   0% {
@@ -584,12 +599,6 @@ label {
   .flash p {
     margin: 0; }
 
-svg,
-svg > g {
-  max-width: 55px;
-  max-height: 65px;
-  fill: white; }
-
 nav.nav {
   width: 100%;
   margin: 0;
@@ -598,10 +607,22 @@ nav.nav {
   -ms-grid-columns: (1fr)[3];
       grid-template-columns: repeat(3, 1fr);
   background: #303030;
-  border-bottom: 5px solid transparent;
-  padding: 1.2rem 2rem 1rem 2rem;
-  transition: transform 0.25s;
-  border-right: 1px solid rgba(255, 255, 255, 0.1); }
+  padding: 2px;
+  transition: transform 0.25s; }
+
+.nav__item {
+  background: #333;
+  margin: 1px; }
+
+.nav__item:hover,
+.nav__link--active {
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-right-color: rgba(0, 0, 0, 0.05);
+  background: linear-gradient(90deg, #48ded4 0%, #a026bf 20%, #e82c75 60%, #FFC40E 85%, #48ded4 95%) fixed; }
+  .nav__item:hover svg,
+  .nav__link--active svg {
+    -ms-transform: scale(1.2);
+        transform: scale(1.2); }
 
 .nav > a,
 .nav > div > a {
@@ -615,12 +636,26 @@ nav.nav {
       justify-content: center;
   -ms-flex-direction: column;
       flex-direction: column;
-  text-align: center; }
+  text-align: center;
+  padding: 4px 0; }
+
+a.nav__link > svg,
+a.nav__link > svg > g {
+  fill: white;
+  padding: 5px;
+  margin: 1px; }
 
 @media all and (min-width: 900px) {
   nav.nav {
-    -ms-grid-columns: (1fr)[6];
-        grid-template-columns: repeat(6, 1fr); } }
+    -ms-grid-columns: (1fr)[7];
+        grid-template-columns: repeat(7, 1fr); }
+  a.nav__link > svg,
+  a.nav__link > svg > g {
+    max-width: 55px;
+    max-height: 55px;
+    fill: white;
+    padding: 4px;
+    margin: 2px; } }
 
 .logTable {
   width: 100%;
@@ -764,8 +799,19 @@ nav.nav {
 
 .card {
   background: white;
-  padding: 5rem;
+  padding: 1.5rem;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15); }
+
+.card > input {
+  margin-bottom: 1.25rem; }
+
+@media all and (min-width: 768px) {
+  .card {
+    padding: 2.2rem; } }
+
+@media all and (min-width: 1500px) {
+  .card {
+    padding: 3.75rem; } }
 
 pre.error {
   padding: 5rem;

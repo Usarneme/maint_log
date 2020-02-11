@@ -20,8 +20,24 @@
 
 .card {
   background: white;
-  padding: 5rem;
+  padding: 1.5rem;
   box-shadow: 0 1px 10px rgba(0,0,0,0.15);
+}
+
+.card > input {
+  margin-bottom: 1.25rem;
+}
+
+@media all and (min-width: 768px) {
+  .card {
+    padding: 2.2rem;
+  }
+}
+
+@media all and (min-width: 1500px) {
+  .card {
+    padding: 3.75rem;
+  }
 }
 
 pre.error {

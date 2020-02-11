@@ -1,10 +1,6 @@
 .search {
-  width: 100%;
-  grid-column-start: span 3;
-  display: flex;
+  margin: 14px;
   &__results {
-    background: white;
-    position: absolute;
     width: 100%;
     top: 100%;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -12,8 +8,6 @@
   }
   &__input {
     font-size: 30px;
-    background: none;
-    color: white;
     outline: 0;
     border: 0;
   }
@@ -27,3 +21,8 @@
   }
 }
 
+@media all and (min-width: 650px) {
+  .search {
+    margin: 25px;
+  }
+}

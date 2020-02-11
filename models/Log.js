@@ -62,8 +62,6 @@ const logSchema = new mongoose.Schema({
 })
 
 logSchema.indexes({
-  name: 'text',
-  shortDescription: 'text',
   longDescription: 'text'
 })
 

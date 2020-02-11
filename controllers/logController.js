@@ -103,11 +103,16 @@ exports.getLogBySlug = async (req, res, next) => {
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
-  res.json("ok")
+  // TODO lookup for entries with a future due date
+  res.render('upcoming', { title: 'Upcoming Maintenance' })
+}
+
+exports.searchPage = async (req, res) => {
+  res.render('search', { title: 'Search' })
 }
 
 exports.searchLog = async (req, res) => {
-  // console.log('Log Controller - Search Log. Query: '+req.query.q)
+  console.log('Log Controller - Search Log. Query: '+req.query.q)
 
   const logResults = await Log
   .find({

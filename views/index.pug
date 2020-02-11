@@ -1,8 +1,22 @@
 extends layout
 
+include mixins/_searchForm
+
 block content
-    h2= title
-    .search Search
-    .add Add New
-    .recent Recent
-    .history Full Log
+  h2= title
+  .inner
+    .main.search__main
+      +searchForm()
+
+    a(href='/add' class='main add')
+      != h.icon('log-plus.svg')
+      span Add New Log Entry
+
+    a(href='/upcoming-maintenance' class='main upcoming-maintenance')
+      != h.icon('log-clock.svg')
+      span View Upcoming Scheduled Maintenance
+
+    a(href='/log' class='main history')
+      != h.icon('log1.svg')
+      span View Full Maintenance Log History
+      
