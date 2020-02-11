@@ -12,9 +12,9 @@ mixin logForm(log = {})
     input(type="date" name="dateCompleted" unformattedDate=log.dateCompleted)
 
     label(for="shortDescription") Short Description
-    textarea(name="shortDescription")= log.shortDescription
+    textarea(name="shortDescription" autocomplete="on" spellcheck="true")= log.shortDescription
     label(for="longDescription") Long Description
-    textarea(name="longDescription")= log.longDescription
+    textarea(name="longDescription" autocomplete="on" spellcheck="true")= log.longDescription
 
     label(for="tools") Tools
     - const toolsString = log.tools ? log.tools.toString() : '' 

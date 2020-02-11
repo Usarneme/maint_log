@@ -13,6 +13,8 @@ function searchResultsHTML(logEntries) {
 
 function typeAhead(search) {
   if (!search) return;
+  console.log('Search input detected...')
+  console.table(search)
 
   const searchInput = search.querySelector('input[name="search"]');
   const searchResults = search.querySelector('.search__results');
@@ -28,8 +30,8 @@ function typeAhead(search) {
     axios
       .get(`/api/search?q=${this.value}`)
       .then(res => {
-        // console.log('CLIENT - api search for '+this.value+'. Result: ')
-        // console.table(res.data)
+        console.log('CLIENT - api search for '+this.value+'. Result: ')
+        console.log(res.data)
 
         if (res.data.length) {
           searchResults.innerHTML = dompurify.sanitize(searchResultsHTML(res.data));
@@ -43,11 +45,10 @@ function typeAhead(search) {
       });
   });
 
-  // handle keyboard inputs
   searchInput.on('keyup', (e) => {
-    // if they aren't pressing up, down or enter, who cares!
+    // Ignore keys except up, down and enter for keyboard selection of result link
     if (![38, 40, 13].includes(e.keyCode)) {
-      return; // nah
+      return; 
     }
     const activeClass = 'search__result--active';
     const current = search.querySelector(`.${activeClass}`);
