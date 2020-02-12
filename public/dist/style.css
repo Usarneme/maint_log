@@ -664,7 +664,8 @@ a.nav__link > svg > g {
     background: #fff;
     color: #555; }
   .logTable td {
-    padding: 2px; }
+    padding: 2px;
+    font-size: 1.2rem; }
   .logTable .logTableEntry:nth-of-type(even) {
     background: #ddd; }
 

@@ -25,6 +25,12 @@ block content
     p 
       strong Date Entered into Log: 
       span #{h.moment(log.dateEntered).format("MMM Do YY")}
+    p
+      strong Date WHen Service is Due Next:
+      span #{h.moment(log.dateDue).format("MMM Do YY")}
+    p
+      strong Mileage When Service is Due Next:
+      span #{Number(log.mileageDue).toLocaleString()}
     p 
       strong Tools: 
       span #{log.tools.toString()}

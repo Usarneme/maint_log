@@ -66,7 +66,7 @@ exports.updateLog = async (req, res) => {
     new: true, // return the new log instead of the old one
     runValidators: true
   }).exec()
-  req.flash('success', `Successfully updated <strong>${log.name}</strong>. <a href="/log/${log.slug}">View Log →</a>`)
+  req.flash('success', `Successfully updated <strong>${log.name}</strong>. <a href="/log/${log.slug}">View Log Entry →</a>`)
   res.redirect(`/log/${log._id}/edit`)
 }
 
@@ -108,35 +108,35 @@ const confirmOwner = (log, user) => {
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
-
   // ------------------------MONGO STUFF------------------------
   // Log.find({ dateDue: { $gte: new Date() } }).pretty()
   // Log.find({ mileageDue: { $gte: User.find({ vehicle.odometer.latest }) } })
   // Log.find({ $or: [{ slug: "brake-check" }, { slug: "rust-treatment" }]  })
   // -----------------------------------------------------------
-
-  const page = req.params.page || 1
-  const limit = 4
-  const skip = (page * limit) - limit
-
-  const logPromise = Log
-    .find({ author: req.user._id })
-    .skip(skip)
-    .limit(limit)
+  const log = await Log
+    .find({ 
+      $and: [
+        { author: req.user._id }, 
+        { $or: [
+          { dateDue: { $gte: new Date() } },
+          { mileageDue: { $gte: 219000 } }
+        ]}
+      ] 
+    })
     .sort({ created: 'desc' })
 
-  const countPromise = Log.count()
+  console.log('Upcoming Maintenance items: ')
+  console.log(log)
 
-  const [log, count] = await Promise.all([logPromise, countPromise])
-  const pages = Math.ceil(count / limit)
-  if (!log.length && skip) {
-    req.flash('info', `Requested page ${page} doesn't exist. Redirected to page ${pages}`)
-    res.redirect(`/log/page/${pages}`)
+  if (!log.length) {
+    console.log('No logs found. ')
+    req.flash('info', `Unable to find any logs with a future due date or mileage. Create one now?`)
+    res.redirect('add')
     return
   }
 
-  // console.log(`Log requestd for user ${req.user._id} returned: ${log}`)
-  res.render('upcoming', { title: 'Upcoming Maintenance', log, page, pages, count })
+  console.log(`Upcoming Log requested for user ${req.user._id} returned: ${log}`)
+  res.render('upcoming', { title: 'Upcoming Maintenance', log })
 }
 
 exports.searchPage = async (req, res) => {

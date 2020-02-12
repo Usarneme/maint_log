@@ -1,12 +1,13 @@
 extends layout
 
 include mixins/_logCard
-include mixins/_pagination
 include mixins/_logTableEntry
 
 block content
   h2= title
+
   pre= h.dump()
+
   .log.largeScreens
     table.logTable
       thead
@@ -22,6 +23,8 @@ block content
           th Date Started
           th Date Completed
           th Date Entered
+          th Next Service Date
+          th Next Service Mileage
           th Tools
           th Parts
           th Parts Cost
@@ -37,5 +40,3 @@ block content
     .log.smallScreens
       each entry in log
         +logCard(entry)
-    
-    +pagination(page, pages, count)

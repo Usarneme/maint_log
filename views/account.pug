@@ -2,10 +2,15 @@ extends layout
 
 block content
   .inner
+    pre= h.dump(locals)
+
     h2 Edit Your Account
     form(action="/account" method="POST")
       label(for="name") Name
       input(type="text" name="name" value=user.name)
       label(for="email") Email Address
       input(type="email" name="email" value=user.email)
+      label(for="vehicle") Vehicle 
+        span= user.vehicle[0] ? ` - Current Default: ${user.vehicle[0]}` : ''
+      input(type="text" name="vehicle" value=user.vehicle[0] || '')
       input.button(type="submit" value="Update My Account")

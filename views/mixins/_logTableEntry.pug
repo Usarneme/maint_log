@@ -8,11 +8,13 @@ mixin logTableEntry(log)
     a(href=`/log/${log.slug}`) #{log.name}
 
   td= log.vehicle
-  td= log.shortDescription.length > 150 ? `${log.shortDescription.substring(0,140)}...` : log.shortDescription
-  td= log.longDescription.length > 150 ? `${log.longDescription.substring(0,140)}...` : log.longDescription
+  td= log.shortDescription.length > 150 ? `${log.shortDescription.substring(0,100)}...` : log.shortDescription
+  td= log.longDescription.length > 150 ? `${log.longDescription.substring(0,100)}...` : log.longDescription
   td= h.moment(log.dateStarted).format("MMM Do YY")
   td= h.moment(log.dateCompleted).format("MMM Do YY")
   td= h.moment(log.dateEntered).format("MMM Do YY")
+  td= h.moment(log.dateDue).format("MMM Do YY")
+  td= Number(log.mileageDue).toLocaleString()
   td= log.tools.toString()
   td= log.parts.toString()
   td $#{log.partsCost}
