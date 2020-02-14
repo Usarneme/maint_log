@@ -6,10 +6,12 @@ block content
       h2.title.title--single
         a(href=`/log/${log.slug}`) #{log.name}
 
+  pre= h.dump(locals)
+
   .single__details.inner
     p 
       strong Vehicle: 
-      span #{log.vehicle}
+      span #{log.vehicle.year} #{log.vehicle.make} #{log.vehicle.model} 
     p 
       strong Short Description: 
       span #{log.shortDescription}

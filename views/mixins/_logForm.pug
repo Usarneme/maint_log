@@ -1,52 +1,61 @@
-mixin logForm(log = {})
+mixin logForm(log = {}, vehicle = {})
   - const postRoute = log._id ? `/add/${log._id}` : '/add'
   form(id='logForm' action=postRoute method="POST" class="card" enctype="multipart/form-data" multiple)
     label(for="name") Name
     input(type="text" name="name" value=log.name)
-    label(for="vehicle") Vehicle (TODO make dropdown)
-    input(type="text" name="vehicle" value=log.vehicle)
 
-    //- .dates
-    label(for="dateStarted") Date Started
-    input(type="date" name="dateStarted" unformattedDate=log.dateStarted)
+    //- pre= h.dump(locals)
 
-    label(for="dateCompleted") Date Completed
-    input(type="date" name="dateCompleted" unformattedDate=log.dateCompleted)
+    if vehicle
+      //- Mongo Schema expects a Mongo ObjectID for the vehicle saved as part of a log entry 
+      label(for="vehicle") Vehicle
+      select(id="vehicle" name="vehicle")
+        each item in vehicle
+          option(value=item._id) #{item.year} #{item.make} #{item.model}
 
-    label(for="dateDue") On what date will this item need to be completed next?
-    input(type="date" name="dateDue" unformattedDate=log.dateDue)
+      label(for="dateStarted") Date Started
+      input(type="date" name="dateStarted" unformattedDate=log.dateStarted)
 
-    label(for="mileageDue") At what mileage will this item need to be completed next?
-    input(type="number" name="mileageDue" min="0" step="1" value=log.mileageDue)
+      label(for="dateCompleted") Date Completed
+      input(type="date" name="dateCompleted" unformattedDate=log.dateCompleted)
 
-    label(for="shortDescription") Short Description
-    textarea(name="shortDescription" autocomplete="on" spellcheck="true")= log.shortDescription
-    label(for="longDescription") Long Description
-    textarea(name="longDescription" autocomplete="on" spellcheck="true")= log.longDescription
+      label(for="dateDue") On what date will this item need to be completed next?
+      input(type="date" name="dateDue" unformattedDate=log.dateDue)
 
-    label(for="tools") Tools
-    - const toolsString = log.tools ? log.tools.toString() : '' 
-    input(type="text" name="tools" value=toolsString)
+      label(for="mileageDue") At what mileage will this item need to be completed next?
+      input(type="number" name="mileageDue" min="0" step="1" value=log.mileageDue)
 
-    label(for="parts") Parts
-    - const partsString = log.parts ? log.parts.toString() : ''
-    input(type="text" name="parts" value=partsString)
+      label(for="shortDescription") Short Description
+      textarea(name="shortDescription" autocomplete="on" spellcheck="true")= log.shortDescription
+      label(for="longDescription") Long Description
+      textarea(name="longDescription" autocomplete="on" spellcheck="true")= log.longDescription
 
-    label(for="partsCost") Cost of Parts
-    span.moneySign $
-      input.moneyInput(type="number" name="partsCost" min="0" step="0.01" value=log.partsCost)
-    label(for="laborCost") Cost of Labor
-    span.moneySign $
-      input.moneyInput(type="text" name="laborCost" min="0" step="0.01" value=log.laborCost)
+      label(for="tools") Tools
+      - const toolsString = log.tools ? log.tools.toString() : '' 
+      input(type="text" name="tools" value=toolsString)
 
-    label(for="serviceLocation") Service Location (Name and Address of Mechanic or Self)
-    input(type="text" name="serviceLocation" value=log.serviceLocation)
+      label(for="parts") Parts
+      - const partsString = log.parts ? log.parts.toString() : ''
+      input(type="text" name="parts" value=partsString)
 
-    label(for="odometer") Odometer
-    input(type="number" name="odometer" min="0" value=log.odometer)
+      label(for="partsCost") Cost of Parts
+      span.moneySign $
+        input.moneyInput(type="number" name="partsCost" min="0" step="0.01" value=log.partsCost)
+      label(for="laborCost") Cost of Labor
+      span.moneySign $
+        input.moneyInput(type="text" name="laborCost" min="0" step="0.01" value=log.laborCost)
 
-    label(for="receipts") Upload parts/labor receipt images
-      input(type="file" name="receipts" id="photo" accept="image/gif, image/png, image/jpeg")
-      if log.photo
-        img(src=`/uploads/${log.photo}`, alt=log.name width=200)
-    input(type="submit" value="Save to Log" class="button")
+      label(for="serviceLocation") Service Location (Name and Address of Mechanic or Self)
+      input(type="text" name="serviceLocation" value=log.serviceLocation)
+
+      label(for="odometer") Odometer
+      input(type="number" name="odometer" min="0" value=log.odometer)
+
+      label(for="receipts") Upload parts/labor receipt images
+        input(type="file" name="receipts" id="photo" accept="image/gif, image/png, image/jpeg")
+        if log.photo
+          img(src=`/uploads/${log.photo}`, alt=log.name width=200)
+      input(type="submit" value="Save to Log" class="button")
+
+    if !vehicle
+      a(href='/account') No vehicle found! Please click here to register a vehicle.

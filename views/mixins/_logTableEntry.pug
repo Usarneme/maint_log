@@ -1,4 +1,4 @@
-mixin logTableEntry(log)
+mixin logTableEntry(log, vehicle)
   td
     if user && log.author.equals(user._id)
       a(href=`/log/${log._id}/edit` class='editPencil')
@@ -7,7 +7,7 @@ mixin logTableEntry(log)
   td 
     a(href=`/log/${log.slug}`) #{log.name}
 
-  td= log.vehicle
+  td #{vehicle[0].year} #{vehicle[0].make} #{vehicle[0].model} 
   td= log.shortDescription.length > 150 ? `${log.shortDescription.substring(0,100)}...` : log.shortDescription
   td= log.longDescription.length > 150 ? `${log.longDescription.substring(0,100)}...` : log.longDescription
   td= h.moment(log.dateStarted).format("MMM Do YY")

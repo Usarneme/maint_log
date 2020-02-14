@@ -1,5 +1,5 @@
 .search {
-  margin: 14px;
+  width: 95%;
   &__results {
     width: 100%;
     top: 100%;
@@ -14,15 +14,11 @@
   &__result {
     padding: 10px;
     display: block;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 2px solid #ececec;
+    margin: 1px 0;
     &--active {
       background: #f1f1f1;
     }
   }
 }
 
-@media all and (min-width: 650px) {
-  .search {
-    margin: 25px;
-  }
-}

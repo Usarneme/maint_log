@@ -15,10 +15,10 @@ body {
 }
 
 .inner {
-  max-width:900px;
+  max-width: 900px;
   margin: 0 auto;
   @media all and (max-width: 900px) {
-    padding: 2rem;
+    padding: 1rem;
   }
   &--flashes {
     padding:0;
@@ -42,7 +42,12 @@ svg {
 }
 
 a.main {
-  width: 100%;
+  width: 95%;
+  overflow-x: hidden;
   height: 100%;
   display: inline-block;
+}
+
+.main > span {
+  padding-left: 8px;
 }

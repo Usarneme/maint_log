@@ -17,7 +17,7 @@ body {
   margin: 0 auto; }
   @media all and (max-width: 900px) {
     .inner {
-      padding: 2rem; } }
+      padding: 1rem; } }
   .inner--flashes {
     padding: 0; }
 
@@ -36,9 +36,13 @@ svg {
         transform: scale(1.005); }
 
 a.main {
-  width: 100%;
+  width: 95%;
+  overflow-x: hidden;
   height: 100%;
   display: inline-block; }
+
+.main > span {
+  padding-left: 8px; }
 
 html {
   box-sizing: border-box; }
@@ -525,7 +529,7 @@ label {
     border-bottom: 1px solid #e6e6e6; }
 
 .search {
-  margin: 14px; }
+  width: 95%; }
   .search__results {
     width: 100%;
     top: 100%;
@@ -538,13 +542,10 @@ label {
   .search__result {
     padding: 10px;
     display: block;
-    border-bottom: 1px solid #ececec; }
+    border-bottom: 2px solid #ececec;
+    margin: 1px 0; }
     .search__result--active {
       background: #f1f1f1; }
-
-@media all and (min-width: 650px) {
-  .search {
-    margin: 25px; } }
 
 @keyframes slideIn {
   0% {

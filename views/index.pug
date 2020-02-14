@@ -5,22 +5,29 @@ include mixins/_searchForm
 block content
   h2= title
   .inner
-    .main.search__main.search
-      +searchForm()
+    if user
+      .main.search__main.search
+        +searchForm()
 
-    a(href='/add' class='main add')
-      != h.icon('log-plus.svg')
-      span Add New Log Entry
+      a(href='/add' class='main add')
+        != h.icon('log-plus.svg')
+        span Add New Log Entry
 
-    a(href='/upcoming-maintenance' class='main upcoming-maintenance')
-      != h.icon('log-clock.svg')
-      span View Upcoming Scheduled Maintenance
+      a(href='/upcoming-maintenance' class='main upcoming-maintenance')
+        != h.icon('log-clock.svg')
+        span View Upcoming Scheduled Maintenance
 
-    a(href='/log' class='main history')
-      != h.icon('log1.svg')
-      span View Full Maintenance Log History
+      a(href='/log' class='main history')
+        != h.icon('log1.svg')
+        span View Full Maintenance Log History
 
-    a(href='/account' class='main account')
-      != h.icon('log-pencil.svg')
-      span View or Add Your Vehicle and other Settings
-      
+      a(href='/account' class='main account')
+        != h.icon('log-pencil.svg')
+        span View or Add Your Vehicle and other Settings
+    if !user
+      a(href='/register' class='main register')
+        != h.icon('register.svg')
+        span Register an Account to Start Your Maintenance Log
+      a(href='/login' class='main login')
+        != h.icon('login.svg')
+        span Login to View Your Maintenance Log

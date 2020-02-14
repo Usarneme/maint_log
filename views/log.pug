@@ -6,6 +6,7 @@ include mixins/_logTableEntry
 
 block content
   h2= title
+
   .log.largeScreens
     table.logTable
       thead
@@ -32,7 +33,7 @@ block content
       tbody
         each entry in log
           tr.logTableEntry
-            +logTableEntry(entry)
+            +logTableEntry(entry, vehicle)
   
   .inner
     .log.smallScreens

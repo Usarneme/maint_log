@@ -6,7 +6,7 @@ include mixins/_logTableEntry
 block content
   h2= title
 
-  pre= h.dump()
+  //- pre= h.dump(vehicle)
 
   .log.largeScreens
     table.logTable
@@ -34,7 +34,7 @@ block content
       tbody
         each entry in log
           tr.logTableEntry
-            +logTableEntry(entry)
+            +logTableEntry(entry, vehicle)
   
   .inner
     .log.smallScreens

@@ -42,14 +42,11 @@ exports.homePage = async (req, res) => {
 }
 
 exports.addLog = async (req, res) => {
-  res.render('editLog', { title: 'Add Log' })
+  const vehicle = await Vehicle.find({ owner: req.user._id })
+  res.render('editLog', { title: 'Add Log', vehicle })
 }
 
 exports.createLog = async (req, res) => {
-  console.log('Creating new log entry...')
-  console.log(req.body.tools)
-  console.log(typeof req.body.tools)
-
   req.body.author = req.user._id
   const log = await (new Log(req.body)).save()
   req.flash('success', `Successfully Created ${log.name}.`)
@@ -57,9 +54,12 @@ exports.createLog = async (req, res) => {
 }
 
 exports.editLog = async (req, res) => {
-  const log = await Log.findOne({ _id: req.params.id })
+  const logPromise = Log.findOne({ _id: req.params.id })
+  const vehiclePromise = Vehicle.find({ owner: req.user._id })
+  const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
+
   confirmOwner(log, req.user)
-  res.render('editLog', { title: `Edit ${log.name}`, log })
+  res.render('editLog', { title: `Edit ${log.name}`, log, vehicle })
 }
 
 exports.updateLog = async (req, res) => {
@@ -82,9 +82,10 @@ exports.getLog = async (req, res) => {
     .limit(limit)
     .sort({ created: 'desc' })
 
-  const countPromise = Log.count()
+  const vehiclePromise = Vehicle.find({ owner: req.user._id })
+  const countPromise = Log.count({ author: req.user._id })
 
-  const [log, count] = await Promise.all([logPromise, countPromise])
+  const [log, count, vehicle] = await Promise.all([logPromise, countPromise, vehiclePromise])
   const pages = Math.ceil(count / limit)
   if (!log.length && skip) {
     req.flash('info', `Requested page ${page} doesn't exist. Redirected to page ${pages}`)
@@ -92,12 +93,12 @@ exports.getLog = async (req, res) => {
     return
   }
 
-  // console.log(`Log requestd for user ${req.user._id} returned: ${log}`)
-  res.render('log', { title: 'Log', log, page, pages, count })
+  // console.log(`Log requested for user ${req.user._id} returned: ${log}`)
+  res.render('log', { title: 'Log', log, page, pages, count, vehicle })
 }
 
 exports.getLogBySlug = async (req, res, next) => {
-  const log = await Log.findOne({ slug: req.params.slug }).populate('author')
+  const log = await Log.findOne({ slug: req.params.slug }).populate(['author', 'vehicle'])
   if (!log) return next()
   res.render('singleLogEntry', { log, title: log.name })
 }
@@ -109,7 +110,7 @@ const confirmOwner = (log, user) => {
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
-  const vehicle = await Vehicle.find({ owner: req.user._id }, { odometer: 1 } )
+  const vehicle = await Vehicle.find({ owner: req.user._id })
   const mileage = vehicle[0].odometer
 
   const log = await Log
@@ -124,18 +125,15 @@ exports.upcomingMaintenance = async (req, res, next) => {
     })
     .sort({ created: 'desc' })
 
-  // console.log('Upcoming Maintenance items: ')
-  // console.log(log)
-
   if (!log.length) {
-    console.log('No upcoing maintenance logs found. ')
+    console.log('No upcoming maintenance logs found. ')
     req.flash('info', `Unable to find any logs with a future due date or mileage. Create one now?`)
     res.redirect('add')
     return
   }
 
   // console.log(`Upcoming Log requested for user ${req.user._id} returned: ${log}`)
-  res.render('upcoming', { title: 'Upcoming Maintenance', log })
+  res.render('upcoming', { title: 'Upcoming Maintenance', log, vehicle })
 }
 
 exports.searchPage = async (req, res) => {
