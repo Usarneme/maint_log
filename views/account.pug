@@ -2,7 +2,7 @@ extends layout
 
 block content
   .inner
-    pre= h.dump(locals)
+    //- pre= h.dump(locals)
 
     h2 Edit Your Account
     form(action="/account" method="POST")
@@ -10,7 +10,13 @@ block content
       input(type="text" name="name" value=user.name)
       label(for="email") Email Address
       input(type="email" name="email" value=user.email)
-      label(for="vehicle") Vehicle 
-        span= user.vehicle[0] ? ` - Current Default: ${user.vehicle[0]}` : ''
-      input(type="text" name="vehicle" value=user.vehicle[0] || '')
+      label(for="vehicleYear") Vehicle Year
+      input(type="number" name="vehicleYear" min="1900" step="1" value=vehicle[0].year || '')
+      label(for="vehicleMake") Make 
+      input(type="text" name="vehicleMake" value=vehicle[0].make || '')
+      label(for="vehicleModel") Model 
+      input(type="text" name="vehicleModel" value=vehicle[0].model || '')
+      label(for="vehicleOdometer") Current Odometer Reading
+      input(type="number" name="vehicleOdometer" min="0" step="0.1" value=vehicle[0].odometer || '')
+
       input.button(type="submit" value="Update My Account")

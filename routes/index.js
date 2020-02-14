@@ -30,18 +30,24 @@ router.get('/upcoming-maintenance', authController.isLoggedIn, catchErrors(logCo
 
 router.get('/login', userController.loginForm)
 router.post('/login', authController.login)
-router.get('/register', userController.registerForm)
 
+router.get('/register', userController.registerForm)
 router.post('/register',
-  userController.validateRegister,
+  userController.validateAccountUpdate,
   userController.register,
   authController.login
 )
 
 router.get('/logout', authController.logout)
 
-router.get('/account', authController.isLoggedIn, userController.account)
-router.post('/account', catchErrors(userController.updateAccount))
+router.get('/account', authController.isLoggedIn, catchErrors(userController.account))
+router.post('/account', 
+  userController.validateAccountUpdate,
+  userController.updateAccount,
+  catchErrors(userController.account)
+)
+
+// TODO - re-enable after setting up mailer 
 // router.post('/account/forgot', catchErrors(authController.forgot))
 // router.get('/account/reset/:token', catchErrors(authController.reset))
 // router.post('/account/reset/:token',

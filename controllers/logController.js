@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Log = mongoose.model('Log')
 const User = mongoose.model('User')
+const Vehicle = mongoose.model('Vehicle')
 
 const multer = require('multer')
 const jimp = require('jimp')
@@ -108,34 +109,32 @@ const confirmOwner = (log, user) => {
 }
 
 exports.upcomingMaintenance = async (req, res, next) => {
-  // ------------------------MONGO STUFF------------------------
-  // Log.find({ dateDue: { $gte: new Date() } }).pretty()
-  // Log.find({ mileageDue: { $gte: User.find({ vehicle.odometer.latest }) } })
-  // Log.find({ $or: [{ slug: "brake-check" }, { slug: "rust-treatment" }]  })
-  // -----------------------------------------------------------
+  const vehicle = await Vehicle.find({ owner: req.user._id }, { odometer: 1 } )
+  const mileage = vehicle[0].odometer
+
   const log = await Log
     .find({ 
       $and: [
         { author: req.user._id }, 
         { $or: [
           { dateDue: { $gte: new Date() } },
-          { mileageDue: { $gte: 219000 } }
+          { mileageDue: { $gte: mileage } }
         ]}
       ] 
     })
     .sort({ created: 'desc' })
 
-  console.log('Upcoming Maintenance items: ')
-  console.log(log)
+  // console.log('Upcoming Maintenance items: ')
+  // console.log(log)
 
   if (!log.length) {
-    console.log('No logs found. ')
+    console.log('No upcoing maintenance logs found. ')
     req.flash('info', `Unable to find any logs with a future due date or mileage. Create one now?`)
     res.redirect('add')
     return
   }
 
-  console.log(`Upcoming Log requested for user ${req.user._id} returned: ${log}`)
+  // console.log(`Upcoming Log requested for user ${req.user._id} returned: ${log}`)
   res.render('upcoming', { title: 'Upcoming Maintenance', log })
 }
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const Vehicle = mongoose.model('Vehicle')
 const promisify = require('es6-promisify')
 
 exports.loginForm = (req, res) => {
@@ -10,7 +11,16 @@ exports.registerForm = (req, res) => {
   res.render('register', { title: 'Register' })
 }
 
-exports.validateRegister = (req, res, next) => {
+exports.validateAccountUpdate = (req, res, next) => {
+  console.log('validating account update. with body: ')
+  console.log(req.originalUrl)
+
+  if (req.originalUrl === '/register') { // can post to this from /register and /account updates.
+    req.checkBody('password', 'Password Cannot be Blank!').notEmpty()
+    req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty()
+    req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password)  
+  }
+
   req.sanitizeBody('name')
   req.checkBody('name', 'You must supply a name!').notEmpty()
   req.checkBody('email', 'That Email is not valid!').isEmail()
@@ -19,9 +29,23 @@ exports.validateRegister = (req, res, next) => {
     remove_extension: false,
     gmail_remove_subaddress: false
   })
-  req.checkBody('password', 'Password Cannot be Blank!').notEmpty()
-  req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty()
-  req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password)
+
+  if (req.vehicleYear) {
+    req.sanitizeBody('vehicleYear')
+    req.checkBody('vehicleYear', 'Please enter a valid vehicle year').notEmpty()
+  }
+  if (req.vehicleMake) {
+    req.sanitizeBody('vehicleMake')
+    req.checkBoxy('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').notEmpty()
+  }
+  if (req.vehicleModel) {
+    req.sanitizeBody('vehicleModel')
+    req.checkBoxy('vehicleModel', 'Please ender a valid vehicle model.').notEmpty()
+  }
+  if (req.vehicleOdometer) {
+    req.sanitizeBody('vehicleOdometer')
+    req.checkBoxy('vehicleOdometer', 'Please ender a valid odometer reading.').notEmpty()
+  }
 
   const errors = req.validationErrors()
   if (errors) {
@@ -39,22 +63,41 @@ exports.register = async (req, res, next) => {
   next() // pass to authController.login
 }
 
-exports.account = (req, res) => {
-  res.render('account', { title: 'Edit Your Account' })
+exports.account = async (req, res) => {
+  const vehicle = await Vehicle.find({ owner: req.user._id })
+  res.render('account', { title: 'Edit Your Account', vehicle })
 }
 
-exports.updateAccount = async (req, res) => {
-  const updates = {
+exports.updateAccount = async (req, res, next) => {
+  console.log('Posting to update account: ')
+  console.log(req.body)
+
+  const accountUpdates = {
     name: req.body.name,
-    email: req.body.email,
-    vehicle: req.body.vehicle
+    email: req.body.email
   }
 
-  const user = await User.findOneAndUpdate(
+  const vehicleUpdates = {
+    year: req.body.vehicleYear,
+    make: req.body.vehicleMake,
+    model: req.body.vehicleModel,
+    odometer: req.body.vehicleOdometer
+  }
+
+  const userPromise = User.findOneAndUpdate(
     { _id: req.user._id },
-    { $set: updates },
+    { $set: accountUpdates },
     { new: true, runValidators: true, context: 'query' }
   )
+
+  const vehiclePromise = Vehicle.updateOne(
+    { owner: req.user._id },
+    { $set: vehicleUpdates },
+    { upsert: true, new: true, runValidators: true, context: 'query'}
+  )
+
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise]);
+
   req.flash('success', 'Profile updated.')
-  res.redirect('back')
+  next()
 }

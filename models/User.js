@@ -21,12 +21,8 @@ const userSchema = new Schema({
     trim: true
   },
   vehicle: {
-    type: String,
-    trim: true,
-    odometer: {
-      type: Number,
-      trim: true
-    }
+		type: mongoose.Schema.ObjectId,
+		ref: 'Vehicle'
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date

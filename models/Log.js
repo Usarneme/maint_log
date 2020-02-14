@@ -9,9 +9,8 @@ const logSchema = new mongoose.Schema({
     required: 'Please enter a name for this maintenance item.'
   },
   vehicle: {
-    type: String,
-    trim: true,
-    required: 'Please select a vehicle for this maintenance item.'
+		type: mongoose.Schema.ObjectId,
+		ref: 'Vehicle'
   },
   dateEntered: {
     type: Date,

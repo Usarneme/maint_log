@@ -11,6 +11,7 @@ mongoose.connection.on('error', (err) => {
 // Models
 require('./models/Log');
 require('./models/User');
+require('./models/Vehicle');
 
 const app = require('./app');
 app.set('port', process.env.PORT || 7777);
