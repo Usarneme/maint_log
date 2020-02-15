@@ -1,4 +1,6 @@
-mixin logTableEntry(log, vehicle)
+mixin logTableEntry(log, vehicle = {})
+  //- pre= h.dump(locals)
+
   td
     if user && log.author.equals(user._id)
       a(href=`/log/${log._id}/edit` class='editPencil')
@@ -7,7 +9,10 @@ mixin logTableEntry(log, vehicle)
   td 
     a(href=`/log/${log.slug}`) #{log.name}
 
-  td #{vehicle[0].year} #{vehicle[0].make} #{vehicle[0].model} 
+  - const year = vehicle.length > 0 ? vehicle[0].year : 'No vehicle associated'
+  - const make = vehicle.length > 0 ? vehicle[0].make : ''
+  - const model = vehicle.length > 0 ? vehicle[0].model : ''
+  td #{year} #{make} #{model} 
   td= log.shortDescription.length > 150 ? `${log.shortDescription.substring(0,100)}...` : log.shortDescription
   td= log.longDescription.length > 150 ? `${log.longDescription.substring(0,100)}...` : log.longDescription
   td= h.moment(log.dateStarted).format("MMM Do YY")

@@ -111,7 +111,7 @@ const confirmOwner = (log, user) => {
 
 exports.upcomingMaintenance = async (req, res, next) => {
   const vehicle = await Vehicle.find({ owner: req.user._id })
-  const mileage = vehicle[0].odometer
+  const mileage = vehicle.length > 0 ? vehicle[0].odometer : 0
 
   const log = await Log
     .find({ 

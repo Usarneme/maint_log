@@ -6,12 +6,15 @@ block content
       h2.title.title--single
         a(href=`/log/${log.slug}`) #{log.name}
 
-  pre= h.dump(locals)
+  //- pre= h.dump(locals)
 
   .single__details.inner
     p 
+      - const year = log.vehicle !== null ? log.vehicle.year : 'No vehicle associated'
+      - const make = log.vehicle !== null ? log.vehicle.make : ''
+      - const model = log.vehicle !== null ? log.vehicle.model : ''
       strong Vehicle: 
-      span #{log.vehicle.year} #{log.vehicle.make} #{log.vehicle.model} 
+      span #{year} #{make} #{model} 
     p 
       strong Short Description: 
       span #{log.shortDescription}
