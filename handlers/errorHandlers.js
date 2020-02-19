@@ -9,9 +9,9 @@
 exports.catchErrors = (fn) => {
   return function(req, res, next) {
     console.log('Catching Errors...')
-    return fn(req, res, next).catch(next);
-  };
-};
+    return fn(req, res, next).catch(next)
+  }
+}
 
 /*
   Not Found Error Handler
@@ -19,27 +19,33 @@ exports.catchErrors = (fn) => {
 */
 exports.notFound = (req, res, next) => {
   console.log('404 Error Function... Url: '+req._parsedUrl.pathname)
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-};
+  const err = new Error('Not Found')
+  err.status = 404
+  next(err)
+}
 
 /*
   MongoDB Validation Error Handler
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
-  console.log('flash validation errors err.errors: '+err.errors)
+  console.log('flash validation errors err: '+err+'. err.errors: '+err.errors)
 
-  if (!err.errors) { // if there are no validation errors, move to next handler
+  if (!err && !err.errors) { // if there are no validation errors, move to next handler
     console.log('No validation errors. Moving to next.')
-    return next(err);
+    return next(err)
   } else {
-    const errorKeys = Object.keys(err.errors);
-    errorKeys.forEach(key => req.flash('error', err.errors[key].message));
-    return res.redirect('back');
+    // console.log(Object.keys(err)) => name, message
+    if (err.errors) {
+      console.log("validation errors found")
+      const errorKeys = Object.keys(err.errors)
+      errorKeys.forEach(key => req.flash('error', err.errors[key].message))
+    } else if (err.message === 'A user with the given username is already registered') {
+      req.flash('error', 'That email address is already in use.')
+    }
+    return res.redirect('back')
   }
-};
+}
 
 
 /*
@@ -54,21 +60,21 @@ exports.developmentErrors = (err, req, res, next) => {
   console.log('dev errors err.message: '+err.message)
 
 
-  err.stack = err.stack || '';
+  err.stack = err.stack || ''
   const errorDetails = {
     message: err.message,
     status: err.status,
     stackHighlighted: err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>')
-  };
-  res.status(err.status || 500);
+  }
+  res.status(err.status || 500)
   return res.format({
     // Based on the `Accept` http header
     'text/html': () => {
-      return res.render('error', errorDetails);
+      return res.render('error', errorDetails)
     }, // Form Submit, Reload the page
     'application/json': () => res.json(errorDetails) // Ajax call, send JSON back
-  });
-};
+  })
+}
 
 
 /*
@@ -78,9 +84,9 @@ exports.developmentErrors = (err, req, res, next) => {
 exports.productionErrors = (err, req, res, next) => {
   console.log('prod errors err: '+err)
 
-  res.status(err.status || 500);
+  res.status(err.status || 500)
   return res.render('error', {
     message: err.message,
     error: {}
-  });
-};
+  })
+}

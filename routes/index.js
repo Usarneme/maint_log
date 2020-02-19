@@ -34,7 +34,7 @@ router.post('/login', authController.login)
 router.get('/register', userController.registerForm)
 router.post('/register',
   userController.validateAccountUpdate,
-  userController.register,
+  catchErrors(userController.register),
   authController.login
 )
 

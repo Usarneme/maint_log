@@ -12,8 +12,8 @@ exports.registerForm = (req, res) => {
 }
 
 exports.validateAccountUpdate = (req, res, next) => {
-  console.log('validating account update. with body: ')
-  console.log(req.originalUrl)
+  console.log('validating account update. req ')
+  console.log(req.body)
 
   if (req.originalUrl === '/register') { // can post to this from /register and /account updates.
     req.checkBody('password', 'Password Cannot be Blank!').notEmpty()
@@ -36,19 +36,20 @@ exports.validateAccountUpdate = (req, res, next) => {
   }
   if (req.vehicleMake) {
     req.sanitizeBody('vehicleMake')
-    req.checkBoxy('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').notEmpty()
+    req.checkBody('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').notEmpty()
   }
   if (req.vehicleModel) {
     req.sanitizeBody('vehicleModel')
-    req.checkBoxy('vehicleModel', 'Please ender a valid vehicle model.').notEmpty()
+    req.checkBody('vehicleModel', 'Please ender a valid vehicle model.').notEmpty()
   }
   if (req.vehicleOdometer) {
     req.sanitizeBody('vehicleOdometer')
-    req.checkBoxy('vehicleOdometer', 'Please ender a valid odometer reading.').notEmpty()
+    req.checkBody('vehicleOdometer', 'Please ender a valid odometer reading.').notEmpty()
   }
 
   const errors = req.validationErrors()
   if (errors) {
+    console.log('Errors found: '+errors)
     req.flash('error', errors.map(err => err.msg))
     res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
     return // stop the function

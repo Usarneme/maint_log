@@ -12,6 +12,7 @@ mixin logForm(log = {}, vehicle = {})
       select(id="vehicle" name="vehicle")
         each item in vehicle
           option(value=item._id) #{item.year} #{item.make} #{item.model}
+        option(value="none") None
 
       label(for="dateStarted") Date Started
       input(type="date" name="dateStarted" unformattedDate=log.dateStarted)
