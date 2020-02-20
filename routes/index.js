@@ -58,4 +58,6 @@ router.post('/account',
 router.get('/search', authController.isLoggedIn, catchErrors(logController.searchPage))
 router.get('/api/search', catchErrors(logController.searchLog))
 
+router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
+
 module.exports = router

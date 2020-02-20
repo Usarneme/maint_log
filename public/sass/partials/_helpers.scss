@@ -3,6 +3,11 @@
   font-size: 0;
 }
 
+.hidden {
+  visibility: invisible;
+  display: none;
+}
+
 .button {
   border: 0;
   background: $yellow;

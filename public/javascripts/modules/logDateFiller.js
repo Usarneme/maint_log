@@ -19,11 +19,11 @@ export default function logDateFiller() {
 
     const el = document.querySelector('input[name="dateStarted"]')
     if (!el) return
-    el.valueAsDate = new Date(el.attributes.unformatteddate.value)
+    if (el.attributes.unformatteddate) el.valueAsDate = new Date(el.attributes.unformatteddate.value)
 
     const el2 = document.querySelector('input[name="dateCompleted"]')
-    el2.valueAsDate = new Date(el2.attributes.unformatteddate.value)
+    if (el2.attributes.unformatteddate) el2.valueAsDate = new Date(el2.attributes.unformatteddate.value)
 
     const el3 = document.querySelector('input[name="dateDue"]')
-    el3.valueAsDate = new Date(el3.attributes.unformatteddate.value)
+    if (el3.attributes.unformatteddate) el3.valueAsDate = new Date(el3.attributes.unformatteddate.value)
 }

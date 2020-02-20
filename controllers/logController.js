@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
+const fs = require('fs')
+const multer = require('multer')
+const jimp = require('jimp')
+const uuid = require('uuid')
 
 const Log = mongoose.model('Log')
 const User = mongoose.model('User')
 const Vehicle = mongoose.model('Vehicle')
-
-const multer = require('multer')
-const jimp = require('jimp')
-const uuid = require('uuid')
 
 const multerOptions = {
   storage: multer.memoryStorage(),
@@ -24,10 +24,10 @@ exports.uploadSinglePhoto = multer(multerOptions).single('photos')
 
 exports.resize = async (req, res, next) => {
   console.log('Resize middleware...')
-  console.log('Req.body before:')
-  console.log(req.body)
-  console.log('Req.file before:')
-  console.log(req.file)
+  // console.log('Req.body before:')
+  // console.log(req.body)
+  // console.log('Req.file before:')
+  // console.log(req.file)
 
   // check if there is no new file to resize
   if (!req.file) {
@@ -37,7 +37,11 @@ exports.resize = async (req, res, next) => {
   }
   const extension = req.file.mimetype.split('/')[1]
   // This creates the photos array, removes whitespace, and ensures no empty entries
-  req.body.photos = req.body.previousPhotos.trim().split(',').filter(Boolean) || []
+  if (req.body.previousPhotos) {
+    req.body.photos = req.body.previousPhotos.trim().split(',').filter(Boolean)
+  } else {
+    req.body.photos = []
+  }
   // console.log('req.body.photos created. now: '+req.body.photos)
   // console.log(typeof req.body.photos)
   // console.log(Array.isArray(req.body.photos))
@@ -172,4 +176,23 @@ exports.searchLog = async (req, res) => {
   })
   // .limit(5)
   res.json(logResults)
+}
+
+exports.removePhoto = async (req, res) => {
+  console.log('Log Controller - Remove Photo. Query: ')
+  console.log(req.params)
+
+  const updateDatabasePromise = Log
+    .update(
+      { photos: { $in: [req.params.filename] } },
+      { $pull: { photos: req.params.filename } }
+    )
+
+  const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
+    if (err) throw err
+    console.log('successfully deleted photo '+req.params.filename)
+  })
+
+  const [dbResult, fileResult] = await Promise.all([updateDatabasePromise, deleteFilePromise])
+  res.json({dbResult, fileResult})
 }
