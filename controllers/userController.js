@@ -16,7 +16,7 @@ exports.validateAccountUpdate = (req, res, next) => {
   console.log(req.body)
 
   if (req.originalUrl === '/register') { // can post to this from /register and /account updates.
-    req.checkBody('password', 'Password Cannot be Blank!').notEmpty()
+    req.checkBody('password', 'Password must be at least six characters.').isLength({ min: 6 })
     req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty()
     req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password)  
   }
