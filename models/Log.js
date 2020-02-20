@@ -47,6 +47,7 @@ const logSchema = new mongoose.Schema({
     type: String
   },
   receipts: [String],
+  photos: [String],
   odometer: Number,
   slug: String,
   author: {

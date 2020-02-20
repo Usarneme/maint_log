@@ -30,6 +30,8 @@ exports.notFound = (req, res, next) => {
 */
 exports.flashValidationErrors = (err, req, res, next) => {
   console.log('flash validation errors err: '+err+'. err.errors: '+err.errors)
+  console.log(err)
+  // console.log(req.body)
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler
     console.log('No validation errors. Moving to next.')
@@ -42,11 +44,12 @@ exports.flashValidationErrors = (err, req, res, next) => {
       errorKeys.forEach(key => req.flash('error', err.errors[key].message))
     } else if (err.message === 'A user with the given username is already registered') {
       req.flash('error', 'That email address is already in use.')
+    } else if (err.message === 'MulterError: Unexpected field') {
+      req.flash('error', 'Error uploading photo. Please try again.')
     }
     return res.redirect('back')
   }
 }
-
 
 /*
   Development Error Handler

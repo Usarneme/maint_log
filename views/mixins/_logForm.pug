@@ -4,7 +4,7 @@ mixin logForm(log = {}, vehicle = {})
     label(for="name") Name
     input(type="text" name="name" value=log.name)
 
-    //- pre= h.dump(locals)
+    pre= h.dump(locals)
 
     if vehicle
       //- Mongo Schema expects a Mongo ObjectID for the vehicle saved as part of a log entry 
@@ -52,10 +52,25 @@ mixin logForm(log = {}, vehicle = {})
       label(for="odometer") Odometer
       input(type="number" name="odometer" min="0" value=log.odometer)
 
-      label(for="receipts") Upload parts/labor receipt images
-        input(type="file" name="receipts" id="photo" accept="image/gif, image/png, image/jpeg")
-        if log.photo
-          img(src=`/uploads/${log.photo}`, alt=log.name width=200)
+      //- label(for="receipts") Upload parts/labor receipt images
+      //-   input(type="file" name="receipts" id="receipts" accept="image/gif, image/png, image/jpeg")
+      //-   if log.receipts
+      //-     each receipt in log.receipts
+      //-       .receiptHolder
+      //-         img(src=`/uploads/${receipt}`, alt=receipt width=200)
+
+      label(for="photos") Upload other images
+        input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg")
+        
+      if log.photos.length
+        label(for="previousPhotos") Previously Uploaded Images
+        .logFormPhotosContainer
+          each photo in log.photos
+            .logFormPhoto
+              img(src=`/uploads/${photo}`, alt=photo width=200)
+              //- TODO create mixin for photo, with X button to delete photo from log entry
+      input(type="hidden" name="previousPhotos" value=log.photos.toString().trim())
+      
       input(type="submit" value="Save to Log" class="button")
 
     if !vehicle
