@@ -14,7 +14,6 @@
     z-index: 5;
   }
   &__input {
-    font-size: 20px;
     outline: 0;
     border: 0;
   }
@@ -33,3 +32,18 @@
   }
 }
 
+@media all and (min-width: 768px) {
+  .search {
+    &__input {
+      font-size: $medium;
+    }
+  }
+}
+
+@media all and (min-width: 1920px) {
+  .search {
+    &__input {
+      font-size: $large;
+    }
+  }
+}
