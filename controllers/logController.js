@@ -183,7 +183,11 @@ exports.removePhoto = async (req, res) => {
     )
 
   const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
-    if (err) throw err
+    if (err) {
+      res.flash('error', `Unable to delete file ${req.params.filename}`)
+      res.redirect('back')
+      return
+    }
     console.log('successfully deleted photo '+req.params.filename)
   })
 
