@@ -7,6 +7,7 @@ block content
   .inner
     if user
       .main.search__main.search
+        != h.icon('log-search.svg')
         +searchForm()
 
       a(href='/add' class='main add')

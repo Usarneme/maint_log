@@ -27,8 +27,10 @@ svg {
   max-height: 40px; }
 
 .main {
-  margin: 10px;
+  width: 100%;
+  margin: 10px auto;
   padding: 10px;
+  font-size: 20px;
   border: none;
   background: #fff; }
   .main:hover {
@@ -36,7 +38,6 @@ svg {
         transform: scale(1.005); }
 
 a.main {
-  width: 95%;
   overflow-x: hidden;
   height: 100%;
   display: inline-block; }
@@ -529,23 +530,32 @@ label {
     border-bottom: 1px solid #e6e6e6; }
 
 .search {
-  width: 95%; }
+  width: 100%;
+  margin: 10px auto; }
+  .search__main {
+    display: -ms-inline-flexbox;
+    display: inline-flex; }
+  .search__main > input {
+    padding: 10px 10px 0 10px; }
   .search__results {
     width: 100%;
     top: 100%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 5; }
   .search__input {
-    font-size: 30px;
+    font-size: 20px;
     outline: 0;
     border: 0; }
   .search__result {
     padding: 10px;
     display: block;
-    border-bottom: 2px solid #ececec;
+    background: #efefef;
+    z-index: 4;
     margin: 1px 0; }
-    .search__result--active {
-      background: #f1f1f1; }
+    .search__result:hover {
+      background: #ddd;
+      -ms-transform: scale(1.015);
+          transform: scale(1.015);
+      border: 1px solid #ccc; }
 
 @keyframes slideIn {
   0% {
@@ -727,11 +737,59 @@ a.nav__link > svg > g {
   display: -ms-flexbox;
   display: flex; }
 
+.logFormPhotosContainer {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  margin-bottom: 25px; }
+
+.logFormPhoto {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: end;
+      align-items: end;
+  border: 1px groove #ddd;
+  margin: 2px 0;
+  background: #ccc;
+  min-height: 200px;
+  overflow: hidden; }
+
+.logFormPhoto > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute; }
+
+a.deletePhoto {
+  z-index: 4;
+  width: 100%;
+  text-align: center; }
+
 @media all and (min-width: 768px) {
   .largeScreens {
     display: initial; }
   .smallScreens {
-    display: none; } }
+    display: none; }
+  .logFormPhotosContainer {
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 6px; }
+  .logFormPhoto {
+    margin: 6px; } }
+
+@media all and (min-width: 900px) {
+  .logFormPhotosContainer {
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr); } }
+
+@media all and (min-width: 1268px) {
+  .logFormPhotosContainer {
+    -ms-grid-columns: (1fr)[5];
+        grid-template-columns: repeat(5, 1fr); } }
 
 .single__hero {
   display: -ms-flexbox;

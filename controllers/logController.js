@@ -20,14 +20,10 @@ const multerOptions = {
   }
 }
 
-exports.uploadSinglePhoto = multer(multerOptions).single('photos')
+exports.addPhotoToRequest = multer(multerOptions).single('photos')
 
-exports.resize = async (req, res, next) => {
-  console.log('Resize middleware...')
-  // console.log('Req.body before:')
-  // console.log(req.body)
-  // console.log('Req.file before:')
-  // console.log(req.file)
+exports.uploadPhoto = async (req, res, next) => {
+  console.log('Preparing photo for upload middleware...')
 
   // check if there is no new file to resize
   if (!req.file) {
@@ -35,6 +31,7 @@ exports.resize = async (req, res, next) => {
     next() // skip to the next middleware
     return
   }
+  // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
   // This creates the photos array, removes whitespace, and ensures no empty entries
   if (req.body.previousPhotos) {
@@ -42,9 +39,6 @@ exports.resize = async (req, res, next) => {
   } else {
     req.body.photos = []
   }
-  // console.log('req.body.photos created. now: '+req.body.photos)
-  // console.log(typeof req.body.photos)
-  // console.log(Array.isArray(req.body.photos))
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
   // now we resize
@@ -52,8 +46,8 @@ exports.resize = async (req, res, next) => {
   await photo.resize(800, jimp.AUTO)
   await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
 
-  console.log('Photo uploaded successfully. Passing to next middleware with body: ')
-  // console.log(req.body)
+  console.log('Photo uploaded successfully. ')
+  // console.log(`Passing to next middleware with body ${req.body}`)
   next()
 }
 

@@ -68,7 +68,7 @@ mixin logForm(log = {}, vehicle = {})
           each photo in log.photos
             .logFormPhoto
               img(src=`/uploads/${photo}`, alt=photo width=200)
-              a.button(href=`/remove/photo/${photo}`) X
+              a.button.deletePhoto(href=`/remove/photo/${photo}` title="Delete This Photo") Delete Photo
               //- TODO create mixin for photo, with X button to delete photo from log entry
         input(type="hidden" name="previousPhotos" value=log.photos.toString().trim())
       

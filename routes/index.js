@@ -13,13 +13,13 @@ router.get('/log/page/:page', authController.isLoggedIn, catchErrors(logControll
 router.get('/add', authController.isLoggedIn, logController.addLog)
 
 router.post('/add',
-  logController.uploadSinglePhoto, // TODO allow multiple simultaneous and replace with HOC
-  catchErrors(logController.resize),
+  logController.addPhotoToRequest, // TODO allow multiple simultaneous and replace with HOC
+  catchErrors(logController.uploadPhoto),
   catchErrors(logController.createLog)
 )
 router.post('/add/:id',
-  logController.uploadSinglePhoto,
-  catchErrors(logController.resize),
+  logController.addPhotoToRequest,
+  catchErrors(logController.uploadPhoto),
   catchErrors(logController.updateLog)
 )
 

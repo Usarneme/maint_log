@@ -87,11 +87,61 @@
   display: flex;
 }
 
+.logFormPhotosContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 25px;
+}
+
+.logFormPhoto {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border: 1px groove #ddd;
+  margin: 2px 0;
+  background: #ccc;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.logFormPhoto > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+a.deletePhoto {
+  z-index: 4;
+  width: 100%;
+  text-align: center;
+}
+
 @media all and (min-width: 768px) {
   .largeScreens {
     display: initial;
   }
   .smallScreens {
     display: none;
+  }
+  .logFormPhotosContainer {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 6px;
+  }
+  .logFormPhoto {
+    margin: 6px;
+  }
+}
+
+@media all and (min-width: 900px) {
+  .logFormPhotosContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media all and (min-width: 1268px) {
+  .logFormPhotosContainer {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
