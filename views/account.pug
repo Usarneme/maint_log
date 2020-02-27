@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/_vehicleSearch
+
 block content
   .inner
     //- pre= h.dump(locals)
@@ -10,17 +12,6 @@ block content
       input(type="text" name="name" value=user.name)
       label(for="email") Email Address
       input(type="email" name="email" value=user.email)
-      label(for="vehicleYear") Vehicle Year
-      - const year = vehicle.length > 0 ? vehicle[0].year : ''
-      input(type="number" name="vehicleYear" min="1900" step="1" value=year || '')
-      label(for="vehicleMake") Make 
-      - const make = vehicle.length > 0 ? vehicle[0].make : ''
-      input(type="text" name="vehicleMake" value=make || '')
-      label(for="vehicleModel") Model 
-      - const model = vehicle.length > 0 ? vehicle[0].model : ''
-      input(type="text" name="vehicleModel" value=model || '')
-      label(for="vehicleOdometer") Current Odometer Reading
-      - const odometer = vehicle.length > 0 ? vehicle[0].odometer : ''
-      input(type="number" name="vehicleOdometer" min="0" step="0.1" value=odometer || '')
+      +vehicleSearch()
 
-      input.button(type="submit" value="Update My Account")
+      input.button(type="submit" value="Save Account Changes")

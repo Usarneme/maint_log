@@ -72,7 +72,7 @@ mixin logForm(log = {}, vehicle = {})
               //- TODO create mixin for photo, with X button to delete photo from log entry
         input(type="hidden" name="previousPhotos" value=log.photos.toString().trim())
       
-      input(type="submit" value="Save to Log" class="button")
+      input(type="submit" value="Save to Log" class="button submit")
 
     if !vehicle
       a(href='/account') No vehicle found! Please click here to register a vehicle.

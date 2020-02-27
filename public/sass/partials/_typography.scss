@@ -1,10 +1,9 @@
 @font-face {
-    font-family: 'panama';
-    src: url('../fonts/panama-bold-webfont.woff2') format('woff2'),
-         url('/fonts/panama-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'panama';
+  src: url('../fonts/panama-bold-webfont.woff2') format('woff2'),
+        url('/fonts/panama-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 html {
@@ -16,8 +15,12 @@ body {
   color:$black;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
   font-size: 4rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 2rem;
   font-family: 'Panama';
   font-weight: 600;
   letter-spacing:-1px;
