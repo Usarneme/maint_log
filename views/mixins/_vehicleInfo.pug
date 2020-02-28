@@ -1,0 +1,51 @@
+mixin vehicleInfo()
+  //- pre= h.dump(locals)
+
+  - const alphabetizedMakes = [ 'ACG','Aston Martin','Auto Alliance','Blue Diamond','BMW','BMW Motorrad (Motorcycles)','Buell','Bugatti','Chairiot Mobility','Chrysler','Chrysler (Mexico)','Club Car','Coachworks','Cooper Cycles','Daimler','Daimler Trucks ','E-One','Fiat','Ford','Geely','GM','Golf Cars of Arizona','Great Dane','Hino','Hombilt','Honda','Hyundia-Kia','IC Bus','International','Jaguar Land Rover','Jialing','Kenworth','Lamborghini','Latitude','Lotus','Mack Truck','Maserati','Mazda','Mercedes-Benz','Mercedes-Benz Sprinter','Mills Manufacturing','Mitsubishi','Motorcycle Machine Shop Services','NABI','Navistar','Navistar Canada','Nissan','Nissan Mexico','Nissan NA','NUMMI','Optima','Oshkosh','Owosso','PACCAR','Peterbilt','Quest Manufacturing','Renault','Renault Samsung','Rolls Royce','Subaru','Suzuki','Tesla','TMMBC','Toyota','Toyota','UD','Volvo','Volvo (Truck / Bus)','Westward','Workhorse' ]
+
+  h5 Vehicle Info
+  .lookupSwitcher
+    button.button.manualVehicleEntryButton.selected(id="manualVehicleEntry") Enter Info Manually
+    button.button.vinLookupButton(id="searchByVin") Search by VIN
+    button.button.vehicleLookupButton(id="vehicleLookup") Search By Make & Model
+
+  .manualVehicleEntryDiv
+    label(for="vehicleYear") Year
+    - const year = vehicle.length > 0 ? vehicle[0].year : ''
+    input(type="number" name="vehicleYear" min="1900" step="1" value=year || '')
+    label(for="vehicleMake") Make 
+    - const make = vehicle.length > 0 ? vehicle[0].make : ''
+    input(type="text" name="vehicleMake" value=make || '')
+    label(for="vehicleModel") Model 
+    - const model = vehicle.length > 0 ? vehicle[0].model : ''
+    input(type="text" name="vehicleModel" value=model || '')
+    label(for="vehicleOdometer") Current Odometer Reading
+    - const odometer = vehicle.length > 0 ? vehicle[0].odometer : ''
+    input(type="number" name="vehicleOdometer" min="0" step="0.1" value=odometer || '')
+
+  .searchByVinDiv.hidden
+    .vinSearchInput
+      label(for="vin") VIN
+      input(type="text" name="vin")
+      button.button(id="vinSearchButton") Lookup VIN
+      button.button.hidden(id="confirmVinResults") Vehicle Info Is Correct
+    .vehicleResults
+
+  .vehicleLookupDiv.hidden
+    .vehicleLookupInput
+      label(for="lookupYear") Year
+      select(name="lookupYear")
+        - const currentYear = new Date().getFullYear()
+        - for (let i = 1900; i < currentYear; i += 1) {
+          option(value=i) #{i}
+        - }
+        option(value=currentYear selected) #{currentYear}
+      label(for="lookupMake") Make
+      select(name="lookupMake")
+        option(value="" selected disabled) Select a manufacturer...
+        each make in alphabetizedMakes
+          option(value=make.split(" ")[0])= make
+      label(for="lookupModel") Model
+      select(name="lookupModel")
+        option(value="First select a make..." selected disabled) First select a manufacturer...
+    button.button.hidden(id="confirmLookupResults") Vehicle Info Is Correct
