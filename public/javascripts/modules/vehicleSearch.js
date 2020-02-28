@@ -11,9 +11,17 @@ function listeners() {
   document.querySelector('#searchByVin').addEventListener('click', e => changeSearchView(e, 'vin'))
   document.querySelector('#manualVehicleEntry').addEventListener('click', e => changeSearchView(e, 'manual'))
   document.querySelector('#vehicleLookup').addEventListener('click', e => changeSearchView(e, 'lookup'))
-
   document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e))
-  document.querySelector('select[name="lookupMake"]').addEventListener('change', e => lookupMakeQuery(e))
+  
+  const lookupMakeSelect = document.querySelector('select[name="lookupMake"]')
+  // onchange and oninput work for desktop browsers but not for mobile...
+  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
+  // lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e))
+
+  // using keyboard and mouse event listeners to work on desktop and mobile...
+  lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
+  lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
+  
   document.querySelector('select[name="lookupModel"]').addEventListener('change', e => modelSelected(e))
 }
 
@@ -116,12 +124,18 @@ function lookupMakeQuery(e) {
   axios
     .get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`)
     .then(data => {
+      // clear out the models from any previous search
       while (modelLookupSelect.firstChild) {
         modelLookupSelect.removeChild(modelLookupSelect.lastChild)
       }
       let models = data.data["Results"]
-      models.sort()
-      // console.dir(models)
+      // alphabetize results
+      models.sort((a, b) => {
+        if (a["Model_Name"] > b["Model_Name"]) return 1
+        if (a["Model_Name"] < b["Model_Name"]) return -1
+        else return 0
+      })
+      // console.log(models)
 
       const emptyOption = document.createElement('option')
       emptyOption.disabled = 'disabled'
