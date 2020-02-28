@@ -9,9 +9,6 @@ html
     block header
       header.top
         nav.nav
-          .nav__item: a.nav__link(href="/") 
-            != h.icon('house.svg')
-            span Home
           if user
             each item in h.menu
               .nav__item: a.nav__link(href=item.slug, class=(currentPath === item.slug ? 'nav__link--active' : ''))
@@ -24,6 +21,9 @@ html
               != h.icon('register-face.svg')
               span Account
           else
+            .nav__item: a.nav__link(href="/") 
+              != h.icon('house.svg')
+              span Home
             .nav__item: a.nav__link(href="/register", class=(currentPath.startsWith('/register') ? 'nav__link--active' : '')) 
               != h.icon('register.svg')
               span Register
