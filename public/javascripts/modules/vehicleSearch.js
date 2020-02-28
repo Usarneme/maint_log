@@ -1,33 +1,25 @@
 import axios from 'axios'
 
 export default function vehicleSearch(containingDiv) {
-  console.log('Vehicle Search JS loaded...')
+  // console.log('Vehicle Search JS loaded...')
   if (!containingDiv) return
   listeners()
 }
 
 function listeners() {
-  console.log('Setting up event listeners for vehicle searching...')
-  const vinApproach = document.querySelector('#searchByVin')
-  const manualApproach = document.querySelector('#manualVehicleEntry')
-  const lookupApproach = document.querySelector('#vehicleLookup')
+  // console.log('Setting up event listeners for vehicle searching...')
+  document.querySelector('#searchByVin').addEventListener('click', e => changeSearchView(e, 'vin'))
+  document.querySelector('#manualVehicleEntry').addEventListener('click', e => changeSearchView(e, 'manual'))
+  document.querySelector('#vehicleLookup').addEventListener('click', e => changeSearchView(e, 'lookup'))
 
-  const vinSearchButton = document.querySelector('#vinSearchButton')
-  const makeLookupSelector = document.querySelector('select[name="lookupMake"]')
-  const modelLookupSelector = document.querySelector('select[name="lookupModel"]')
-
-  vinApproach.on('click', e => changeSearchView(e, 'vin'))
-  manualApproach.on('click', e => changeSearchView(e, 'manual'))
-  lookupApproach.on('click', e => changeSearchView(e, 'lookup'))
-
-  vinSearchButton.on('click', e => vinSearch(e))
-  makeLookupSelector.on('change', e => lookupMakeQuery(e))
-  modelLookupSelector.on('change', e => modelSelected(e))
+  document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e))
+  document.querySelector('select[name="lookupMake"]').addEventListener('change', e => lookupMakeQuery(e))
+  document.querySelector('select[name="lookupModel"]').addEventListener('change', e => modelSelected(e))
 }
 
 function changeSearchView(e, approach = 'manual') {
-  console.log('Search approach changer...')
-  console.log(e)
+  // console.log('Search approach changer...')
+  // console.log(e)
 
   e.stopPropagation()
   e.preventDefault()
@@ -68,7 +60,7 @@ function vinSearch(e) {
   e.preventDefault()
   let vin = document.querySelector('input[name="vin"]').value || 0
   if (vin === 0) return
-  console.log('VIN Search clicked... Looking up '+vin)
+  // console.log('VIN Search clicked... Looking up '+vin)
 
   const resultsDiv = document.querySelector('.vehicleResults')
   resultsDiv.innerHTML = ''

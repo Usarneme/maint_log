@@ -1,7 +1,7 @@
 mixin vehicleInfo()
   //- pre= h.dump(locals)
 
-  - const alphabetizedMakes = [ 'ACG','Aston Martin','Auto Alliance','Blue Diamond','BMW','BMW Motorrad (Motorcycles)','Buell','Bugatti','Chairiot Mobility','Chrysler','Chrysler (Mexico)','Club Car','Coachworks','Cooper Cycles','Daimler','Daimler Trucks ','E-One','Fiat','Ford','Geely','GM','Golf Cars of Arizona','Great Dane','Hino','Hombilt','Honda','Hyundia-Kia','IC Bus','International','Jaguar Land Rover','Jialing','Kenworth','Lamborghini','Latitude','Lotus','Mack Truck','Maserati','Mazda','Mercedes-Benz','Mercedes-Benz Sprinter','Mills Manufacturing','Mitsubishi','Motorcycle Machine Shop Services','NABI','Navistar','Navistar Canada','Nissan','Nissan Mexico','Nissan NA','NUMMI','Optima','Oshkosh','Owosso','PACCAR','Peterbilt','Quest Manufacturing','Renault','Renault Samsung','Rolls Royce','Subaru','Suzuki','Tesla','TMMBC','Toyota','Toyota','UD','Volvo','Volvo (Truck / Bus)','Westward','Workhorse' ]
+  - const alphabetizedMakes = [ 'ACG','Aston Martin','Auto Alliance','Blue Diamond','BMW','Buell','Bugatti','Chevrolet','Chrysler','Club Car','Coachworks','Cooper Cycles','Daimler','E-One','Fiat','Ford','GM','Hino','Hombilt','Honda','Hyundia','International','Jaguar','Jialing','Kenworth','Kia','Lamborghini','Land Rover','Latitude','Lotus','Mack Truck','Maserati','Mazda','Mercedes-Benz','Mills Manufacturing','Mitsubishi','Motorcycle Machine Shop Services','NABI','Navistar','Nissan','NUMMI','Optima','Oshkosh','Owosso','PACCAR','Peterbilt','Quest Manufacturing','Renault','Rolls Royce','Subaru','Suzuki','Tesla','TMMBC','Toyota','UD','Volvo','Westward','Workhorse' ]
 
   h5 Vehicle Info
   .lookupSwitcher
@@ -28,8 +28,8 @@ mixin vehicleInfo()
       label(for="vin") VIN
       input(type="text" name="vin")
       button.button(id="vinSearchButton") Lookup VIN
-      button.button.hidden(id="confirmVinResults") Vehicle Info Is Correct
     .vehicleResults
+    button.button.hidden(id="confirmVinResults") Vehicle Info Is Correct
 
   .vehicleLookupDiv.hidden
     .vehicleLookupInput
