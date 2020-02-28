@@ -14,12 +14,13 @@ function listeners() {
   document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e))
   
   const lookupMakeSelect = document.querySelector('select[name="lookupMake"]')
-  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
   lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e))
+  // mobile browsers not recognizing the change event...
+  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
 
   // using keyboard and mouse event listeners to work on desktop and mobile...
-  // lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
-  // lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
+  lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
+  lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
   
   document.querySelector('select[name="lookupModel"]').addEventListener('change', e => modelSelected(e))
 }
@@ -136,20 +137,29 @@ function lookupMakeQuery(e) {
       })
       // console.log(models)
 
-      const emptyOption = document.createElement('option')
-      emptyOption.disabled = 'disabled'
-      emptyOption.selected = 'selected'
-      emptyOption.value = 'Select a model...'
-      emptyOption.innerHTML = 'Select a model...'
-      modelLookupSelect.appendChild(emptyOption)
-
-      models.forEach(result => {
-        // console.log('Setting up select option for '+result["Model_Name"])
+      if (!models.length) {
         const opt = document.createElement('option')
-        opt.value = result["Model_Name"]
-        opt.innerHTML = result["Model_Name"]
+        opt.disabled = 'disabled'
+        opt.selected = 'selected'
+        opt.value = 'No results found...'
+        opt.innerHTML = 'No results found...'
         modelLookupSelect.appendChild(opt)
-      })
+      } else {
+        const emptyOption = document.createElement('option')
+        emptyOption.disabled = 'disabled'
+        emptyOption.selected = 'selected'
+        emptyOption.value = 'Select a model...'
+        emptyOption.innerHTML = 'Select a model...'
+        modelLookupSelect.appendChild(emptyOption)
+  
+        models.forEach(result => {
+          // console.log('Setting up select option for '+result["Model_Name"])
+          const opt = document.createElement('option')
+          opt.value = result["Model_Name"]
+          opt.innerHTML = result["Model_Name"]
+          modelLookupSelect.appendChild(opt)
+        })  
+      }
     })
     .catch(err => console.error(err))
 }
