@@ -675,8 +675,8 @@ a.nav__link > svg > g {
 
 @media all and (min-width: 900px) {
   nav.nav {
-    -ms-grid-columns: (1fr)[7];
-        grid-template-columns: repeat(7, 1fr); }
+    -ms-grid-columns: (1fr)[6];
+        grid-template-columns: repeat(6, 1fr); }
   a.nav__link > svg,
   a.nav__link > svg > g {
     max-width: 55px;

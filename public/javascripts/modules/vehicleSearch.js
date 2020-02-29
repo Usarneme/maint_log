@@ -13,11 +13,9 @@ function listeners() {
   document.querySelector('#vehicleLookup').addEventListener('click', e => changeSearchView(e, 'lookup'))
   document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e))
   
+  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
   const lookupMakeSelect = document.querySelector('select[name="lookupMake"]')
   lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e))
-  // mobile browsers not recognizing the change event...
-  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
-
   // using keyboard and mouse event listeners to work on desktop and mobile...
   lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
   lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
@@ -135,9 +133,9 @@ function lookupMakeQuery(e) {
         if (a["Model_Name"] < b["Model_Name"]) return -1
         else return 0
       })
-      // console.log(models)
+      console.log(models.length)
 
-      if (!models.length) {
+      if (models.length > 0) {
         const opt = document.createElement('option')
         opt.disabled = 'disabled'
         opt.selected = 'selected'

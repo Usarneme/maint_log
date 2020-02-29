@@ -44,7 +44,7 @@ a.nav__link > svg > g {
 
 @media all and (min-width: 900px) {
   nav.nav {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   a.nav__link > svg,
   a.nav__link > svg > g {
