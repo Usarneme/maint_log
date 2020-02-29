@@ -17,8 +17,8 @@ function listeners() {
   const lookupMakeSelect = document.querySelector('select[name="lookupMake"]')
   lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e))
   // using keyboard and mouse event listeners to work on desktop and mobile...
-  lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
-  lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
+  // lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
+  // lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
   
   document.querySelector('select[name="lookupModel"]').addEventListener('change', e => modelSelected(e))
 }
@@ -102,11 +102,21 @@ function vinSearch(e) {
 }
 
 function lookupMakeQuery(e) {
+  console.log("Select changed. Calling lookupMakeQuery... ")
   e.stopPropagation()
   e.preventDefault()
-  const make = e.originalTarget.value
+
+  // console.log(e)
+  let make = undefined
+
+  // Firefox style is e.originalTarget.value, Chromium style is e.target.value for selected option
+  if (e.originalTarget !== undefined) {
+    make = e.originalTarget.value
+  } else {
+    make = e.target.value
+  }
   if (!make) return
-  console.log("Select changed. Calling lookupMakeQuery... "+make)
+  // console.log('Make selected: '+make)
 
   const year = document.querySelector('select[name="lookupYear"]').value
   const modelLookupSelect = document.querySelector('select[name="lookupModel"]')
@@ -133,16 +143,9 @@ function lookupMakeQuery(e) {
         if (a["Model_Name"] < b["Model_Name"]) return -1
         else return 0
       })
-      console.log(models.length)
+      // console.log(models)
 
       if (models.length > 0) {
-        const opt = document.createElement('option')
-        opt.disabled = 'disabled'
-        opt.selected = 'selected'
-        opt.value = 'No results found...'
-        opt.innerHTML = 'No results found...'
-        modelLookupSelect.appendChild(opt)
-      } else {
         const emptyOption = document.createElement('option')
         emptyOption.disabled = 'disabled'
         emptyOption.selected = 'selected'
@@ -157,6 +160,13 @@ function lookupMakeQuery(e) {
           opt.innerHTML = result["Model_Name"]
           modelLookupSelect.appendChild(opt)
         })  
+      } else {
+        const opt = document.createElement('option')
+        opt.disabled = 'disabled'
+        opt.selected = 'selected'
+        opt.value = 'No models found...'
+        opt.innerHTML = 'No models found...'
+        modelLookupSelect.appendChild(opt)
       }
     })
     .catch(err => console.error(err))
@@ -165,12 +175,18 @@ function lookupMakeQuery(e) {
 function modelSelected(e) {
   e.stopPropagation()
   e.preventDefault()
-  console.log('Model selected...')
+  // console.log('Model selected...')
   const year = document.querySelector('select[name="lookupYear"]').value
   const make = document.querySelector('select[name="lookupMake"]').value
-  const model = e.originalTarget.value
-  console.log(year, make, model)
 
+  let model = undefined
+
+  if (e.originalTarget !== undefined) {
+    model = e.originalTarget.value
+  } else {
+    model = e.target.value
+  }
+  // console.log(year, make, model)
   const confirmLookupResultsButton = document.querySelector('#confirmLookupResults')
   confirmLookupResultsButton.on('click', e => updateVehicle(e, year, make, model))
   confirmLookupResultsButton.classList.remove('hidden')
@@ -179,7 +195,7 @@ function modelSelected(e) {
 function updateVehicle(e, year, make, model) {
   e.stopPropagation()
   e.preventDefault()
-  console.log('Update Vehicle button clicked...')
+  // console.log('Update Vehicle button clicked...')
   const yearInput = document.querySelector('input[name="vehicleYear"]')
   const makeInput = document.querySelector('input[name="vehicleMake"]')
   const modelInput = document.querySelector('input[name="vehicleModel"]')
