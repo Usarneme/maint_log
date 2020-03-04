@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-
 require('dotenv').config({ path: 'variables.env' })
 
-mongoose.connect(process.env.DATABASE)
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE, { useMongoClient: true })
 mongoose.Promise = global.Promise // Have Mongoose use ES6 promises
 mongoose.connection.on('error', (err) => {
   console.error(`Error: ${err.message}`)
@@ -18,4 +17,4 @@ app.set('port', process.env.PORT || 7777)
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Express running → PORT ${server.address().port}`)
-})
+})  

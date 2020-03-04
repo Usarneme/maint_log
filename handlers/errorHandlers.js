@@ -30,7 +30,6 @@ exports.notFound = (req, res, next) => {
 */
 exports.flashValidationErrors = (err, req, res, next) => {
   console.log('flash validation errors err: '+err+'. err.errors: '+err.errors)
-  console.log(err)
   // console.log(req.body)
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler
@@ -57,10 +56,10 @@ exports.flashValidationErrors = (err, req, res, next) => {
   In development we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
 */
 exports.developmentErrors = (err, req, res, next) => {
-  console.log('dev errors keys: '+Object.keys(err))
-  console.log('dev errors err: '+err)
-  console.log('dev errors err.status: '+err.status)
-  console.log('dev errors err.message: '+err.message)
+  // console.log('dev errors keys: '+Object.keys(err))
+  // console.log('dev errors err: '+err)
+  // console.log('dev errors err.status: '+err.status)
+  // console.log('dev errors err.message: '+err.message)
 
 
   err.stack = err.stack || ''

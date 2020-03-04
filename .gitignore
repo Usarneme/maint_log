@@ -73,6 +73,7 @@ variables.env
 variables.env.now
 .env
 .env.test
+tests/setupEnv.js
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
