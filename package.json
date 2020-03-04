@@ -16,8 +16,8 @@
     "test:watch": "jest --watch"
   },
   "jest": {
-    "setupFiles": ["./__tests__/setupEnv.js"],
-    "testPathIgnorePatterns": ["./__tests__/setupEnv.js"]
+    "setupFiles": ["./tests/setupEnv.js", "./tests/setupTests.js"],
+    "testPathIgnorePatterns": ["./tests/setupEnv.js", "./tests/setupTests.js"]
   },
   "browserslist": "last 3 versions",
   "dependencies": {
