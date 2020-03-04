@@ -17,8 +17,6 @@ require('./handlers/passport')
 
 const app = express()
 
-console.log(app.get('env'))
-
 app.set('views', path.join(__dirname, 'views')) 
 app.set('view engine', 'pug') 
 
