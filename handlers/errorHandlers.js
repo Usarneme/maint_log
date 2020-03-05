@@ -8,7 +8,7 @@
 
 exports.catchErrors = (fn) => {
   return function(req, res, next) {
-    console.log('Catching Errors...')
+    // console.log('Catching Errors...')
     return fn(req, res, next).catch(next)
   }
 }
