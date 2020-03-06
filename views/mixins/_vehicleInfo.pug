@@ -1,5 +1,5 @@
 mixin vehicleInfo()
-  //- pre= h.dump(locals)
+  //- pre= h.dump(locals.vehicle)
 
   - const alphabetizedMakes = [ 'ACG','Aston Martin','Auto Alliance','Blue Diamond','BMW','Buell','Bugatti','Chevrolet','Chrysler','Club Car','Coachworks','Cooper Cycles','Daimler','E-One','Fiat','Ford','GM','Hino','Hombilt','Honda','Hyundia','International','Jaguar','Jialing','Kenworth','Kia','Lamborghini','Land Rover','Latitude','Lotus','Mack Truck','Maserati','Mazda','Mercedes-Benz','Mills Manufacturing','Mitsubishi','Motorcycle Machine Shop Services','NABI','Navistar','Nissan','NUMMI','Optima','Oshkosh','Owosso','PACCAR','Peterbilt','Quest Manufacturing','Renault','Rolls Royce','Subaru','Suzuki','Tesla','TMMBC','Toyota','UD','Volkswagen','Volvo','Westward','Workhorse' ]
 
@@ -11,16 +11,16 @@ mixin vehicleInfo()
 
   .manualVehicleEntryDiv
     label(for="vehicleYear") Year
-    - const year = vehicle.length > 0 ? vehicle[0].year : ''
+    - const year = vehicle ? vehicle.year : ''
     input(type="number" name="vehicleYear" min="1900" step="1" value=year || '')
     label(for="vehicleMake") Make 
-    - const make = vehicle.length > 0 ? vehicle[0].make : ''
+    - const make = vehicle ? vehicle.make : ''
     input(type="text" name="vehicleMake" value=make || '')
     label(for="vehicleModel") Model 
-    - const model = vehicle.length > 0 ? vehicle[0].model : ''
+    - const model = vehicle ? vehicle.model : ''
     input(type="text" name="vehicleModel" value=model || '')
     label(for="vehicleOdometer") Current Odometer Reading
-    - const odometer = vehicle.length > 0 ? vehicle[0].odometer : ''
+    - const odometer = vehicle ? vehicle.odometer : ''
     input(type="number" name="vehicleOdometer" min="0" step="0.1" value=odometer || '')
 
   .searchByVinDiv.hidden

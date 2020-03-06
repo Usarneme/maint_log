@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { body } = require('express-validator')
 
 const authController = require('../controllers/authController')
 const logController = require('../controllers/logController')
@@ -33,6 +34,12 @@ router.post('/login', authController.login)
 
 router.get('/register', userController.registerForm)
 router.post('/register',
+  [
+    body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
+    body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
+    body('password', 'You must supply a password.').isLength({ min: 6 }),
+    body('password-confirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
+  ],
   userController.validateAccountUpdate,
   catchErrors(userController.register),
   authController.login
@@ -42,6 +49,14 @@ router.get('/logout', authController.logout)
 
 router.get('/account', authController.isLoggedIn, catchErrors(userController.account))
 router.post('/account', 
+  [
+    body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
+    body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
+    body('vehicleYear', 'Please enter a valid vehicle year').not().isEmpty().trim().escape(),
+    body('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').not().isEmpty().trim().escape(),
+    body('vehicleModel', 'Please ender a valid vehicle model.').not().isEmpty().trim().escape(),
+    body('vehicleOdometer', 'Please ender a valid odometer reading.').not().isEmpty().trim().escape()
+  ],
   userController.validateAccountUpdate,
   userController.updateAccount,
   catchErrors(userController.account)

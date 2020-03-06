@@ -9,10 +9,6 @@ const passport = require('passport')
 const { promisify } = require('es6-promisify')
 const flash = require('connect-flash')
 
-// DEPRECATED - used in route controller explicitly now
-// const expressValidator = require('express-validator')
-const { check, validationResult } = require('express-validator')
-
 const routes = require('./routes/index')
 const helpers = require('./helpers')
 const errorHandlers = require('./handlers/errorHandlers')
@@ -28,10 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Takes raw request data and puts them on req.body
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-// DEPRECATED
-// Methods for validating data
-// app.use(expressValidator())
 
 // Populates req.cookies
 app.use(cookieParser())

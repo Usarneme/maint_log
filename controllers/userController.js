@@ -3,75 +3,45 @@ const User = mongoose.model('User')
 const Vehicle = mongoose.model('Vehicle')
 const { promisify } = require('es6-promisify')
 
+const { validationResult } = require('express-validator')
+
 exports.loginForm = (req, res) => {
-  res.render('login', { title: 'Login' })
+  return res.render('login', { title: 'Login' })
 }
 
 exports.registerForm = (req, res) => {
-  res.render('register', { title: 'Register' })
+  return res.render('register', { title: 'Register' })
 }
 
 exports.validateAccountUpdate = (req, res, next) => {
-  console.log('validating account update. req ')
-  console.log(req.body)
+  console.log('Posting to validate account update...')
+  const errors = validationResult(req)
+  if (errors.isEmpty()) return next() // passed validation...
 
-  if (req.originalUrl === '/register') { // can post to this from /register and /account updates.
-    req.checkBody('password', 'Password must be at least six characters.').isLength({ min: 6 })
-    req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty()
-    req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password)  
-  }
+  // did not pass validation...
+  const errorMessages = []
+  errors.array().forEach(val => errorMessages.push(val.msg))
+  // console.log(errorMessages)
+  req.flash('error', errorMessages)
 
-  req.sanitizeBody('name')
-  req.checkBody('name', 'You must supply a name!').notEmpty()
-  req.checkBody('email', 'That Email is not valid!').isEmail()
-  req.sanitizeBody('email').normalizeEmail({
-    gmail_remove_dots: false,
-    remove_extension: false,
-    gmail_remove_subaddress: false
-  })
-
-  if (req.vehicleYear) {
-    req.sanitizeBody('vehicleYear')
-    req.checkBody('vehicleYear', 'Please enter a valid vehicle year').notEmpty()
+  // validates both /register and /account posted updates. only register has a password field
+  if (req.body.hasOwnProperty('password')) {
+    return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
+  } else {
+    return res.render('account', { title: 'Account', body: req.body, flashes: req.flash() })
   }
-  if (req.vehicleMake) {
-    req.sanitizeBody('vehicleMake')
-    req.checkBody('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').notEmpty()
-  }
-  if (req.vehicleModel) {
-    req.sanitizeBody('vehicleModel')
-    req.checkBody('vehicleModel', 'Please ender a valid vehicle model.').notEmpty()
-  }
-  if (req.vehicleOdometer) {
-    req.sanitizeBody('vehicleOdometer')
-    req.checkBody('vehicleOdometer', 'Please ender a valid odometer reading.').notEmpty()
-  }
-
-  const errors = req.validationErrors()
-  if (errors) {
-    console.log('Errors found: '+errors)
-    req.flash('error', errors.map(err => err.msg))
-    res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
-    return // stop the function
-  }
-  next()
 }
 
 exports.register = async (req, res, next) => {
   const user = new User({ email: req.body.email, name: req.body.name })
   const register = promisify(User.register, User)
   await register(user, req.body.password)
-  next() // pass to authController.login
-}
-
-exports.account = async (req, res) => {
-  const vehicle = await Vehicle.find({ owner: req.user._id })
-  res.render('account', { title: 'Edit Your Account', vehicle })
+  return next() // pass to authController.login
 }
 
 exports.updateAccount = async (req, res, next) => {
-  console.log('Posting to update account: ')
-  console.log(req.body)
+  // console.log('Posting to update account: ')
+  // console.log(req.body)
 
   const accountUpdates = {
     name: req.body.name,
@@ -85,20 +55,26 @@ exports.updateAccount = async (req, res, next) => {
     odometer: req.body.vehicleOdometer
   }
 
-  const userPromise = User.findOneAndUpdate(
-    { _id: req.user._id },
+  const userPromise = User.findByIdAndUpdate(
+    req.user._id,
     { $set: accountUpdates },
     { new: true, runValidators: true, context: 'query' }
   )
 
-  const vehiclePromise = Vehicle.updateOne(
+  const vehiclePromise = Vehicle.findOneAndUpdate(
     { owner: req.user._id },
     { $set: vehicleUpdates },
     { upsert: true, new: true, runValidators: true, context: 'query'}
   )
 
-  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise]);
-
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
-  next()
+  return next()
+}
+
+exports.account = async (req, res) => {
+  const userPromise = User.findOne({ _id: req.user._id})
+  const vehiclePromise = Vehicle.findOne({ owner: req.user._id })
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
+  return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
 }

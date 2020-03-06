@@ -97,7 +97,7 @@ exports.getLog = async (req, res) => {
     .sort({ created: 'desc' })
 
   const vehiclePromise = Vehicle.find({ owner: req.user._id })
-  const countPromise = Log.count({ author: req.user._id })
+  const countPromise = Log.countDocuments({ author: req.user._id })
 
   const [log, count, vehicle] = await Promise.all([logPromise, countPromise, vehiclePromise])
   const pages = Math.ceil(count / limit)
