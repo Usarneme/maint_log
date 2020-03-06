@@ -1,7 +1,7 @@
 require('dotenv').config({ path: 'variables.env' })
 
 const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE, { useMongoClient: true })
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.Promise = global.Promise // Have Mongoose use ES6 promises
 mongoose.connection.on('error', (err) => {
   console.error(`Error: ${err.message}`)

@@ -1,26 +1,44 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const javascript = {
   test: /\.(js)$/, 
+  exclude: /(node_modules|bower_components)/,
   use: [{
     loader: 'babel-loader',
-    options: { presets: ['env'] } 
+    options: { presets: ['@babel/preset-env'] } 
   }],
+};
+
+const styles = {
+  test: /\.s[ac]ss$/i,
+  use: [
+    // Creates `style` nodes from JS strings
+    'style-loader',
+    // Translates CSS into CommonJS
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: true,
+      },
+    },
+    // Compiles Sass to CSS
+    {
+      loader: 'sass-loader',
+      options: {
+        sourceMap: true,
+      },
+    },
+  ],
 };
 
 const postcss = {
   loader: 'postcss-loader',
   options: {
-    plugins() { return [autoprefixer({ browsers: 'last 3 versions' })]; }
+    // plugins() { return [autoprefixer({ browsers: 'last 3 versions' })]; }
+    plugins: [ require('autoprefixer') ]
   }
-};
-
-const styles = {
-  test: /\.(scss)$/,
-  use: ExtractTextPlugin.extract(['css-loader?sourceMap', postcss, 'sass-loader?sourceMap'])
 };
 
 const fonts = {
@@ -34,25 +52,25 @@ const fonts = {
   }],
 };
 
-const uglify = new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } });
-
 const config = {
   entry: {
-    App: './public/javascripts/maintenance-log.js'
+    app: './public/javascripts/maintenance-log.js'
   },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'public', 'dist'),
     filename: '[name].bundle.js'
   },
-
   module: {
     rules: [javascript, styles, fonts]
   },
   plugins: [
-    uglify,
-    new ExtractTextPlugin('style.css'),
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
 };
 
 process.noDeprecation = true;

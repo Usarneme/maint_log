@@ -92,7 +92,7 @@ function vinSearch(e) {
           <div class="vinSearchResult">
             <div>Year: ${year}</div><div>Make: ${make}</div><div>Model: ${model}</div>
           </div>`
-        confirmVinResultsButton.on('click', e => updateVehicle(e, year, make, model))
+        confirmVinResultsButton.addEventListener('click', e => updateVehicle(e, year, make, model))
         confirmVinResultsButton.classList.remove('hidden')
       } else {
         resultsDiv.textContent = `No Results Found for VIN "${vin}". Please try again.`
@@ -188,7 +188,7 @@ function modelSelected(e) {
   }
   // console.log(year, make, model)
   const confirmLookupResultsButton = document.querySelector('#confirmLookupResults')
-  confirmLookupResultsButton.on('click', e => updateVehicle(e, year, make, model))
+  confirmLookupResultsButton.addEventListener('click', e => updateVehicle(e, year, make, model))
   confirmLookupResultsButton.classList.remove('hidden')
 }
 

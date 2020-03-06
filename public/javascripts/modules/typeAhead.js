@@ -19,7 +19,7 @@ function typeAhead(search) {
   const searchInput = search.querySelector('input[name="search"]');
   const searchResults = search.querySelector('.search__results');
 
-  searchInput.on('input', function() {
+  searchInput.addEventListener('input', function() {
     if (!this.value) {
       searchResults.style.display = 'none';
       return; 
@@ -45,7 +45,7 @@ function typeAhead(search) {
       });
   });
 
-  searchInput.on('keyup', (e) => {
+  searchInput.addEventListener('keyup', (e) => {
     // Ignore keys except up, down and enter for keyboard selection of result link
     if (![38, 40, 13].includes(e.keyCode)) {
       return; 

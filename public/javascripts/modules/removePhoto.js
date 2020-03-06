@@ -8,7 +8,7 @@ function removePhoto(photosContainer) {
   photosContainer.childNodes.forEach(photoDiv => {
     const name = photoDiv.children[0].alt
     const deleteButton = photoDiv.children[1]
-    deleteButton.on('click', function(e) {
+    deleteButton.addEventListener('click', function(e) {
       confirmDelete(e, name, photoDiv)
     })
   })
