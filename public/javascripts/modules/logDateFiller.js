@@ -2,7 +2,7 @@
 // which attribute is called valueAsDate. This value can be passed and will be interpreted as
 // <input type="date" valueasdate=datestring> but the element as rendered will be an empty date-picker
 export default function logDateFiller() {
-    console.log('logDateFiller function...')
+    // console.log('logDateFiller function...')
     // const datesContainer = document.querySelector(".dates")
     // console.log('datesContainer not found: '+datesContainer)
 
