@@ -1,13 +1,13 @@
 .log {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .log_entry {
   background:white;
   margin: 10px 0;
-  width:30%;
+  width: 30%;
   &__details {
     padding: 2rem;
     p {
@@ -80,10 +80,15 @@
 }
 
 .largeScreens {
+  visibility: invisible;
   display: none;
+  line-height: 1;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 .smallScreens {
+  visibility: initial;
   display: flex;
 }
 
@@ -112,17 +117,41 @@
   position: absolute;
 }
 
+.editPencil > svg {
+  width: 20px;
+}
+
+.logName {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  justify-content: space-between;
+  align-items: center;
+}
+
 a.deletePhoto {
   z-index: 4;
   width: 100%;
   text-align: center;
 }
 
+.logButtonsContainer {
+  margin-bottom: 10px;
+}
+
+.logButtonsContainer > a {
+  margin: 1px;
+  padding: 5px;
+}
+
 @media all and (min-width: 768px) {
   .largeScreens {
+    visibility: initial;
     display: initial;
+    font-size: 1.1rem;
   }
   .smallScreens {
+    visibility: invisible;
     display: none;
   }
   .logFormPhotosContainer {
@@ -138,10 +167,16 @@ a.deletePhoto {
   .logFormPhotosContainer {
     grid-template-columns: repeat(3, 1fr);
   }
+  .largeScreens {
+    font-size: 1.3rem;
+  }
 }
 
 @media all and (min-width: 1268px) {
   .logFormPhotosContainer {
     grid-template-columns: repeat(5, 1fr);
+  }
+  .largeScreens {
+    font-size: 1.5rem;
   }
 }

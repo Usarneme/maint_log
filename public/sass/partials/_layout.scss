@@ -3,7 +3,6 @@ html {
 }
 
 body {
-  background: $purple;
   background:#efefef;
   &:before {
     content: '';
@@ -21,7 +20,7 @@ body {
     padding: 1rem;
   }
   &--flashes {
-    padding:0;
+    padding: 0;
   }
 }
 

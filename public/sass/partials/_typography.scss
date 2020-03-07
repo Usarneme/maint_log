@@ -7,12 +7,20 @@
 }
 
 html {
-  font-size:10px;
+  font-family: "brandon-grotesque", "Brandon Grotesque", sans-serif;
+  letter-spacing: 0.5px;
+  font-size: 10px;
+  @media all and (max-width: 900px) {
+    letter-spacing: 0.75px
+  }
+  @media all and (max-width: 1200px) {
+    letter-spacing: 1px
+  }
 }
 
 body {
-  font-size:1.5rem;
-  color:$black;
+  font-size: 1.5rem;
+  color: $black;
 }
 
 h1, h2, h3 {
@@ -23,13 +31,13 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2rem;
   font-family: 'Panama';
   font-weight: 600;
-  letter-spacing:-1px;
+  letter-spacing: 0px;
   text-align: center;
 }
 
 a {
   text-decoration: none;
-  color:$black;
+  color: $black;
 }
 
 p a {

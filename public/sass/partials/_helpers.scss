@@ -9,9 +9,11 @@
 }
 
 .button {
+  cursor: pointer;
   border: 0;
-  background: $yellow;
-  color: $black;
+  color: #ffffff;
+  background-color: #025f9c;
+  border: 1px solid #025f9c;
   font-family: 'Panama';
   font-weight: 600;
   padding: 10px;

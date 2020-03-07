@@ -1,19 +1,22 @@
 .logTable {
   width: 100%;
   margin: 1px;
+  position: sticky;
   thead {
     background: #fff;
-    color: #555;
+    color: #444;
   }
   td {
     padding: 2px;
     font-size: 1.2rem;
+    vertical-align: top;
   }
   .logTableEntry:nth-of-type(even) {
     background: #ddd;
   }
 }
 
-.editPencil > svg {
-  width: 20px;
+td > a {
+  text-decoration: underline;
+  line-height: 1.25;
 }

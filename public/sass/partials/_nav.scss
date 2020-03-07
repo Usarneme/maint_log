@@ -30,7 +30,7 @@ nav.nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   text-align: center;
   padding: 4px 0;
 }
@@ -40,18 +40,38 @@ a.nav__link > svg > g {
   fill: white;
   padding: 5px;
   margin: 1px;
+  max-width: 30px;
+  max-height: 30px;  
 }
 
-@media all and (min-width: 900px) {
+@media all and (min-width: 550px) {
   nav.nav {
     grid-template-columns: repeat(6, 1fr);
   }
   a.nav__link > svg,
   a.nav__link > svg > g {
-    max-width: 55px;
-    max-height: 55px;
-    fill: white;
+    max-width: 40px;
+    max-height: 40px;
+  }
+  .nav > a,
+  .nav > div > a {
+    flex-direction: column;
+  }
+}
+
+@media all and (min-width: 768px) {
+  a.nav__link > svg,
+  a.nav__link > svg > g {
+    max-width: 45px;
+    max-height: 45px;
     padding: 4px;
     margin: 2px;
+  }
+}
+
+@media all and (min-width: 1200px) {
+  .nav > a,
+  .nav > div > a {
+    flex-direction: row;
   }
 }

@@ -74,7 +74,6 @@ const config = {
     rules: [javascript, styles, fonts, icons, images]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: "style.css"
     })
@@ -83,5 +82,4 @@ const config = {
 }
 
 process.noDeprecation = true
-
 module.exports = config

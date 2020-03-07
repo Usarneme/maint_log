@@ -59,6 +59,7 @@ function changeSearchView(e, approach = 'manual') {
     vinDiv.classList.add('hidden')
     vinSwitcherButton.classList.remove('selected')
   }
+  window.scrollTo(0, 300) // scroll down to the bottom so the inputs are in view
 }
 
 function vinSearch(e) {

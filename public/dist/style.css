@@ -3,7 +3,6 @@ html {
   font-size: 10px; }
 
 body {
-  background: #262161;
   background: #efefef; }
   body:before {
     content: '';
@@ -70,6 +69,7 @@ img {
 /* Document
    ========================================================================== */
 html {
+  font-size: 10px;
   font-family: sans-serif;
   /* 1 */
   line-height: 1.15;
@@ -472,7 +472,15 @@ template {
   font-style: normal; }
 
 html {
+  font-family: "brandon-grotesque", "Brandon Grotesque", sans-serif;
+  letter-spacing: 0.5px;
   font-size: 10px; }
+  @media all and (max-width: 900px) {
+    html {
+      letter-spacing: 0.75px; } }
+  @media all and (max-width: 1200px) {
+    html {
+      letter-spacing: 1px; } }
 
 body {
   font-size: 1.5rem;
@@ -485,7 +493,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2rem;
   font-family: 'Panama';
   font-weight: 600;
-  letter-spacing: -1px;
+  letter-spacing: 0px;
   text-align: center; }
 
 a {
@@ -515,12 +523,19 @@ p {
   padding: 20px;
   text-align: center; }
 
-input, textarea {
+input, select, textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #e6e6e6; }
-  input.input--error, textarea.input--error {
+  border: 1px solid #e6e6e6;
+  padding: 5px 35px 5px 5px;
+  height: 40px; }
+  input.input--error, select.input--error, textarea.input--error {
     border-color: red; }
+
+textarea {
+  min-height: 80px; }
+
+textarea {
+  padding: 8px; }
 
 label {
   padding: 10px 0;
@@ -538,6 +553,25 @@ label {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
     border-bottom: 1px solid #e6e6e6; }
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/6% no-repeat #fff; }
+  @media all and (min-width: 768px) {
+    select {
+      background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/4% no-repeat #fff; } }
+
+select::-ms-expand {
+  display: none;
+  /* Remove default arrow in Internet Explorer 10 and 11 */ }
+
+/* Target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width: 0\0) {
+  select {
+    background: none\9;
+    padding: 5px\9; } }
 
 .search {
   width: 100%;
@@ -664,7 +698,7 @@ nav.nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   text-align: center;
   padding: 4px 0; }
 
@@ -672,33 +706,52 @@ a.nav__link > svg,
 a.nav__link > svg > g {
   fill: white;
   padding: 5px;
-  margin: 1px; }
+  margin: 1px;
+  max-width: 30px;
+  max-height: 30px; }
 
-@media all and (min-width: 900px) {
+@media all and (min-width: 550px) {
   nav.nav {
     grid-template-columns: repeat(6, 1fr); }
   a.nav__link > svg,
   a.nav__link > svg > g {
-    max-width: 55px;
-    max-height: 55px;
-    fill: white;
+    max-width: 40px;
+    max-height: 40px; }
+  .nav > a,
+  .nav > div > a {
+    flex-direction: column; } }
+
+@media all and (min-width: 768px) {
+  a.nav__link > svg,
+  a.nav__link > svg > g {
+    max-width: 45px;
+    max-height: 45px;
     padding: 4px;
     margin: 2px; } }
 
+@media all and (min-width: 1200px) {
+  .nav > a,
+  .nav > div > a {
+    flex-direction: row; } }
+
 .logTable {
   width: 100%;
-  margin: 1px; }
+  margin: 1px;
+  position: -webkit-sticky;
+  position: sticky; }
   .logTable thead {
     background: #fff;
-    color: #555; }
+    color: #444; }
   .logTable td {
     padding: 2px;
-    font-size: 1.2rem; }
+    font-size: 1.2rem;
+    vertical-align: top; }
   .logTable .logTableEntry:nth-of-type(even) {
     background: #ddd; }
 
-.editPencil > svg {
-  width: 20px; }
+td > a {
+  text-decoration: underline;
+  line-height: 1.25; }
 
 .log {
   display: flex;
@@ -744,9 +797,14 @@ a.nav__link > svg > g {
   align-items: center; }
 
 .largeScreens {
-  display: none; }
+  visibility: invisible;
+  display: none;
+  line-height: 1;
+  font-weight: 400;
+  font-size: 1rem; }
 
 .smallScreens {
+  visibility: initial;
   display: flex; }
 
 .logFormPhotosContainer {
@@ -772,15 +830,35 @@ a.nav__link > svg > g {
      object-fit: cover;
   position: absolute; }
 
+.editPencil > svg {
+  width: 20px; }
+
+.logName {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  justify-content: space-between;
+  align-items: center; }
+
 a.deletePhoto {
   z-index: 4;
   width: 100%;
   text-align: center; }
 
+.logButtonsContainer {
+  margin-bottom: 10px; }
+
+.logButtonsContainer > a {
+  margin: 1px;
+  padding: 5px; }
+
 @media all and (min-width: 768px) {
   .largeScreens {
-    display: initial; }
+    visibility: initial;
+    display: initial;
+    font-size: 1.1rem; }
   .smallScreens {
+    visibility: invisible;
     display: none; }
   .logFormPhotosContainer {
     grid-template-columns: repeat(2, 1fr);
@@ -790,11 +868,15 @@ a.deletePhoto {
 
 @media all and (min-width: 900px) {
   .logFormPhotosContainer {
-    grid-template-columns: repeat(3, 1fr); } }
+    grid-template-columns: repeat(3, 1fr); }
+  .largeScreens {
+    font-size: 1.3rem; } }
 
 @media all and (min-width: 1268px) {
   .logFormPhotosContainer {
-    grid-template-columns: repeat(5, 1fr); } }
+    grid-template-columns: repeat(5, 1fr); }
+  .largeScreens {
+    font-size: 1.5rem; } }
 
 .single__hero {
   display: flex;
@@ -859,9 +941,11 @@ a.deletePhoto {
   display: none; }
 
 .button {
+  cursor: pointer;
   border: 0;
-  background: #FFC40E;
-  color: #303030;
+  color: #ffffff;
+  background-color: #025f9c;
+  border: 1px solid #025f9c;
   font-family: 'Panama';
   font-weight: 600;
   padding: 10px;
