@@ -103,7 +103,7 @@ function vinSearch(e) {
 }
 
 function lookupMakeQuery(e) {
-  console.log("Select changed. Calling lookupMakeQuery... ")
+  // console.log("Select changed. Calling lookupMakeQuery... ")
   e.stopPropagation()
   e.preventDefault()
 
@@ -118,8 +118,9 @@ function lookupMakeQuery(e) {
   }
   if (!make) return
   // console.log('Make selected: '+make)
-
   const year = document.querySelector('select[name="lookupYear"]').value
+
+  // clear out any models from the select from a previous query
   const modelLookupSelect = document.querySelector('select[name="lookupModel"]')
   while (modelLookupSelect.firstChild) {
     modelLookupSelect.removeChild(modelLookupSelect.lastChild)
@@ -130,47 +131,66 @@ function lookupMakeQuery(e) {
   loadingOption.innerHTML = 'Loading data...'
   modelLookupSelect.appendChild(loadingOption)
 
-  axios
-    .get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`)
-    .then(data => {
-      // clear out the models from any previous search
-      while (modelLookupSelect.firstChild) {
-        modelLookupSelect.removeChild(modelLookupSelect.lastChild)
-      }
-      let models = data.data["Results"]
-      // alphabetize results
-      models.sort((a, b) => {
-        if (a["Model_Name"] > b["Model_Name"]) return 1
-        if (a["Model_Name"] < b["Model_Name"]) return -1
-        else return 0
-      })
-      // console.log(models)
+  // check for a local cache of the query
+  const localStorageKey = year.toString() + make.toString()
+  const localStorageModels = localStorage.getItem(localStorageKey)
 
-      if (models.length > 0) {
-        const emptyOption = document.createElement('option')
-        emptyOption.disabled = 'disabled'
-        emptyOption.selected = 'selected'
-        emptyOption.value = 'Select a model...'
-        emptyOption.innerHTML = 'Select a model...'
-        modelLookupSelect.appendChild(emptyOption)
-  
-        models.forEach(result => {
-          // console.log('Setting up select option for '+result["Model_Name"])
-          const opt = document.createElement('option')
-          opt.value = result["Model_Name"]
-          opt.innerHTML = result["Model_Name"]
-          modelLookupSelect.appendChild(opt)
-        })  
-      } else {
-        const opt = document.createElement('option')
-        opt.disabled = 'disabled'
-        opt.selected = 'selected'
-        opt.value = 'No models found...'
-        opt.innerHTML = 'No models found...'
-        modelLookupSelect.appendChild(opt)
-      }
-    })
-    .catch(err => console.error(err))
+  // clear out the models from any previous search
+  while (modelLookupSelect.firstChild) {
+    modelLookupSelect.removeChild(modelLookupSelect.lastChild)
+  }
+
+  if (localStorageModels !== null) {
+    // console.log('Duplicate query. Retreiving cache from localStorage...')
+    const localStorageModelsArray = localStorageModels.split(',') // turns comma-delineated string into array of strings
+    // console.log(localStorageModelsArray)
+    buildModelSelectFrom(localStorageModelsArray)
+  } else {
+    axios
+      .get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`)
+      .then(data => {
+        let models = data.data["Results"]
+        // alphabetize results
+        models.sort((a, b) => {
+          if (a["Model_Name"] > b["Model_Name"]) return 1
+          if (a["Model_Name"] < b["Model_Name"]) return -1
+          else return 0
+        })
+        const modelsArray = models.map(model => model["Model_Name"])
+        // console.log(modelsArray)
+        // cache query results
+        if (modelsArray.length > 0) localStorage.setItem(localStorageKey, modelsArray)
+        buildModelSelectFrom(modelsArray)
+      })
+      .catch(err => console.error(err))
+  }
+}
+
+function buildModelSelectFrom(models) {
+  const modelLookupSelect = document.querySelector('select[name="lookupModel"]')
+
+  if (models.length > 0) {
+    const emptyOption = document.createElement('option')
+    emptyOption.disabled = 'disabled'
+    emptyOption.selected = 'selected'
+    emptyOption.value = 'Select a model...'
+    emptyOption.innerHTML = 'Select a model...'
+    modelLookupSelect.appendChild(emptyOption)
+
+    models.forEach(model => {
+      const opt = document.createElement('option')
+      opt.value = model
+      opt.innerHTML = model
+      modelLookupSelect.appendChild(opt)
+    })  
+  } else {
+    const opt = document.createElement('option')
+    opt.disabled = 'disabled'
+    opt.selected = 'selected'
+    opt.value = 'No models found...'
+    opt.innerHTML = 'No models found...'
+    modelLookupSelect.appendChild(opt)
+  }
 }
 
 function modelSelected(e) {

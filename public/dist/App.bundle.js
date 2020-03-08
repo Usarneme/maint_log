@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "332084ce33aabadbc4ee";
+/******/ 	var hotCurrentHash = "8463ba41a2b9afc42e33";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -6248,7 +6248,7 @@ function vinSearch(e) {
 }
 
 function lookupMakeQuery(e) {
-  console.log("Select changed. Calling lookupMakeQuery... ");
+  // console.log("Select changed. Calling lookupMakeQuery... ")
   e.stopPropagation();
   e.preventDefault(); // console.log(e)
 
@@ -6262,7 +6262,8 @@ function lookupMakeQuery(e) {
 
   if (!make) return; // console.log('Make selected: '+make)
 
-  const year = document.querySelector('select[name="lookupYear"]').value;
+  const year = document.querySelector('select[name="lookupYear"]').value; // clear out any models from the select from a previous query
+
   const modelLookupSelect = document.querySelector('select[name="lookupModel"]');
 
   while (modelLookupSelect.firstChild) {
@@ -6272,43 +6273,62 @@ function lookupMakeQuery(e) {
   const loadingOption = document.createElement('option');
   loadingOption.value = 'Loading data...';
   loadingOption.innerHTML = 'Loading data...';
-  modelLookupSelect.appendChild(loadingOption);
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`).then(data => {
-    // clear out the models from any previous search
-    while (modelLookupSelect.firstChild) {
-      modelLookupSelect.removeChild(modelLookupSelect.lastChild);
-    }
+  modelLookupSelect.appendChild(loadingOption); // check for a local cache of the query
 
-    let models = data.data["Results"]; // alphabetize results
+  const localStorageKey = year.toString() + make.toString();
+  const localStorageModels = localStorage.getItem(localStorageKey); // clear out the models from any previous search
 
-    models.sort((a, b) => {
-      if (a["Model_Name"] > b["Model_Name"]) return 1;
-      if (a["Model_Name"] < b["Model_Name"]) return -1;else return 0;
-    }); // console.log(models)
+  while (modelLookupSelect.firstChild) {
+    modelLookupSelect.removeChild(modelLookupSelect.lastChild);
+  }
 
-    if (models.length > 0) {
-      const emptyOption = document.createElement('option');
-      emptyOption.disabled = 'disabled';
-      emptyOption.selected = 'selected';
-      emptyOption.value = 'Select a model...';
-      emptyOption.innerHTML = 'Select a model...';
-      modelLookupSelect.appendChild(emptyOption);
-      models.forEach(result => {
-        // console.log('Setting up select option for '+result["Model_Name"])
-        const opt = document.createElement('option');
-        opt.value = result["Model_Name"];
-        opt.innerHTML = result["Model_Name"];
-        modelLookupSelect.appendChild(opt);
+  if (localStorageModels !== null) {
+    // console.log('Duplicate query. Retreiving cache from localStorage...')
+    const localStorageModelsArray = localStorageModels.split(','); // turns comma-delineated string into array of strings
+    // console.log(localStorageModelsArray)
+
+    buildModelSelectFrom(localStorageModelsArray);
+  } else {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`).then(data => {
+      let models = data.data["Results"]; // alphabetize results
+
+      models.sort((a, b) => {
+        if (a["Model_Name"] > b["Model_Name"]) return 1;
+        if (a["Model_Name"] < b["Model_Name"]) return -1;else return 0;
       });
-    } else {
+      const modelsArray = models.map(model => model["Model_Name"]); // console.log(modelsArray)
+      // cache query results
+
+      if (modelsArray.length > 0) localStorage.setItem(localStorageKey, modelsArray);
+      buildModelSelectFrom(modelsArray);
+    }).catch(err => console.error(err));
+  }
+}
+
+function buildModelSelectFrom(models) {
+  const modelLookupSelect = document.querySelector('select[name="lookupModel"]');
+
+  if (models.length > 0) {
+    const emptyOption = document.createElement('option');
+    emptyOption.disabled = 'disabled';
+    emptyOption.selected = 'selected';
+    emptyOption.value = 'Select a model...';
+    emptyOption.innerHTML = 'Select a model...';
+    modelLookupSelect.appendChild(emptyOption);
+    models.forEach(model => {
       const opt = document.createElement('option');
-      opt.disabled = 'disabled';
-      opt.selected = 'selected';
-      opt.value = 'No models found...';
-      opt.innerHTML = 'No models found...';
+      opt.value = model;
+      opt.innerHTML = model;
       modelLookupSelect.appendChild(opt);
-    }
-  }).catch(err => console.error(err));
+    });
+  } else {
+    const opt = document.createElement('option');
+    opt.disabled = 'disabled';
+    opt.selected = 'selected';
+    opt.value = 'No models found...';
+    opt.innerHTML = 'No models found...';
+    modelLookupSelect.appendChild(opt);
+  }
 }
 
 function modelSelected(e) {

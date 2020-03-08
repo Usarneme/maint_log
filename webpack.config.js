@@ -81,5 +81,4 @@ const config = {
   mode: 'development'
 }
 
-process.noDeprecation = true
 module.exports = config
