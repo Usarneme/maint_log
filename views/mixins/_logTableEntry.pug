@@ -1,5 +1,5 @@
 mixin logTableEntry(log, vehicle = {})
-  //- pre= h.dump(locals)
+  //- pre= h.dump(locals.log)
 
   td.logName 
     span= log.name
@@ -24,6 +24,5 @@ mixin logTableEntry(log, vehicle = {})
   td= log.parts.toString().length > 85 ? `${log.parts.toString().substring(0,85)}...` : log.parts.toString()
   td $#{log.partsCost}
   td $#{log.laborCost}
-
   td= log.serviceLocation
   td= Number(log.odometer).toLocaleString()
