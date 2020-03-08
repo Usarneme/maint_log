@@ -1,4 +1,7 @@
 mixin logForm(log = {}, vehicle = {})
+
+  include _logPhotos
+
   - const postRoute = log._id ? `/add/${log._id}` : '/add'
   form(id='logForm' action=postRoute method="POST" class="card" enctype="multipart/form-data" multiple)
     label(for="name") Name
@@ -61,17 +64,9 @@ mixin logForm(log = {}, vehicle = {})
 
       label(for="photos") Upload other images
         input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg")
-        
-      if log.photos && log.photos.length
-        label(for="previousPhotos") Previously Uploaded Images
-        .logFormPhotosContainer
-          each photo in log.photos
-            .logFormPhoto
-              img(src=`/uploads/${photo}`, alt=photo width=200)
-              a.button.deletePhoto(href=`/remove/photo/${photo}` title="Delete This Photo") Delete Photo
-              //- TODO create mixin for photo, with X button to delete photo from log entry
-        input(type="hidden" name="previousPhotos" value=log.photos.toString().trim())
-      
+
+      +logPhotos(log.photos)
+
       input(type="submit" value="Save to Log" class="button submit")
 
     if !vehicle

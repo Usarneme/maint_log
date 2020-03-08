@@ -9,20 +9,20 @@ function removePhoto(photosContainer) {
     const name = photoDiv.children[0].alt
     const deleteButton = photoDiv.children[1]
     deleteButton.addEventListener('click', function(e) {
-      confirmDelete(e, name, photoDiv)
+      confirmDelete(e, name, photosContainer, photoDiv)
     })
   })
 }
 
-function confirmDelete(e, name, photoDiv) {
+function confirmDelete(e, name, photosContainer, photoDiv) {
   e.preventDefault()
   e.stopPropagation()
 
   // TODO - pass a double check modal
-  deletePhoto(name, photoDiv)
+  deletePhoto(name, photosContainer, photoDiv)
 }
 
-function deletePhoto(name, photoDiv) {
+function deletePhoto(name, photosContainer, photoDiv) {
   // console.log(photoDiv, name)
 
   axios

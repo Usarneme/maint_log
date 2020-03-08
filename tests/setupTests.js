@@ -1,4 +1,3 @@
-// test-setup.js 
 const mongoose = require('mongoose')
 mongoose.set('useCreateIndex', true)
 mongoose.promise = global.Promise
@@ -32,10 +31,10 @@ module.exports = {
     // Connect to Mongoose
     beforeAll(async () => {
       const url = `mongodb://127.0.0.1/${databaseName}`
-      await mongoose.connect(url, { useMongoClient: true })
+      await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, useUnifiedTopology: true })
     })
 
-    // Cleans up database between each test
+    // Clean up the database between each test
     afterEach(async () => {
       await removeAllCollections()
     })

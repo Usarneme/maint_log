@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/_logPhotos
+
 block content
   .single
     .single__hero
@@ -60,3 +62,5 @@ block content
         a(href=`/log/${log._id}/edit` class='editPencil') 
           != h.icon('pencil.svg')
           span Edit
+
+    +logPhotos(log.photos)

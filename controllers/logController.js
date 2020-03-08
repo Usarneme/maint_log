@@ -3,6 +3,7 @@ const fs = require('fs')
 const multer = require('multer')
 const jimp = require('jimp')
 const uuid = require('uuid')
+const cloudinary = require('cloudinary').v2
 
 const Log = mongoose.model('Log')
 const User = mongoose.model('User')
@@ -28,8 +29,7 @@ exports.uploadPhoto = async (req, res, next) => {
   // check if there is no new file to resize
   if (!req.file) {
     console.log('No req.file found. Moving to next middleware.')
-    next() // skip to the next middleware
-    return
+    return next() // skip to the next middleware
   }
   // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
@@ -41,14 +41,23 @@ exports.uploadPhoto = async (req, res, next) => {
   }
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
+  // console.log(req.body.photos)
+
   // now we resize
   const photo = await jimp.read(req.file.buffer)
   await photo.resize(800, jimp.AUTO)
+  await photo.quality(70)
+  // await cloudinary.uploader.upload(photo)
   await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
+  // cloudinary options to use the already unique name and not append extra characters
+  cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
+    if (err) { console.warn(err) }
+    console.log("* " + image.public_id)
+    console.log("* " + image.url)
+  })
 
   console.log('Photo uploaded successfully. ')
-  // console.log(`Passing to next middleware with body ${req.body}`)
-  next()
+  return next()
 }
 
 exports.homePage = async (req, res) => {
