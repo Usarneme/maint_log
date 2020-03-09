@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 // creates a separate style.css file after sass -> css -> post processing
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// automatically removes extra webpack-generated dev files
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const javascript = {
   test: /\.(js)$/, 
@@ -26,29 +28,29 @@ const styles = {
   ],
 }
 
-const icons = {
-  test: /\.(svg)$/,
-  use: [
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: 'images/icons/'
-      }
-    }
-  ]
-}
+// const icons = {
+//   test: /\.(svg)$/,
+//   use: [
+//     {
+//       loader: 'file-loader',
+//       options: {
+//         outputPath: 'images/icons/'
+//       }
+//     }
+//   ]
+// }
 
-const images = {
-  test: /\.(png|jpe?g|gif)$/,
-  use: [
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: 'images/'
-      }
-    }
-  ]
-}
+// const images = {
+//   test: /\.(png|jpe?g|gif)$/,
+//   use: [
+//     {
+//       loader: 'file-loader',
+//       options: {
+//         outputPath: 'images/'
+//       }
+//     }
+//   ]
+// }
 
 const fonts = {
   test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
@@ -56,7 +58,7 @@ const fonts = {
     loader: 'file-loader',
     options: {
       name: '[name].[ext]',
-      outputPath: 'fonts/'
+      outputPath: '../fonts/'
     }
   }],
 }
@@ -71,9 +73,11 @@ const config = {
     filename: 'App.bundle.js'
   },
   module: {
-    rules: [javascript, styles, fonts, icons, images]
+    rules: [javascript, styles, fonts]
+    // rules: [javascript, styles, fonts, icons, images]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "style.css"
     })

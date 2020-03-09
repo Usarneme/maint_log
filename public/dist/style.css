@@ -22,8 +22,8 @@ body {
 
 svg {
   fill: black;
-  max-width: 40px;
-  max-height: 40px; }
+  width: 40px;
+  height: 40px; }
 
 .main {
   width: 100%;
@@ -467,7 +467,7 @@ template {
 
 @font-face {
   font-family: 'panama';
-  src: url(fonts/panama-bold-webfont.woff2) format("woff2"), url("/fonts/panama-bold-webfont.woff") format("woff");
+  src: url(fonts/panama-bold-webfont.woff2) format("woff2"), url(fonts/panama-bold-webfont.woff) format("woff");
   font-weight: normal;
   font-style: normal; }
 
@@ -818,7 +818,7 @@ a.deletePhoto {
   text-align: center; }
 
 .logButtonsContainer {
-  margin: 13px 0 5px 0; }
+  margin: 15px 0 10px 0; }
 
 .logButtonsContainer > a {
   margin: 1px;
