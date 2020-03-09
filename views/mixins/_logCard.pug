@@ -1,16 +1,11 @@
 mixin logCard(log = {})
-  .log_entry
-    .log_entry__hero
-      .log_entry__actions
-        if user && log.author.equals(user._id)
-          .log_entry__action.log_entry__action--edit
-            a(href=`/log/${log._id}/edit`)
-              != h.icon('pencil.svg')
-
-      //- img(src=`/uploads/${log.photo || 'store.png'}`)
-      h2.title
-        a(href=`/log/${log.slug}`) #{log.name}
-    .log_entry__details
+  .logEntry
+    h2.title
+      a(href=`/log/${log.slug}`) #{log.name}
+    .logEntry__details
       p= log.shortDescription
+      if user && log.author.equals(user._id)
+        a.button(href=`/log/${log.slug}`) View
+        a.button(href=`/log/${log._id}/edit`) Edit
       hr
       p= h.moment(log.dateCompleted).fromNow()

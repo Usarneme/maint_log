@@ -507,22 +507,6 @@ p {
   line-height: 2;
   font-size: 1.6rem; }
 
-.title {
-  word-wrap: break-word;
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  z-index: 2;
-  line-height: 1.1;
-  line-height: 1.1; }
-  .title a {
-    border-bottom: 0; }
-
-.title--single {
-  max-width: 600px;
-  padding: 20px;
-  text-align: center; }
-
 input, select, textarea {
   width: 100%;
   border: 1px solid #e6e6e6;
@@ -758,39 +742,26 @@ td > a {
   flex-wrap: wrap;
   justify-content: space-between; }
 
-.log_entry {
+.logEntry {
   background: white;
   margin: 10px 0;
-  width: 30%; }
-  .log_entry__details {
-    padding: 2rem; }
-    .log_entry__details p {
+  width: 30%;
+  display: flex;
+  flex-direction: column; }
+  .logEntry__details {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; }
+    .logEntry__details p {
       line-height: 1.2;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      margin: 1rem 0.5rem; }
   @media all and (max-width: 850px) {
-    .log_entry {
+    .logEntry {
       width: 48%; } }
   @media all and (max-width: 550px) {
-    .log_entry {
+    .logEntry {
       width: 100%; } }
-
-.log_entry__action {
-  font-size: 10px; }
-  .log_entry__action svg {
-    width: 25px;
-    fill: black; }
-  .log_entry__action--edit a {
-    border-bottom: 0; }
-
-.log_entry__hero img {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  position: absolute;
-  left: 0;
-  -o-object-fit: cover;
-     object-fit: cover; }
 
 .moneySign {
   display: inline-flex;
@@ -816,7 +787,7 @@ td > a {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
   border: 1px groove #ddd;
   margin: 2px 0;
   background: #ccc;
@@ -831,7 +802,8 @@ td > a {
   position: absolute; }
 
 .editPencil > svg {
-  width: 20px; }
+  width: 20px;
+  fill: white; }
 
 .logName {
   display: flex;
@@ -846,7 +818,7 @@ a.deletePhoto {
   text-align: center; }
 
 .logButtonsContainer {
-  margin-bottom: 10px; }
+  margin: 13px 0 5px 0; }
 
 .logButtonsContainer > a {
   margin: 1px;
@@ -879,9 +851,26 @@ a.deletePhoto {
     font-size: 1.5rem; } }
 
 .single__hero {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%); }
+  .single__hero:before {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    background: linear-gradient(45deg, #05b3d6 0%, rgba(5, 179, 214, 0) 70%), linear-gradient(135deg, #0958ec 10%, rgba(9, 88, 236, 0) 80%), linear-gradient(315deg, #05e129 100%, rgba(5, 225, 41, 0) 70%);
+    opacity: 0.6;
+    z-index: 1;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%); }
 
 .single__image {
   width: 100%;
@@ -891,8 +880,30 @@ a.deletePhoto {
   position: absolute; }
 
 .single__details {
+  display: flex;
+  flex-direction: column;
   background: white;
-  padding: 3rem; }
+  -webkit-clip-path: polygon(0px 2vw, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+          clip-path: polygon(0px 2vw, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+  position: relative;
+  padding: 3rem;
+  margin-top: -10rem;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15); }
+
+label[for=previousPhotos] {
+  margin-top: 15px; }
+
+.title {
+  word-wrap: break-word;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  margin-top: 2rem;
+  min-height: 5rem;
+  padding: 0.5rem;
+  z-index: 2;
+  line-height: 1.1;
+  line-height: 1.1; }
 
 .lookupSwitcher {
   display: flex;
@@ -949,7 +960,7 @@ a.deletePhoto {
   font-family: 'Panama';
   font-weight: 600;
   padding: 10px;
-  margin: 9px 0 21px 0; }
+  margin: 10px 0 10px 0; }
 
 .avatar {
   min-width: 50px;

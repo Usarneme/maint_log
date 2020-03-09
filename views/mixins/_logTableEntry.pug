@@ -15,9 +15,9 @@ mixin logTableEntry(log, vehicle = {})
   td #{year} #{make} #{model} 
   td= log.shortDescription.length > 85 ? `${log.shortDescription.substring(0,85)}...` : log.shortDescription
   //- td= log.longDescription.length > 85 ? `${log.longDescription.substring(0,85)}...` : log.longDescription
-  td= h.moment(log.dateStarted).format("MMM Do YY")
+  //- td= h.moment(log.dateStarted).format("MMM Do YY")
   td= h.moment(log.dateCompleted).format("MMM Do YY")
-  td= h.moment(log.dateEntered).format("MMM Do YY")
+  //- td= h.moment(log.dateEntered).format("MMM Do YY")
   td= h.moment(log.dateDue).format("MMM Do YY")
   td= Number(log.mileageDue).toLocaleString()
   td= log.tools.toString().length > 85 ? `${log.tools.toString().substring(0,85)}...` : log.tools.toString()

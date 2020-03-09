@@ -24,7 +24,7 @@ const multerOptions = {
 exports.addPhotoToRequest = multer(multerOptions).single('photos')
 
 exports.uploadPhoto = async (req, res, next) => {
-  console.log('Preparing photo for upload middleware...')
+  // console.log('Preparing photo for upload middleware...')
 
   // check if there is no new file to resize
   if (!req.file) {
