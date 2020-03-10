@@ -11,7 +11,7 @@
 }
 
 .flash {
-  background: white;
+  background: $white;
   box-shadow: 0 3px 10px rgba(0,0,0,0.15);
   margin-bottom: 2rem;
   padding: 2rem;
@@ -40,7 +40,7 @@
   &:after {
     content: '';
     display: block;
-    background: white;
+    background: $white;
     position: absolute;
     width: calc(100% - 16px);
     height: calc(100% - 16px);

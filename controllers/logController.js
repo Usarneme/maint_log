@@ -82,7 +82,7 @@ exports.editLog = async (req, res) => {
   const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
 
   confirmOwner(log, req.user)
-  res.render('editLog', { title: `Edit ${log.name}`, log, vehicle })
+  res.render('editLog', { title: `Edit`, log, vehicle })
 }
 
 exports.updateLog = async (req, res) => {

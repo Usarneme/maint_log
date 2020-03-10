@@ -5,4 +5,5 @@ include mixins/_logForm
 block content
   .inner
     h2= title
+      a(href=`/log/${log.slug}`)  - #{log.name}
     +logForm(log, vehicle)

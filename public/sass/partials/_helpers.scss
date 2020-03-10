@@ -11,7 +11,7 @@
 .button {
   cursor: pointer;
   border: 0;
-  color: #ffffff;
+  color: $white;
   background-color: #025f9c;
   border: 1px solid #025f9c;
   font-family: 'Panama';
@@ -28,7 +28,7 @@
 }
 
 .card {
-  background: white;
+  background: $white;
   padding: 1.5rem;
   box-shadow: 0 1px 10px rgba(0,0,0,0.15);
 }
@@ -51,7 +51,7 @@
 
 pre.error {
   padding: 5rem;
-  background: white;
+  background: $white;
   line-height: 3;
   white-space: pre-line;
 }

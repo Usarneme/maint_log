@@ -8,4 +8,4 @@ mixin logCard(log = {})
         a.button(href=`/log/${log.slug}`) View
         a.button(href=`/log/${log._id}/edit`) Edit
       hr
-      p= h.moment(log.dateCompleted).fromNow()
+      span.logEntryDateCompleted= h.moment(log.dateCompleted).fromNow()

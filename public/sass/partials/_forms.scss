@@ -24,7 +24,7 @@ label {
 }
 
 .form {
-  background: white;
+  background: $white;
   padding: 2rem;
   box-shadow: $grad;
   & + .form {
@@ -43,9 +43,9 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url('../images/icons/add.svg') 99% / 6% no-repeat #fff;
+  background: url('../images/icons/add.svg') 99% / 6% no-repeat $white;
   @media all and (min-width: 768px) {
-    background: url('../images/icons/add.svg') 99% / 4% no-repeat #fff;
+    background: url('../images/icons/add.svg') 99% / 4% no-repeat $white;
   }
 }
 

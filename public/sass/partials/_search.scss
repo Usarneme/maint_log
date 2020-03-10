@@ -20,14 +20,14 @@
   &__result {
     padding: 10px;
     display: block;
-    background: #efefef;
+    background: $whiteSmoke;
     z-index: 4;
     // border-bottom: 2px solid #ececec;
     margin: 1px 0;
     &:hover {
-      background: #ddd;
+      background: $gainsboro;
       transform: scale(1.015);
-      border: 1px solid #ccc;
+      border: 1px solid $gainsboro;
     }
   }
 }

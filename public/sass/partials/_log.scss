@@ -5,7 +5,7 @@
 }
 
 .logEntry {
-  background:white;
+  background: $white;
   margin: 10px 0;
   width: 30%;
   display: flex;
@@ -14,9 +14,11 @@
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     p {
       line-height: 1.2;
       margin-bottom: 0;
+      min-height: 60px;
       margin: 1rem 0.5rem;
     }
   }
@@ -26,6 +28,10 @@
   @media all and (max-width: 550px) {
     width: 100%;
   }
+}
+
+.logEntryDateCompleted {
+  align-self: flex-end;
 }
 
 .moneySign {
@@ -57,7 +63,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  border: 1px groove #ddd;
+  border: 1px groove $gainsboro;
   margin: 2px 0;
   background: #ccc;
   min-height: 200px;
@@ -73,7 +79,14 @@
 
 .editPencil > svg {
   width: 20px;
-  fill: white;
+  height: 20px;
+  fill: $white;
+}
+
+.editPencil > span {
+  display: inline-block;
+  padding-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .logName {
