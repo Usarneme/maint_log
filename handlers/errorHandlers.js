@@ -29,7 +29,8 @@ exports.notFound = (req, res, next) => {
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
-  console.log('flash validation errors err: '+err+'. err.errors: '+err.errors)
+  console.log('flash validation errors err: '+err+'. err.errors: '+err.errors+'. err keys: '+Object.keys(err))
+  console.log(err)
   // console.log(req.body)
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler

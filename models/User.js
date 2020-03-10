@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+mongoose.Promise = global.Promise
 
-const validator = require('validator');
-const mongodbErrorHandler = require('mongoose-mongodb-errors');
-const passportLocalMongoose = require('passport-local-mongoose');
+const validator = require('validator')
+const mongodbErrorHandler = require('mongoose-mongodb-errors')
+const passportLocalMongoose = require('passport-local-mongoose')
 
 const userSchema = new Schema({
   email: {
@@ -26,9 +26,19 @@ const userSchema = new Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date
-});
+})
 
-userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
-userSchema.plugin(mongodbErrorHandler);
+// https://github.com/saintedlama/passport-local-mongoose/issues/218
+userSchema.statics.registerAsync = function (data, password) {
+  return new Promise((resolve, reject) => {
+    this.register(data, password, (err, user) => {
+      if (err) return reject(err)
+      resolve(user)
+    })
+  })
+}
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.plugin(passportLocalMongoose, { usernameField: 'email' })
+userSchema.plugin(mongodbErrorHandler)
+
+module.exports = mongoose.model('User', userSchema)

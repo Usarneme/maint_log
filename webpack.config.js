@@ -28,17 +28,17 @@ const styles = {
   ],
 }
 
-// const icons = {
-//   test: /\.(svg)$/,
-//   use: [
-//     {
-//       loader: 'file-loader',
-//       options: {
-//         outputPath: 'images/icons/'
-//       }
-//     }
-//   ]
-// }
+const icons = {
+  test: /\.(svg)$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        outputPath: 'images/icons/'
+      }
+    }
+  ]
+}
 
 // const images = {
 //   test: /\.(png|jpe?g|gif)$/,
@@ -73,7 +73,7 @@ const config = {
     filename: 'App.bundle.js'
   },
   module: {
-    rules: [javascript, styles, fonts]
+    rules: [javascript, styles, fonts, icons]
     // rules: [javascript, styles, fonts, icons, images]
   },
   plugins: [

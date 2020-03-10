@@ -16,15 +16,16 @@ exports.registerForm = (req, res) => {
 exports.validateAccountUpdate = (req, res, next) => {
   console.log('Posting to validate account update...')
   const errors = validationResult(req)
-  if (errors.isEmpty()) return next() // passed validation...
-
-  // did not pass validation...
+  if (errors.isEmpty()) return next() // passed validation. exit
+  // otherwise, failed validation...
+  console.log('validation failed')
+  console.log(errors.array())
   const errorMessages = []
   errors.array().forEach(val => errorMessages.push(val.msg))
   // console.log(errorMessages)
   req.flash('error', errorMessages)
 
-  // validates both /register and /account posted updates. only register has a password field
+  // validates both /register and /account POSTed updates. only register has a password field
   if (req.body.hasOwnProperty('password')) {
     return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
   } else {
@@ -33,9 +34,10 @@ exports.validateAccountUpdate = (req, res, next) => {
 }
 
 exports.register = async (req, res, next) => {
-  const user = new User({ email: req.body.email, name: req.body.name })
-  const register = promisify(User.register, User)
-  await register(user, req.body.password)
+  const newUser = new User({ email: req.body.email, name: req.body.name })
+  await User.registerAsync(newUser, req.body.password)
+  // const register = promisify(User.register, User)
+  // await register(user, req.body.password)
   return next() // pass to authController.login
 }
 
