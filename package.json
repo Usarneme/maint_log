@@ -9,7 +9,7 @@
     "start": "node ./start.js",
     "watch": "nodemon ./start.js --ignore public/",
     "dev": "concurrently 'npm run watch' 'npm run assets' --names 'APP' --prefix name",
-    "assets": "webpack --watch --hot --mode=development",
+    "assets": "webpack --watch --mode=development",
     "sample": "node ./data/load-sample-data.js",
     "blowitallaway": "node ./data/load-sample-data.js --delete",
     "test": "jest",

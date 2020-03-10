@@ -4,6 +4,32 @@
   justify-content: space-between;
 }
 
+.logTable {
+  width: 100%;
+  margin: 1px;
+  position: sticky;
+  thead {
+    background: $white;
+    // color: $blackText;
+  }
+  td {
+    padding: 2px;
+    font-size: 1.2rem;
+    vertical-align: top;
+  }
+  .logTableEntry {
+    background: $logTableBackground;
+  }
+  .logTableEntry:nth-of-type(even) {
+    background: $zebraStripe;
+  }
+}
+
+td > a {
+  text-decoration: underline;
+  line-height: 1.25;
+}
+
 .logEntry {
   background: $white;
   margin: 10px 0;
@@ -80,7 +106,7 @@
 .editPencil > svg {
   width: 20px;
   height: 20px;
-  fill: $white;
+  fill: $buttonText;
 }
 
 .editPencil > span {

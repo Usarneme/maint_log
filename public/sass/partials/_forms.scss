@@ -1,4 +1,5 @@
 input, select, textarea {
+  background: $formInput;
   width: 100%;
   border: 1px solid $grey;
   padding: 5px 35px 5px 5px;
@@ -43,9 +44,9 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url('../images/icons/add.svg') 99% / 6% no-repeat $white;
+  background: url('../images/icons/add.svg') 99% / 6% no-repeat $formInput;
   @media all and (min-width: 768px) {
-    background: url('../images/icons/add.svg') 99% / 4% no-repeat $white;
+    background: url('../images/icons/add.svg') 99% / 4% no-repeat $formInput;
   }
 }
 

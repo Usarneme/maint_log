@@ -10,7 +10,8 @@
   &__results {
     width: 100%;
     top: 100%;
-    // box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border: 1px groove $gainsboro;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
     z-index: 5;
   }
   &__input {
@@ -22,7 +23,7 @@
     display: block;
     background: $whiteSmoke;
     z-index: 4;
-    // border-bottom: 2px solid #ececec;
+    border-bottom: 2px solid $whiteText;
     margin: 1px 0;
     &:hover {
       background: $gainsboro;

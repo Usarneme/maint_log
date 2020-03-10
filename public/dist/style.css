@@ -3,7 +3,8 @@ html {
   font-size: 10px; }
 
 body {
-  background: #F5F5F5; }
+  background: #131313;
+  color: #D0D0D0; }
   body:before {
     content: '';
     display: block;
@@ -21,7 +22,7 @@ body {
     padding: 0; }
 
 svg {
-  fill: #000000;
+  fill: #D0D0D0;
   width: 40px;
   height: 40px; }
 
@@ -30,7 +31,7 @@ svg {
   margin: 10px auto;
   padding: 10px;
   border: none;
-  background: #FFFFFF; }
+  background: #131313; }
   .main:hover {
     transform: scale(1.005); }
 
@@ -483,8 +484,7 @@ html {
       letter-spacing: 1px; } }
 
 body {
-  font-size: 1.5rem;
-  color: #303030; }
+  font-size: 1.5rem; }
 
 h1, h2, h3 {
   font-size: 4rem; }
@@ -498,7 +498,7 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   text-decoration: none;
-  color: #303030; }
+  color: #D0D0D0; }
 
 p a {
   border-bottom: 2px solid #FFC40E; }
@@ -509,6 +509,7 @@ p {
   letter-spacing: 0px; }
 
 input, select, textarea {
+  background: #DADADA;
   width: 100%;
   border: 1px solid #e6e6e6;
   padding: 5px 35px 5px 5px;
@@ -527,7 +528,7 @@ label {
   display: block; }
 
 .form {
-  background: #FFFFFF;
+  background: #191919;
   padding: 2rem;
   box-shadow: linear-gradient(90deg, #48ded4 0%, #e82c75 40%, #FFC40E 65%, #48ded4 85%); }
   .form + .form {
@@ -543,10 +544,10 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/6% no-repeat #FFFFFF; }
+  background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/6% no-repeat #DADADA; }
   @media all and (min-width: 768px) {
     select {
-      background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/4% no-repeat #FFFFFF; } }
+      background: url(images/icons/440451916a7b7657eda6cfc338c04c73.svg) 99%/4% no-repeat #DADADA; } }
 
 select::-ms-expand {
   display: none;
@@ -568,6 +569,8 @@ select::-ms-expand {
   .search__results {
     width: 100%;
     top: 100%;
+    border: 1px groove #222222;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 5; }
   .search__input {
     outline: 0;
@@ -575,13 +578,14 @@ select::-ms-expand {
   .search__result {
     padding: 10px;
     display: block;
-    background: #F5F5F5;
+    background: #131313;
     z-index: 4;
+    border-bottom: 2px solid #444444;
     margin: 1px 0; }
     .search__result:hover {
-      background: #DDDDDD;
+      background: #222222;
       transform: scale(1.015);
-      border: 1px solid #DDDDDD; }
+      border: 1px solid #222222; }
 
 @media all and (min-width: 768px) {
   .search__input {
@@ -608,7 +612,7 @@ select::-ms-expand {
     transform: translateX(0px); } }
 
 .flash {
-  background: #FFFFFF;
+  background: #191919;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   margin-bottom: 2rem;
   padding: 2rem;
@@ -636,7 +640,7 @@ select::-ms-expand {
   .flash:after {
     content: '';
     display: block;
-    background: #FFFFFF;
+    background: #191919;
     position: absolute;
     width: calc(100% - 16px);
     height: calc(100% - 16px);
@@ -659,12 +663,12 @@ nav.nav {
   margin: 0;
   display: inline-grid;
   grid-template-columns: repeat(3, 1fr);
-  background: #000000;
+  background: #101010;
   padding: 2px;
   transition: transform 0.25s; }
 
 .nav__item {
-  background: #333;
+  background: #303030;
   margin: 1px; }
 
 .nav__item:hover,
@@ -678,7 +682,7 @@ nav.nav {
 
 .nav > a,
 .nav > div > a {
-  color: #FFFFFF;
+  color: #DDDDDD;
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -689,7 +693,7 @@ nav.nav {
 
 a.nav__link > svg,
 a.nav__link > svg > g {
-  fill: #FFFFFF;
+  fill: #DDDDDD;
   padding: 5px;
   margin: 1px;
   max-width: 30px;
@@ -719,32 +723,33 @@ a.nav__link > svg > g {
   .nav > div > a {
     flex-direction: row; } }
 
+.log {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+
 .logTable {
   width: 100%;
   margin: 1px;
   position: -webkit-sticky;
   position: sticky; }
   .logTable thead {
-    background: #FFFFFF;
-    color: #303030; }
+    background: #191919; }
   .logTable td {
     padding: 2px;
     font-size: 1.2rem;
     vertical-align: top; }
+  .logTable .logTableEntry {
+    background: #0D0D0D; }
   .logTable .logTableEntry:nth-of-type(even) {
-    background: #DDDDDD; }
+    background: #252525; }
 
 td > a {
   text-decoration: underline;
   line-height: 1.25; }
 
-.log {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; }
-
 .logEntry {
-  background: #FFFFFF;
+  background: #191919;
   margin: 10px 0;
   width: 30%;
   display: flex;
@@ -794,7 +799,7 @@ td > a {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  border: 1px groove #DDDDDD;
+  border: 1px groove #222222;
   margin: 2px 0;
   background: #ccc;
   min-height: 200px;
@@ -810,7 +815,7 @@ td > a {
 .editPencil > svg {
   width: 20px;
   height: 20px;
-  fill: #FFFFFF; }
+  fill: #E8E8E8; }
 
 .editPencil > span {
   display: inline-block;
@@ -894,7 +899,7 @@ a.deletePhoto {
 .single__details {
   display: flex;
   flex-direction: column;
-  background: #FFFFFF;
+  background: #191919;
   position: relative;
   padding: 3rem;
   margin-top: -13rem;
@@ -936,7 +941,7 @@ label[for=previousPhotos] {
 .pagination {
   display: flex;
   align-items: center;
-  background: #FFFFFF;
+  background: #191919;
   margin-top: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05); }
@@ -968,22 +973,16 @@ label[for=previousPhotos] {
 .button {
   cursor: pointer;
   border: 0;
-  color: #FFFFFF;
-  background-color: #025f9c;
-  border: 1px solid #025f9c;
+  color: #E8E8E8;
+  background-color: #004c7d;
+  border: 1px solid #004c7d;
   font-family: 'Panama';
   font-weight: 600;
   padding: 10px;
   margin: 10px 0 10px 0; }
 
-.avatar {
-  min-width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  align-self: center; }
-
 .card {
-  background: #FFFFFF;
+  background: #191919;
   padding: 1.5rem;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15); }
 
@@ -1000,7 +999,7 @@ label[for=previousPhotos] {
 
 pre.error {
   padding: 5rem;
-  background: #FFFFFF;
+  background: #191919;
   line-height: 3;
   white-space: pre-line; }
 

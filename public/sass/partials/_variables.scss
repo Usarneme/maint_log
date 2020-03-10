@@ -1,12 +1,9 @@
 $width: 900px;
-$black30: #303030;
 $purple: #262161;
 $yellow: #FFC40E;
 $pink: #EE7297;
 $green: #93FF00;
 $red: #E50714;
-$black: #000000;
-$white: #FFFFFF;
 $grey: lighten(grey, 40%);
 $shad: 0 0 10px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
 $grad: linear-gradient(90deg, #48ded4 0%, #e82c75 40%, $yellow 65%, #48ded4 85%);
@@ -15,5 +12,28 @@ $small: 0.8rem;
 $medium: 1.7rem;
 $large: 2.1rem;
 
-$whiteSmoke: #F5F5F5;
-$gainsboro: #DDDDDD;
+$navText: #DDDDDD;
+$navBlack: #303030;
+$buttonText: #E8E8E8;
+$formInput: #DADADA;
+$black30: #303030;
+
+// $black: #000000;
+// $blackText: #111111;
+// $buttonBlue: #025f9c;
+// $gainsboro: #DDDDDD;
+// $logTableBackground: #EFEFEF;
+// $white: #FFFFFF;
+// $whiteSmoke: #F0F0F0;
+// $whiteText: #EEEEEE;
+// $zebraStripe: #C0C0C0;
+
+$black: #101010;
+$blackText: #D0D0D0;
+$buttonBlue: #004c7d;
+$gainsboro: #222222;
+$logTableBackground: #0D0D0D;
+$white: #191919;
+$whiteSmoke: #131313;
+$whiteText: #444444;
+$zebraStripe: #252525;
