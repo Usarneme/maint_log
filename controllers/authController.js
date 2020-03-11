@@ -29,6 +29,7 @@ exports.isLoggedIn = (req, res, next) => {
 
 exports.ApiConfirmLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next()
+  return false
 }
 
 exports.forgot = async (req, res) => {
