@@ -30,8 +30,9 @@ exports.notFound = (req, res, next) => {
 */
 exports.flashValidationErrors = (err, req, res, next) => {
   console.log('flash validation errors err: '+err+'. err.errors: '+err.errors+'. err keys: '+Object.keys(err))
-  console.log(err)
+  // console.log(err)
   // console.log(req.body)
+  if (err === 'API cannot confirm user is logged in.') return next() // API error can be ignored by the web application, will be handled by API consumer (e.g.: mobile app, react front end)
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler
     console.log('No validation errors. Moving to next.')

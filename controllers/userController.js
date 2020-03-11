@@ -85,6 +85,5 @@ exports.getUserData = async (req, res) => {
   const userPromise = User.findOne({ _id: req.user._id})
   const vehiclePromise = Vehicle.findOne({ owner: req.user._id })
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
-  res.status = 200
-  return res.json(user, vehicle)
+  return res.status(200).json({user, vehicle})
 }
