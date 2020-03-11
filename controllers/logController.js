@@ -208,9 +208,7 @@ exports.getLogData = async (req, res) => {
   const logPromise = Log
     .find({ author: req.user._id })
     .sort({ created: 'desc' })
-
   const vehiclePromise = Vehicle.find({ owner: req.user._id })
   const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
-
   res.json({log, vehicle})
 }

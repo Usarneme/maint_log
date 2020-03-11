@@ -80,3 +80,11 @@ exports.account = async (req, res) => {
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
 }
+
+exports.getUserData = async (req, res) => {
+  const userPromise = User.findOne({ _id: req.user._id})
+  const vehiclePromise = Vehicle.findOne({ owner: req.user._id })
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
+  res.status = 200
+  return res.json(user, vehicle)
+}

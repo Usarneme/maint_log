@@ -27,6 +27,10 @@ exports.isLoggedIn = (req, res, next) => {
   res.redirect('/login')
 }
 
+exports.ApiConfirmLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) return next()
+}
+
 exports.forgot = async (req, res) => {
   const user = await User.findOne({ email: req.body.email })
   if (!user) {
