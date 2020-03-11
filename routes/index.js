@@ -75,4 +75,7 @@ router.get('/api/search', catchErrors(logController.searchLog))
 
 router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 
+// JSON API for Mobile builds
+router.get('/api/log', authController.isLoggedIn, catchErrors(logController.getLogData))
+
 module.exports = router
