@@ -95,3 +95,8 @@ exports.update = async (req, res) => {
   req.flash('success', 'Your password has been reset. You are now logged in.')
   res.redirect('/')
 }
+
+exports.apiLogin = passport.authenticate('local', {}, (req, res) => {
+  console.log('apiLogin success! Sending back 200 status')
+  return res.status(200)
+})
