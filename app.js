@@ -17,7 +17,23 @@ require('./handlers/passport')
 
 const app = express()
 
-app.use(cors())
+const whitelist = ['http://localhost:3000'] // front-end dev server
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    if (whitelist.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not allow access from the specified Origin.'
+      return callback(new Error(msg), false)
+    }
+    return callback(null, true)
+  }
+}
+
+app.use(cors(corsOptions))
 // app.use(cors({ origin: 'http://localhost:3000' }))
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "http://localhost:3000")
