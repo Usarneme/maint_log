@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const { promisify } = require('es6-promisify')
 const flash = require('connect-flash')
-const cors = require('cors')
+// const cors = require('cors')
 
 const routes = require('./routes/index')
 const helpers = require('./helpers')
@@ -17,29 +17,33 @@ require('./handlers/passport')
 
 const app = express()
 
-const whitelist = ['http://localhost:3000'] // front-end dev server
+// const whitelist = ['http://localhost:3000'] // front-end dev server address
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin) {
+//       return callback(null, true)
+//     }
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) {
-      return callback(null, true)
-    }
+//     if (whitelist.indexOf(origin) === -1) {
+//       var msg = 'The CORS policy for this site does not allow access from the specified Origin.'
+//       return callback(new Error(msg), false)
+//     }
+//     return callback(null, true)
+//   }
+// }
+// app.use(cors(corsOptions))
 
-    if (whitelist.indexOf(origin) === -1) {
-      var msg = 'The CORS policy for this site does not allow access from the specified Origin.'
-      return callback(new Error(msg), false)
-    }
-    return callback(null, true)
-  }
-}
-
-app.use(cors(corsOptions))
 // app.use(cors({ origin: 'http://localhost:3000' }))
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3000")
-//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, content-type")
-//   next()
-// })
+
+// app.use(cors())
+
+// TODO _ replace this hard-coded origin with a process.env key for prod and dev
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Access-Control-Allow-Credentials", true)
+  next()
+})
 
 app.set('views', path.join(__dirname, 'views')) 
 app.set('view engine', 'pug') 
@@ -52,6 +56,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Populates req.cookies
 app.use(cookieParser())
+// app.use(cookieParser('soSecret', { httpOnly: false }))
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages

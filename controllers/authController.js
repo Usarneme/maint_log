@@ -20,16 +20,10 @@ exports.logout = (req, res) => {
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
-    next()
-    return
+    return next()
   }
   req.flash('error', 'Oops you must be logged in to do that!')
   res.redirect('/login')
-}
-
-exports.ApiConfirmLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) return next()
-  return next(new Error('API cannot confirm user is logged in.'))
 }
 
 exports.forgot = async (req, res) => {
@@ -83,7 +77,7 @@ exports.update = async (req, res) => {
 
   if (!user) {
     req.flash('error', 'Password reset is invalid or has expired')
-    return res.redirect('/login')
+    res.redirect('/login')
   }
 
   const setPassword = promisify(user.setPassword, user)
@@ -96,7 +90,36 @@ exports.update = async (req, res) => {
   res.redirect('/')
 }
 
-exports.apiLogin = passport.authenticate('local', {}, (req, res) => {
-  console.log('apiLogin success! Sending back 200 status')
-  return res.status(200)
+// POST to /api/login
+// exports.apiLogin = passport.authenticate('local', (req, res) => {
+//   console.log('apiLogin success! Sending back 200 status')
+//   console.log(req)
+//   res.status(200).send('apiLogin Successful.')
+// })
+
+exports.apiLogin = passport.authenticate('local', function(req, res) {
+  // req.user contains the authenticated user
+  console.log('authController - apiLogin succeeded.')
+  console.log(Object.keys(req))
+  console.log(Object.keys(res))
+  console.log(req.user)
+  return res.status(200).send({ user: req.user })
 })
+
+exports.apiLogout = (req, res) => {
+  req.logout()
+  res.status(200).send('Logged out successfully!')
+}
+
+exports.apiConfirmLoggedIn = (req, res, next) => {
+  // console.log(`apiConfirmLoggedIn route. res: ${Object.keys(res)}`)
+  // console.log(req.isAuthenticated())
+
+  if (req.isAuthenticated()) {
+    console.log(`apiConfirmLoggedIn passed...`)
+    return next()
+  } else {
+    console.log(`apiConfirmLoggedIn failed...`)
+    return res.status(500).send({ error: 'API cannot confirm user is logged in.' })
+  }
+}

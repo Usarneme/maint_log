@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { body } = require('express-validator')
+const passport = require('passport')
 
 const authController = require('../controllers/authController')
 const logController = require('../controllers/logController')
@@ -75,9 +76,18 @@ router.get('/api/search', catchErrors(logController.searchLog))
 
 router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 
+
 // JSON API for Mobile builds
-router.get('/api/log', authController.ApiConfirmLoggedIn, catchErrors(logController.getLogData))
-router.get('/api/isLoggedIn', authController.ApiConfirmLoggedIn, catchErrors(userController.getUserData))
-router.post('/api/login', catchErrors(userController.apiLogin))
+router.post('/api/login', passport.authenticate('local'), function (req, res) {
+  console.log('posting to api/login')
+  // console.log(req)
+  const user = req.user
+  const sessionID = req.sessionID
+  const cookies = req.cookies[process.env.KEY]
+  res.status(200).send({ user, sessionID, cookies })
+})
+
+router.post('/api/logout', authController.apiLogout)
+// router.post('/api/getLogData', logController.getLogData)
 
 module.exports = router
