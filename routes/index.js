@@ -83,11 +83,13 @@ router.post('/api/login', passport.authenticate('local'), function (req, res) {
   // console.log(req)
   const user = req.user
   const sessionID = req.sessionID
+  console.log(process.env.KEY)
+  console.log(req.cookies)
   const cookies = req.cookies[process.env.KEY]
   res.status(200).send({ user, sessionID, cookies })
 })
 
 router.post('/api/logout', authController.apiLogout)
-// router.post('/api/getLogData', logController.getLogData)
+router.post('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
 
 module.exports = router

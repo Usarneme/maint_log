@@ -98,11 +98,11 @@ exports.update = async (req, res) => {
 // })
 
 exports.apiLogin = passport.authenticate('local', function(req, res) {
-  // req.user contains the authenticated user
   console.log('authController - apiLogin succeeded.')
-  console.log(Object.keys(req))
-  console.log(Object.keys(res))
-  console.log(req.user)
+  // console.log(Object.keys(req))
+  // console.log(Object.keys(res))
+  // req.user contains the authenticated user
+  // console.log(req.user)
   return res.status(200).send({ user: req.user })
 })
 
@@ -114,7 +114,6 @@ exports.apiLogout = (req, res) => {
 exports.apiConfirmLoggedIn = (req, res, next) => {
   // console.log(`apiConfirmLoggedIn route. res: ${Object.keys(res)}`)
   // console.log(req.isAuthenticated())
-
   if (req.isAuthenticated()) {
     console.log(`apiConfirmLoggedIn passed...`)
     return next()
