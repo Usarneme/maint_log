@@ -39,7 +39,7 @@ const app = express()
 
 // TODO _ replace this hard-coded origin with a process.env key for prod and dev
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+  res.header("Access-Control-Allow-Origin", "*") // TODO change once production builds are hosted permanently
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   res.header("Access-Control-Allow-Credentials", true)
   next()
