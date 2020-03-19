@@ -83,8 +83,6 @@ router.post('/api/login', passport.authenticate('local'), function (req, res) {
   // console.log(req)
   const user = req.user
   const sessionID = req.sessionID
-  console.log(process.env.KEY)
-  console.log(req.cookies)
   const cookies = req.cookies[process.env.KEY]
   res.status(200).send({ user, sessionID, cookies })
 })
