@@ -88,6 +88,6 @@ router.post('/api/login', passport.authenticate('local'), function (req, res) {
 })
 
 router.post('/api/logout', authController.apiLogout)
-router.post('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
+router.get('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
 
 module.exports = router
