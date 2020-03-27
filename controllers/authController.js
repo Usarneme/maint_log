@@ -2,7 +2,6 @@ const passport = require('passport')
 const crypto = require('crypto')
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
-const { promisify } = require('es6-promisify')
 const mail = require('../handlers/mail')
 
 exports.login = passport.authenticate('local', {
@@ -53,15 +52,18 @@ exports.reset = async (req, res) => {
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   })
+
   if (!user) {
     req.flash('error', 'Password reset is invalid or has expired')
     return res.redirect('/login')
   }
+  console.log(`Found user: ${Object.keys(user)}. Rendering reset page...`)
   res.render('reset', { title: 'Reset your Password' })
 }
 
 exports.confirmedPasswords = (req, res, next) => {
   if (req.body.password === req.body['password-confirm']) {
+    console.log('Passwords match middleware passed...')
     next()
     return
   }
@@ -74,14 +76,12 @@ exports.update = async (req, res) => {
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   })
-
   if (!user) {
     req.flash('error', 'Password reset is invalid or has expired')
     res.redirect('/login')
   }
-
-  const setPassword = promisify(user.setPassword, user)
-  await setPassword(req.body.password)
+  // console.log(`Found user: ${user}`)
+  await user.setPassword(req.body.password)
   user.resetPasswordToken = undefined
   user.resetPasswordExpires = undefined
   const updatedUser = await user.save()
@@ -91,11 +91,7 @@ exports.update = async (req, res) => {
 }
 
 exports.apiLogin = passport.authenticate('local', function(req, res) {
-  console.log('authController - apiLogin succeeded.')
-  // console.log(Object.keys(req))
-  // console.log(Object.keys(res))
-  // req.user contains the authenticated user
-  // console.log(req.user)
+  // console.log('authController - apiLogin succeeded.')
   return res.status(200).send({ user: req.user })
 })
 
@@ -105,13 +101,11 @@ exports.apiLogout = (req, res) => {
 }
 
 exports.apiConfirmLoggedIn = (req, res, next) => {
-  // console.log(`apiConfirmLoggedIn route. res: ${Object.keys(res)}`)
-  // console.log(req.isAuthenticated())
   if (req.isAuthenticated()) {
-    console.log(`apiConfirmLoggedIn passed...`)
+    // console.log(`apiConfirmLoggedIn passed...`)
     return next()
   } else {
-    console.log(`apiConfirmLoggedIn failed...`)
+    // console.log(`apiConfirmLoggedIn failed...`)
     return res.status(500).send({ error: 'API cannot confirm user is logged in.' })
   }
 }

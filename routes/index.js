@@ -65,11 +65,12 @@ router.post('/account',
 
 // TODO - re-enable after setting up mailer 
 // router.post('/account/forgot', catchErrors(authController.forgot))
-// router.get('/account/reset/:token', catchErrors(authController.reset))
-// router.post('/account/reset/:token',
-//   authController.confirmedPasswords,
-//   catchErrors(authController.update)
-// )
+router.get('/account/reset/:token', catchErrors(authController.reset))
+
+router.post('/account/reset/:token',
+  authController.confirmedPasswords,
+  catchErrors(authController.update)
+)
 
 router.get('/search', authController.isLoggedIn, catchErrors(logController.searchPage))
 router.get('/api/search', catchErrors(logController.searchLog))

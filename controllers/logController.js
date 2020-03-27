@@ -139,7 +139,6 @@ exports.getLog = async (req, res) => {
     res.redirect(`/log/page/${pages}`)
     return
   }
-
   // console.log(`Log requested for user ${req.user._id} returned: ${log}`)
   res.render('log', { title: 'Log', log, page, pages, count, vehicle })
 }
