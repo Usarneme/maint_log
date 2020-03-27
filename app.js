@@ -14,7 +14,13 @@ const helpers = require('./helpers')
 const errorHandlers = require('./handlers/errorHandlers')
 require('./handlers/passport')
 
+
 const app = express()
+
+// const cors = require('cors')
+// app.use(cors())
+
+console.log('Allowing origin: '+process.env.FRONTEND_URL)
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL) 

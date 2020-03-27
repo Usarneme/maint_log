@@ -21,16 +21,25 @@ const multerOptions = {
   }
 }
 
-exports.addPhotoToRequest = multer(multerOptions).single('photos')
+exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
-  // console.log('Preparing photo for upload middleware...')
-
+  console.log('Preparing photo for upload middleware...')
   // check if there is no new file to resize
   if (!req.file) {
-    console.log('No req.file found. Moving to next middleware.')
-    return next() // skip to the next middleware
+    if (!req.body.file) {
+      console.log('No req.file found. Moving to next middleware.')
+      return next() // skip to the next middleware  
+    } else {
+      req.file = req.body.file
+    }
   }
+
+  // console.log('Photo included in form submission.')
+  // console.log(Object.keys(req.body))
+  // console.log(req.body.file)
+  // console.log(req.file)
+
   // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
   // This creates the photos array, removes whitespace, and ensures no empty entries
@@ -41,19 +50,20 @@ exports.uploadPhoto = async (req, res, next) => {
   }
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
+  // console.log('Phote filenames created and set on body:')
   // console.log(req.body.photos)
 
   // now we resize
   const photo = await jimp.read(req.file.buffer)
   await photo.resize(800, jimp.AUTO)
   await photo.quality(70)
-  // await cloudinary.uploader.upload(photo)
   await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
+
   // cloudinary options to use the already unique name and not append extra characters
-  cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
+  await cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
     if (err) { console.warn(err) }
-    console.log("* " + image.public_id)
-    console.log("* " + image.url)
+    console.log("Cloudinary - " + image.public_id)
+    console.log("Cloudinary - " + image.url)
   })
 
   console.log('Photo uploaded successfully. ')
@@ -70,8 +80,14 @@ exports.addLog = async (req, res) => {
 }
 
 exports.createLog = async (req, res) => {
+  console.log('CreateLog func...')
   req.body.author = req.user._id
   const log = await (new Log(req.body)).save()
+  // api posts to this route and expects a 200 + updated log as result
+  if (req.body.api) {
+    const newLog = await Log.find({ author: req.user._id })
+    return res.status(200).send(newLog)
+  }
   req.flash('success', `Successfully Created ${log.name}.`)
   res.redirect(`/log/${log.slug}`)
 }
@@ -86,12 +102,20 @@ exports.editLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  const log = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  const logEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
     runValidators: true
   }).exec()
-  req.flash('success', `Successfully updated <strong>${log.name}</strong>. <a href="/log/${log.slug}">View Log Entry →</a>`)
-  res.redirect(`/log/${log._id}/edit`)
+
+  // api posts to this route and expects a 200 + updated log as result
+  if (req.body.api) {
+    const newLog = await Log.find({ author: req.user._id })
+    console.log(newLog)
+    return res.status(200).send({ log: newLog })
+  }
+
+  req.flash('success', `Successfully updated <strong>${logEntry.name}</strong>. <a href="/log/${logEntry.slug}">View Log Entry →</a>`)
+  res.redirect(`/log/${logEntry._id}/edit`)
 }
 
 exports.getLog = async (req, res) => {
