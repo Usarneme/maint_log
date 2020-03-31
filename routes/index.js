@@ -27,7 +27,8 @@ router.post('/add/:id',
 
 router.get('/log/:id/edit', authController.isLoggedIn, catchErrors(logController.editLog))
 router.get('/log/:slug', catchErrors(logController.getLogBySlug))
-
+router.post('/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
+router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 router.get('/upcoming-maintenance', authController.isLoggedIn, catchErrors(logController.upcomingMaintenance))
 
 router.get('/login', userController.loginForm)
@@ -74,9 +75,6 @@ router.post('/account/reset/:token',
 
 router.get('/search', authController.isLoggedIn, catchErrors(logController.searchPage))
 router.get('/api/search', catchErrors(logController.searchLog))
-
-router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
-
 
 // JSON API for Mobile builds
 router.post('/api/login', passport.authenticate('local'), function (req, res) {

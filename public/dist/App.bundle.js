@@ -5241,6 +5241,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_removePhoto__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/removePhoto */ "./public/javascripts/modules/removePhoto.js");
 /* harmony import */ var _modules_vehicleSearch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/vehicleSearch */ "./public/javascripts/modules/vehicleSearch.js");
 /* harmony import */ var _modules_darkMode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/darkMode */ "./public/javascripts/modules/darkMode.js");
+/* harmony import */ var _modules_deleteLogEntry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/deleteLogEntry */ "./public/javascripts/modules/deleteLogEntry.js");
 
  // for AJAX requests to search the log postings db
 
@@ -5251,11 +5252,13 @@ __webpack_require__.r(__webpack_exports__);
  // for AJAX requests to the vehicle query api
 
 
+
 Object(_modules_typeAhead__WEBPACK_IMPORTED_MODULE_1__["default"])(document.querySelector('.search'));
 Object(_modules_removePhoto__WEBPACK_IMPORTED_MODULE_3__["default"])(document.querySelector('.logFormPhotosContainer'));
 Object(_modules_vehicleSearch__WEBPACK_IMPORTED_MODULE_4__["default"])(document.querySelector('.lookupSwitcher'));
 Object(_modules_logDateFiller__WEBPACK_IMPORTED_MODULE_2__["default"])();
 Object(_modules_darkMode__WEBPACK_IMPORTED_MODULE_5__["default"])();
+Object(_modules_deleteLogEntry__WEBPACK_IMPORTED_MODULE_6__["default"])(window.location.pathname);
 
 /***/ }),
 
@@ -5274,6 +5277,61 @@ function toggleDarkMode() {
   if (!themeSwitchCheckbox) return;
   themeSwitchCheckbox.addEventListener('change', function (event) {
     event.target.checked ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+  });
+}
+
+/***/ }),
+
+/***/ "./public/javascripts/modules/deleteLogEntry.js":
+/*!******************************************************!*\
+  !*** ./public/javascripts/modules/deleteLogEntry.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return deleteLogEntry; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?bc3a");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+function deleteLogEntry(pathname) {
+  // pathname will be "/log/somelogID/edit"
+  const pathRegEx = /\/log\/.+\/edit/;
+  const logEntryId = window.location.pathname.split('/')[2]; // only run this client JS on a log entry edit page
+
+  if (!pathRegEx.test(window.location.pathname)) return;
+  console.log('DeleteLogEntry client js initialized...');
+  const deleteButton = document.querySelector('.deleteLogEntry');
+  const confirmDeleteButton = document.querySelector('.deleteLogEntryConfirm');
+  deleteButton.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (confirmDeleteButton.classList.contains('hidden')) {
+      confirmDeleteButton.classList.remove('hidden');
+    } else {
+      confirmDeleteButton.classList.add('hidden');
+    }
+  });
+  confirmDeleteButton.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    deleteFromServer(logEntryId);
+  });
+}
+
+function deleteFromServer(id) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/delete/log/entry/${id}`).then(res => {
+    if (res.data === null) {
+      console.log('Server unable to find specified log entry. Was it already deleted?');
+    } else if (res.status === 200) {
+      console.log('Log entry removed. Server sent back Result: ');
+      console.log(res);
+      window.location.pathname = "/log";
+    }
+  }).catch(err => {
+    console.error(err);
   });
 }
 

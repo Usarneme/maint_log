@@ -5,9 +5,11 @@ import logDateFiller from './modules/logDateFiller' // helper func to deserializ
 import removePhoto from './modules/removePhoto' // for AJAX requests to delete photo refs from the db
 import vehicleSearch from './modules/vehicleSearch' // for AJAX requests to the vehicle query api
 import toggleDarkMode from './modules/darkMode' 
+import deleteLogEntry from './modules/deleteLogEntry'
 
 typeAhead( document.querySelector('.search') )
 removePhoto( document.querySelector('.logFormPhotosContainer') )
 vehicleSearch( document.querySelector('.lookupSwitcher') )
 logDateFiller()
 toggleDarkMode()
+deleteLogEntry(window.location.pathname)

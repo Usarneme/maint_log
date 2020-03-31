@@ -205,8 +205,8 @@ exports.searchLog = async (req, res) => {
 }
 
 exports.removePhoto = async (req, res) => {
-  console.log('Log Controller - Remove Photo. Query: ')
-  console.log(req.params)
+  // console.log('Log Controller - Remove Photo. Query: ')
+  // console.log(req.params)
 
   const updateDatabasePromise = Log
     .update(
@@ -225,6 +225,13 @@ exports.removePhoto = async (req, res) => {
 
   const [dbResult, fileResult] = await Promise.all([updateDatabasePromise, deleteFilePromise])
   res.json({dbResult, fileResult})
+}
+
+exports.deleteLogEntry = async (req, res) => {
+  console.log('Log Controller - Delete Log Entry. Query: ')
+  console.log(req.params)
+  const dbUpdate = await Log.findOneAndDelete({ _id: req.params.id })
+  res.json(dbUpdate)
 }
 
 exports.getLogData = async (req, res) => {
