@@ -80,16 +80,18 @@ exports.addLog = async (req, res) => {
 }
 
 exports.createLog = async (req, res) => {
-  console.log('CreateLog func...')
+  // console.log('CreateLog func...')
+  // console.log(req.body)
+  // console.log(Object.keys(req))
   req.body.author = req.user._id
-  const log = await (new Log(req.body)).save()
+  const newLogEntry = await (new Log(req.body)).save()
   // api posts to this route and expects a 200 + updated log as result
   if (req.body.api) {
-    const newLog = await Log.find({ author: req.user._id })
-    return res.status(200).send(newLog)
+    const fullLog = await Log.find({ author: req.user._id })
+    return res.status(200).send({fullLog, newLogEntry})
   }
-  req.flash('success', `Successfully Created ${log.name}.`)
-  res.redirect(`/log/${log.slug}`)
+  req.flash('success', `Successfully Created ${newLogEntry.name}.`)
+  res.redirect(`/log/${newLogEntry.slug}`)
 }
 
 exports.editLog = async (req, res) => {
@@ -102,20 +104,19 @@ exports.editLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  const logEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
     runValidators: true
   }).exec()
 
   // api posts to this route and expects a 200 + updated log as result
   if (req.body.api) {
-    const newLog = await Log.find({ author: req.user._id })
-    console.log(newLog)
-    return res.status(200).send({ log: newLog })
+    const fullLog = await Log.find({ author: req.user._id })
+    return res.status(200).send({ fullLog, newLogEntry })
   }
 
-  req.flash('success', `Successfully updated <strong>${logEntry.name}</strong>. <a href="/log/${logEntry.slug}">View Log Entry →</a>`)
-  res.redirect(`/log/${logEntry._id}/edit`)
+  req.flash('success', `Successfully updated <strong>${newLogEntry.name}</strong>. <a href="/log/${newLogEntry.slug}">View Log Entry →</a>`)
+  res.redirect(`/log/${newLogEntry._id}/edit`)
 }
 
 exports.getLog = async (req, res) => {
@@ -208,23 +209,32 @@ exports.removePhoto = async (req, res) => {
   // console.log('Log Controller - Remove Photo. Query: ')
   // console.log(req.params)
 
-  const updateDatabasePromise = Log
-    .update(
-      { photos: { $in: [req.params.filename] } },
-      { $pull: { photos: req.params.filename } }
-    )
+  // const updateDatabasePromise = Log
+  //   .update(
+  //     { photos: { $in: [req.params.filename] } },
+  //     { $pull: { photos: req.params.filename } }
+  //   )
 
-  const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
-    if (err) {
-      req.flash('error', `Unable to delete file ${req.params.filename}`)
-      res.redirect('back')
-      return
-    }
-    console.log('successfully deleted photo '+req.params.filename)
-  })
+  // HEROKU automatically deletes the uploads folder at each re-mount of the dyno...
+  // const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
+  //   if (err) {
+  //     req.flash('error', `Unable to delete file ${req.params.filename}`)
+  //     res.redirect('back')
+  //     return
+  //   }
+  //   console.log('successfully deleted photo '+req.params.filename)
+  // })
 
-  const [dbResult, fileResult] = await Promise.all([updateDatabasePromise, deleteFilePromise])
-  res.json({dbResult, fileResult})
+  // const logPromise = Log.find({ author: req.user._id })
+  // const [logResult, dbResult, fileResult] = await Promise.all([logPromise, updateDatabasePromise, deleteFilePromise])
+  // res.json({logResult, dbResult, fileResult})
+
+  await Log.update(
+    { photos: { $in: [req.params.filename] } },
+    { $pull: { photos: req.params.filename } }
+  )
+  const updatedLog = await Log.find({ author: req.user._id })
+  res.json(updatedLog)
 }
 
 exports.deleteLogEntry = async (req, res) => {
