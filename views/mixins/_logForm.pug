@@ -63,7 +63,7 @@ mixin logForm(log = {}, vehicle = {})
       //-         img(src=`/uploads/${receipt}`, alt=receipt width=200)
 
       label(for="photos") Upload other images
-        input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg")
+        input(type="file" name="file" id="photos" accept="image/gif, image/png, image/jpeg")
 
       +logPhotos(log.photos)
 

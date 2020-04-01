@@ -9,6 +9,7 @@ block content
         a(href=`/log/${log.slug}`)  - #{log.name}
     +logForm(log, vehicle)
 
-    .logDeleteContainer
-      a.button.deleteLogEntry(title="Delete Log Entry") Delete Log Entry
-      a.button.deleteLogEntryConfirm.hidden(href=`/delete/log/entry/${log._id}` title="Confirm Log Entry Deletion") Permanently Delete Log Entry
+    if log
+      .logDeleteContainer
+        a.button.deleteLogEntry(title="Delete Log Entry") Delete Log Entry
+        a.button.deleteLogEntryConfirm.hidden(href=`/delete/log/entry/${log._id}` title="Confirm Log Entry Deletion") Permanently Delete Log Entry

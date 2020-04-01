@@ -75,26 +75,26 @@ exports.homePage = async (req, res) => {
 }
 
 exports.addLog = async (req, res) => {
+  console.log('/add route, addLog controller. user: '+req.user._id)
   const vehicle = await Vehicle.find({ owner: req.user._id })
   res.render('editLog', { title: 'Add Log', vehicle })
 }
 
 exports.createLog = async (req, res) => {
   // console.log('CreateLog func...')
-  // console.log(req.body)
-  // console.log(Object.keys(req))
-  req.body.author = req.user._id
   const newLogEntry = await (new Log(req.body)).save()
   // api posts to this route and expects a 200 + updated log as result
   if (req.body.api) {
     const fullLog = await Log.find({ author: req.user._id })
-    return res.status(200).send({fullLog, newLogEntry})
+    return res.status(200).send({ fullLog, newLogEntry })
   }
   req.flash('success', `Successfully Created ${newLogEntry.name}.`)
   res.redirect(`/log/${newLogEntry.slug}`)
 }
 
 exports.editLog = async (req, res) => {
+  console.log('editLog controller. req.user: '+req.user)
+  console.log(req.params)
   const logPromise = Log.findOne({ _id: req.params.id })
   const vehiclePromise = Vehicle.find({ owner: req.user._id })
   const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
@@ -104,6 +104,10 @@ exports.editLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
+  console.log('updateLog func...')
+  console.log(Object.keys(req))
+  console.log(req.body.photos)
+
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
     runValidators: true
@@ -114,7 +118,6 @@ exports.updateLog = async (req, res) => {
     const fullLog = await Log.find({ author: req.user._id })
     return res.status(200).send({ fullLog, newLogEntry })
   }
-
   req.flash('success', `Successfully updated <strong>${newLogEntry.name}</strong>. <a href="/log/${newLogEntry.slug}">View Log Entry →</a>`)
   res.redirect(`/log/${newLogEntry._id}/edit`)
 }
@@ -229,7 +232,7 @@ exports.removePhoto = async (req, res) => {
   // const [logResult, dbResult, fileResult] = await Promise.all([logPromise, updateDatabasePromise, deleteFilePromise])
   // res.json({logResult, dbResult, fileResult})
 
-  await Log.update(
+  await Log.updateOne(
     { photos: { $in: [req.params.filename] } },
     { $pull: { photos: req.params.filename } }
   )
