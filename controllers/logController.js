@@ -24,7 +24,7 @@ const multerOptions = {
 exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
-  console.log('Preparing photo for upload middleware...')
+  console.log('* Upload photo middleware...')
   // check if there is no new file to resize
   if (!req.file) {
     if (!req.body.file) {
@@ -35,10 +35,9 @@ exports.uploadPhoto = async (req, res, next) => {
     }
   }
 
-  // console.log('Photo included in form submission.')
-  // console.log(Object.keys(req.body))
-  // console.log(req.body.file)
+  console.log('* Photo included in form submission.')
   // console.log(req.file)
+  // console.log(req.body)
 
   // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
@@ -82,6 +81,7 @@ exports.addLog = async (req, res) => {
 
 exports.createLog = async (req, res) => {
   // console.log('CreateLog func...')
+  req.body.author = req.user._id
   const newLogEntry = await (new Log(req.body)).save()
   // api posts to this route and expects a 200 + updated log as result
   if (req.body.api) {
@@ -105,7 +105,11 @@ exports.editLog = async (req, res) => {
 
 exports.updateLog = async (req, res) => {
   console.log('updateLog func...')
-  console.log(Object.keys(req))
+  // console.log(Object.keys(req))
+  req.body.author = req.user._id
+  console.log('Req.body:')
+  console.log(req.body)
+  console.log('Req.body.photos: ')
   console.log(req.body.photos)
 
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
@@ -124,7 +128,7 @@ exports.updateLog = async (req, res) => {
 
 exports.getLog = async (req, res) => {
   const page = req.params.page || 1
-  const limit = 4
+  const limit = 5
   const skip = (page * limit) - limit
 
   const logPromise = Log
