@@ -91,7 +91,7 @@ exports.update = async (req, res) => {
 }
 
 exports.apiLogin = passport.authenticate('local', function(req, res) {
-  // console.log('authController - apiLogin succeeded.')
+  console.log('authController - apiLogin succeeded.')
   return res.status(200).send({ user: req.user })
 })
 

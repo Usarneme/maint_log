@@ -1,20 +1,29 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const Vehicle = mongoose.model('Vehicle')
-const { promisify } = require('es6-promisify')
 
 const { validationResult } = require('express-validator')
 
-exports.loginForm = (req, res) => {
+// ---------------------------- SERVER RENDERED PAGES --------------------------
+exports.loginPage = (req, res) => {
   return res.render('login', { title: 'Login' })
 }
 
-exports.registerForm = (req, res) => {
+exports.registerPage = (req, res) => {
   return res.render('register', { title: 'Register' })
 }
 
+exports.accountPage = async (req, res) => {
+  const userPromise = User.findOne({ _id: req.user._id})
+  const vehiclePromise = Vehicle.findOne({ owner: req.user._id })
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
+  return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
+}
+// ---------------------------- END OF SERVER RENDERED PAGES --------------------
+
 exports.validateAccountUpdate = (req, res, next) => {
   console.log('Posting to validate account update...')
+  console.log(req.body)
   const errors = validationResult(req)
   if (errors.isEmpty()) return next() // passed validation. exit
   // otherwise, failed validation...
@@ -27,6 +36,8 @@ exports.validateAccountUpdate = (req, res, next) => {
 
   // validates both /register and /account POSTed updates. only register has a password field
   if (req.body.hasOwnProperty('password')) {
+    // POSTing to api/register also uses this middleware
+    if (req.body.api) return next('Error validating account update via api')
     return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
   } else {
     return res.render('account', { title: 'Account', body: req.body, flashes: req.flash() })
@@ -34,17 +45,14 @@ exports.validateAccountUpdate = (req, res, next) => {
 }
 
 exports.register = async (req, res, next) => {
+  console.log('Registering new user:')
+  console.log(req.body)
   const newUser = new User({ email: req.body.email, name: req.body.name })
   await User.registerAsync(newUser, req.body.password)
-  // const register = promisify(User.register, User)
-  // await register(user, req.body.password)
   return next() // pass to authController.login
 }
 
 exports.updateAccount = async (req, res, next) => {
-  // console.log('Posting to update account: ')
-  // console.log(req.body)
-
   const accountUpdates = {
     name: req.body.name,
     email: req.body.email
@@ -72,13 +80,6 @@ exports.updateAccount = async (req, res, next) => {
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
   return next()
-}
-
-exports.account = async (req, res) => {
-  const userPromise = User.findOne({ _id: req.user._id})
-  const vehiclePromise = Vehicle.findOne({ owner: req.user._id })
-  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
-  return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
 }
 
 exports.getUserData = async (req, res) => {

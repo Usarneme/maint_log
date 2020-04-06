@@ -9,124 +9,16 @@ const Log = mongoose.model('Log')
 const User = mongoose.model('User')
 const Vehicle = mongoose.model('Vehicle')
 
-const multerOptions = {
-  storage: multer.memoryStorage(),
-  fileFilter(req, file, next) {
-    const isPhoto = file.mimetype.startsWith('image/')
-    if(isPhoto) {
-      next(null, true)
-    } else {
-      next({ message: 'That filetype isn\'t allowed!' }, false)
-    }
-  }
-}
-
-exports.addPhotoToRequest = multer(multerOptions).single('file')
-
-exports.uploadPhoto = async (req, res, next) => {
-  console.log('* Upload photo middleware...')
-  // check if there is no new file to resize
-  if (!req.file) {
-    if (!req.body.file) {
-      console.log('No req.file found. Moving to next middleware.')
-      return next() // skip to the next middleware  
-    } else {
-      req.file = req.body.file
-    }
-  }
-
-  console.log('* Photo included in form submission.')
-  // console.log(req.file)
-  // console.log(req.body)
-
-  // get the filetype e.g.: jpeg, png
-  const extension = req.file.mimetype.split('/')[1]
-  // This creates the photos array, removes whitespace, and ensures no empty entries
-  if (req.body.previousPhotos) {
-    req.body.photos = req.body.previousPhotos.trim().split(',').filter(Boolean)
-  } else {
-    req.body.photos = []
-  }
-  req.body.photos.push(`${uuid.v4()}.${extension}`)
-
-  // console.log('Phote filenames created and set on body:')
-  // console.log(req.body.photos)
-
-  // now we resize
-  const photo = await jimp.read(req.file.buffer)
-  await photo.resize(800, jimp.AUTO)
-  await photo.quality(70)
-  await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
-
-  // cloudinary options to use the already unique name and not append extra characters
-  await cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
-    if (err) { console.warn(err) }
-    console.log("Cloudinary - " + image.public_id)
-    console.log("Cloudinary - " + image.url)
-  })
-
-  console.log('Photo uploaded successfully. ')
-  return next()
-}
-
+// ---------------------------- SERVER RENDERED PAGES --------------------------
 exports.homePage = async (req, res) => {
   res.render('index', { title: 'Vehicle Maintenance Log' })
 }
 
-exports.addLog = async (req, res) => {
-  console.log('/add route, addLog controller. user: '+req.user._id)
-  const vehicle = await Vehicle.find({ owner: req.user._id })
-  res.render('editLog', { title: 'Add Log', vehicle })
+exports.searchPage = async (req, res) => {
+  res.render('search', { title: 'Search' })
 }
 
-exports.createLog = async (req, res) => {
-  // console.log('CreateLog func...')
-  req.body.author = req.user._id
-  const newLogEntry = await (new Log(req.body)).save()
-  // api posts to this route and expects a 200 + updated log as result
-  if (req.body.api) {
-    const fullLog = await Log.find({ author: req.user._id })
-    return res.status(200).send({ fullLog, newLogEntry })
-  }
-  req.flash('success', `Successfully Created ${newLogEntry.name}.`)
-  res.redirect(`/log/${newLogEntry.slug}`)
-}
-
-exports.editLog = async (req, res) => {
-  console.log('editLog controller. req.user: '+req.user)
-  console.log(req.params)
-  const logPromise = Log.findOne({ _id: req.params.id })
-  const vehiclePromise = Vehicle.find({ owner: req.user._id })
-  const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
-
-  confirmOwner(log, req.user)
-  res.render('editLog', { title: `Edit`, log, vehicle })
-}
-
-exports.updateLog = async (req, res) => {
-  console.log('updateLog func...')
-  // console.log(Object.keys(req))
-  req.body.author = req.user._id
-  console.log('Req.body:')
-  console.log(req.body)
-  console.log('Req.body.photos: ')
-  console.log(req.body.photos)
-
-  const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true, // return the new log instead of the old one
-    runValidators: true
-  }).exec()
-
-  // api posts to this route and expects a 200 + updated log as result
-  if (req.body.api) {
-    const fullLog = await Log.find({ author: req.user._id })
-    return res.status(200).send({ fullLog, newLogEntry })
-  }
-  req.flash('success', `Successfully updated <strong>${newLogEntry.name}</strong>. <a href="/log/${newLogEntry.slug}">View Log Entry →</a>`)
-  res.redirect(`/log/${newLogEntry._id}/edit`)
-}
-
-exports.getLog = async (req, res) => {
+exports.getLogPage = async (req, res) => {
   const page = req.params.page || 1
   const limit = 5
   const skip = (page * limit) - limit
@@ -151,19 +43,7 @@ exports.getLog = async (req, res) => {
   res.render('log', { title: 'Log', log, page, pages, count, vehicle })
 }
 
-exports.getLogBySlug = async (req, res, next) => {
-  const log = await Log.findOne({ slug: req.params.slug }).populate(['author', 'vehicle'])
-  if (!log) return next()
-  res.render('singleLogEntry', { log, title: log.name })
-}
-
-const confirmOwner = (log, user) => {
-  if (!log.author.equals(user._id)) {
-    throw Error('You must own a log in order to edit it!')
-  }
-}
-
-exports.upcomingMaintenance = async (req, res, next) => {
+exports.upcomingMaintenancePage = async (req, res, next) => {
   const vehicle = await Vehicle.find({ owner: req.user._id })
   const mileage = vehicle.length > 0 ? vehicle[0].odometer : 0
 
@@ -190,37 +70,89 @@ exports.upcomingMaintenance = async (req, res, next) => {
   res.render('upcoming', { title: 'Upcoming Maintenance', log, vehicle })
 }
 
-exports.searchPage = async (req, res) => {
-  res.render('search', { title: 'Search' })
+exports.getLogBySlug = async (req, res, next) => {
+  const log = await Log.findOne({ slug: req.params.slug }).populate(['author', 'vehicle'])
+  if (!log) return next()
+  res.render('singleLogEntry', { log, title: log.name })
 }
 
-exports.searchLog = async (req, res) => {
-  console.log('Log Controller - Search Log. Query: '+req.query.q)
+exports.addLogPage = async (req, res) => {
+  console.log('/add route, addLogPage controller. user: '+req.user._id)
+  const vehicle = await Vehicle.find({ owner: req.user._id })
+  res.render('editLog', { title: 'Add Log', vehicle })
+}
 
-  const logResults = await Log
-  .find({
-    $text: {
-      $search: req.query.q
+exports.editLogPage = async (req, res) => {
+  const logPromise = Log.findOne({ _id: req.params.id })
+  const vehiclePromise = Vehicle.find({ owner: req.user._id })
+  const [log, vehicle] = await Promise.all([logPromise, vehiclePromise])
+
+  confirmOwner(log, req.user)
+  res.render('editLog', { title: `Edit`, log, vehicle })
+}
+// ---------------------------- END OF SERVER RENDERED PAGES -------------------
+
+// ---------------------------- PHOTO MIDDLEWARE -------------------------------
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/') // ensure only image files are allowed
+    if(isPhoto) {
+      next(null, true)
+    } else {
+      next({ message: 'That filetype isn\'t allowed!' }, false)
     }
-  }, {
-    score: { $meta: 'textScore' }
+  }
+}
+
+exports.addPhotoToRequest = multer(multerOptions).single('file')
+
+exports.uploadPhoto = async (req, res, next) => {
+  console.log('* Upload photo middleware...')
+  // if there is no file on the request...
+  if (!req.file) {
+    // check for a file on the request.body...
+    if (!req.body.file) {
+      console.log('No req.file found. Moving to next middleware.')
+      return next() // No file submitted. Skip to the next middleware  
+    } else {
+      // ...there was a req.body.file, putting it on req.file for consistent handling
+      req.file = req.body.file
+    }
+  }
+  // console.log('* Photo included in form submission.')
+  // get the filetype e.g.: jpeg, png
+  const extension = req.file.mimetype.split('/')[1]
+  // if this log entry already had 1+ photo associated...
+  if (req.body.previousPhotos) {
+    // Create the photos array, remove whitespace, and ensure no empty entries
+    req.body.photos = req.body.previousPhotos.trim().split(',').filter(Boolean)
+  } else {
+    req.body.photos = []
+  }
+  // create a unique filename and add to the array of photos associated with this log 
+  req.body.photos.push(`${uuid.v4()}.${extension}`)
+
+  // resize photo to allow for reasonable maximums
+  const photo = await jimp.read(req.file.buffer)
+  await photo.resize(800, jimp.AUTO)
+  await photo.quality(70)
+  await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
+
+  // cloudinary options to use the already unique name and not append extra characters
+  await cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
+    if (err) { console.warn(err) }
+    console.log("Cloudinary - " + image.public_id)
+    console.log("Cloudinary - " + image.url)
   })
-  .sort({
-    score: { $meta: 'textScore' }
-  })
-  // .limit(5)
-  res.json(logResults)
+
+  console.log('Photo uploaded successfully. ')
+  return next()
 }
 
 exports.removePhoto = async (req, res) => {
   // console.log('Log Controller - Remove Photo. Query: ')
   // console.log(req.params)
-
-  // const updateDatabasePromise = Log
-  //   .update(
-  //     { photos: { $in: [req.params.filename] } },
-  //     { $pull: { photos: req.params.filename } }
-  //   )
 
   // HEROKU automatically deletes the uploads folder at each re-mount of the dyno...
   // const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
@@ -231,7 +163,6 @@ exports.removePhoto = async (req, res) => {
   //   }
   //   console.log('successfully deleted photo '+req.params.filename)
   // })
-
   // const logPromise = Log.find({ author: req.user._id })
   // const [logResult, dbResult, fileResult] = await Promise.all([logPromise, updateDatabasePromise, deleteFilePromise])
   // res.json({logResult, dbResult, fileResult})
@@ -242,6 +173,65 @@ exports.removePhoto = async (req, res) => {
   )
   const updatedLog = await Log.find({ author: req.user._id })
   res.json(updatedLog)
+}
+// ---------------------------- END OF PHOTO MIDDLEWARE ------------------------
+
+// ---------------------------- LOG DATA SETTERS AND GETTERS -------------------
+exports.createLog = async (req, res) => {
+  console.log('CreateLog func...')
+  req.body.author = req.user._id
+  console.log(req.body)
+  const newLogEntry = await (new Log(req.body)).save()
+  // api posts to this route and expects a 200 + updated log as result
+  if (req.body.api) {
+    const fullLog = await Log.find({ author: req.user._id })
+    return res.status(200).send({ fullLog, newLogEntry })
+  }
+  req.flash('success', `Successfully Created ${newLogEntry.name}.`)
+  res.redirect(`/log/${newLogEntry.slug}`)
+}
+
+exports.updateLog = async (req, res) => {
+  console.log('updateLog func...')
+  // console.log(Object.keys(req))
+  req.body.author = req.user._id
+  console.log(req.body)
+
+  const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true, // return the new log instead of the old one
+    runValidators: true
+  }).exec()
+
+  // api posts to this route and expects a 200 + updated log as result
+  if (req.body.api) {
+    const fullLog = await Log.find({ author: req.user._id })
+    return res.status(200).send({ fullLog, newLogEntry })
+  }
+  req.flash('success', `Successfully updated <strong>${newLogEntry.name}</strong>. <a href="/log/${newLogEntry.slug}">View Log Entry →</a>`)
+  res.redirect(`/log/${newLogEntry._id}/edit`)
+}
+
+exports.searchLog = async (req, res) => {
+  console.log('Log Controller - Search Log. Query: '+req.query.q)
+
+  const logResults = await Log
+  .find({
+    $and: [
+      { author: req.user._id },
+      { 
+        $text: {
+          $search: req.query.q
+        }
+      }  
+    ]
+  }, {
+    score: { $meta: 'textScore' }
+  })
+  .sort({
+    score: { $meta: 'textScore' }
+  })
+  // .limit(5)
+  res.json(logResults)
 }
 
 exports.deleteLogEntry = async (req, res) => {
@@ -260,3 +250,12 @@ exports.getLogData = async (req, res) => {
   res.json({log, vehicle})
   // res.end(JSON.stringify({log, vehicle}))
 }
+// ---------------------------- END OF LOG DATA SET AND GET --------------------
+
+// ---------------------------- MISC LOG MIDDLEWARE ----------------------------
+const confirmOwner = (log, user) => {
+  if (!log.author.equals(user._id)) {
+    throw Error('You must own a log in order to edit it!')
+  }
+}
+// ---------------------------- END OF MISC LOG MIDDLEWARE ---------------------
