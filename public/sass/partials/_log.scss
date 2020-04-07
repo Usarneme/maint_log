@@ -1,7 +1,9 @@
-.log {
+div.log {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  background: $darker;
+  box-shadow: $shad;
+  // flex-wrap: wrap;
+  // justify-content: space-between;
 }
 
 .logTable {
@@ -33,7 +35,6 @@ td > a {
 .logEntry {
   background: $white;
   margin: 10px 0;
-  width: 30%;
   display: flex;
   flex-direction: column;
   &__details {
@@ -48,12 +49,12 @@ td > a {
       margin: 1rem 0.5rem;
     }
   }
-  @media all and (max-width: 850px) {
-    width: 48%;
-  }
-  @media all and (max-width: 550px) {
-    width: 100%;
-  }
+  // @media all and (max-width: 850px) {
+  //   width: 48%;
+  // }
+  // @media all and (max-width: 550px) {
+  //   width: 100%;
+  // }
 }
 
 .logEntryDateCompleted {
@@ -66,16 +67,17 @@ td > a {
 }
 
 .largeScreens {
-  visibility: invisible;
-  display: none;
+  visibility: hidden!important;
+  visibility: collapse!important;
+  display: none!important;
   line-height: 1;
   font-weight: 400;
   font-size: 1rem;
 }
 
 .smallScreens {
-  visibility: initial;
-  display: flex;
+  visibility: initial!important;
+  display: flex!important;
 }
 
 .logFormPhotosContainer {
@@ -138,15 +140,32 @@ a.deletePhoto {
   padding: 5px;
 }
 
+.logDeleteContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+a.button.deleteLogEntry {
+  background: #DEA600;
+  border: 1px solid #DEA600;  
+  text-shadow: 1px 1px #888;
+}
+
+a.button.deleteLogEntryConfirm {
+  background: #cc0404;
+  border: 1px solid #cc0404;
+}
+
 @media all and (min-width: 768px) {
   .largeScreens {
-    visibility: initial;
-    display: initial;
+    visibility: initial!important;
+    display: initial!important;
     font-size: 1.1rem;
   }
   .smallScreens {
-    visibility: invisible;
-    display: none;
+    visibility: hidden!important;
+    visibility: collapse!important;
+    display: none!important;
   }
   .logFormPhotosContainer {
     grid-template-columns: repeat(2, 1fr);

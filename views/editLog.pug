@@ -3,13 +3,16 @@ extends layout
 include mixins/_logForm
 
 block content
-  .inner
-    h2= title
-      if log && log.slug
-        a(href=`/log/${log.slug}`)  - #{log.name}
+  .single
+    .single__hero
+      h2.title.title--single= title
+        if log && log.slug
+          a(href=`/log/${log.slug}`)  - #{log.name}
+
+  .single__details.inner
     +logForm(log, vehicle)
 
     if log
-      .logDeleteContainer
+      .card.logDeleteContainer
         a.button.deleteLogEntry(title="Delete Log Entry") Delete Log Entry
         a.button.deleteLogEntryConfirm.hidden(href=`/delete/log/entry/${log._id}` title="Confirm Log Entry Deletion") Permanently Delete Log Entry

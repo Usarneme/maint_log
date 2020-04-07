@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background: $whiteSmoke;
+  background: $darkest;
   color: $blackText;
   &:before {
     content: '';
@@ -15,11 +15,14 @@ body {
     linear-gradient(315deg, hsla(130, 96%, 45%, 1) 100%, hsla(130, 96%, 45%, 0) 70%);
     height: 10px;
     width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
   }
 }
 
 .inner {
   max-width: 900px;
+  background: $darker;
   margin: 0 auto;
   @media all and (max-width: 900px) {
     padding: 1rem;
@@ -35,12 +38,16 @@ svg {
   height: 40px;
 }
 
+.content {
+  background: $darkest;
+}
+
 .main {
   width: 100%;
   margin: 10px auto;
   padding: 10px;
   border: none;
-  background: $whiteSmoke;
+  background: $dark;
   &:hover {
     transform: scale(1.005);
   }

@@ -3,7 +3,10 @@ extends layout
 include mixins/_searchForm
 
 block content
-  .inner
-    .search
-      h2 Search Log Entries
+  .single
+    .single__hero
+      h2.title.title--single Search Log Entries
+
+  .single__details.inner
+    .card.search
       +searchForm()

@@ -13,8 +13,8 @@ function searchResultsHTML(logEntries) {
 
 function typeAhead(search) {
   if (!search) return;
-  // console.log('Search input detected...')
-  // console.table(search)
+  console.log('Search input detected...')
+  console.table(search)
 
   const searchInput = search.querySelector('input[name="search"]');
   const searchResults = search.querySelector('.search__results');

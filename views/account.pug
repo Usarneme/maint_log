@@ -3,18 +3,20 @@ extends layout
 include mixins/_vehicleInfo
 
 block content
-  .inner
-    //- pre= h.dump(locals)
+  .single
+    .single__hero
+      h2.title.title--single Edit Your Account
 
-    h2 Edit Your Account
-    form(action="/account" method="POST")
-      label(for="name") Name
-      input(type="text" name="name" value=user.name)
-      label(for="email") Email Address
-      input(type="email" name="email" value=user.email)
-      +vehicleInfo()
+  .single__details.inner
+    .card
+      form(action="/account" method="POST")
+        label(for="name") Name
+        input(type="text" name="name" value=user.name)
+        label(for="email") Email Address
+        input(type="email" name="email" value=user.email)
+        +vehicleInfo()
 
-      input.button(type="submit" value="Save Account Changes")
+        input.button(type="submit" value="Save Account Changes")
 
     //- .settings
     //-   h2 Settings

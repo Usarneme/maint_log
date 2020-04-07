@@ -3,8 +3,11 @@ extends layout
 include mixins/_searchForm
 
 block content
-  h2= title
-  .inner
+  .single
+    .single__hero
+      h2.title.title--single= title
+
+  .single__details.inner
     if user
       .main.search__main.search
         != h.icon('log-search.svg')

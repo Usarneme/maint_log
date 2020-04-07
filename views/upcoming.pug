@@ -4,35 +4,36 @@ include mixins/_logCard
 include mixins/_logTableEntry
 
 block content
-  h2= title
+  .single
+    .single__hero
+      h2.title.title--single= title
 
-  //- pre= h.dump(locals)
-
-  .log.largeScreens
-    table.logTable
-      thead
-        tr.tableHead
-          th Service Performed
-          th Vehicle
-          th Short Desc
-          //- th Long Desc
-          //- th Date Started
-          th Date Completed
-          //- th Date Entered
-          th Next Service Date
-          th Next Service Mileage
-          th Tools
-          th Parts
-          th Parts Cost
-          th Labor Cost
-          th Service Location
-          th Odometer
-      tbody
+    .largeScreens
+      .single__details.log
+        table.logTable
+          thead
+            tr.tableHead
+              th Service Performed
+              th Vehicle
+              th Short Desc
+              //- th Long Desc
+              //- th Date Started
+              th Date Completed
+              //- th Date Entered
+              th Next Service Date
+              th Next Service Mileage
+              th Tools
+              th Parts
+              th Parts Cost
+              th Labor Cost
+              th Service Location
+              th Odometer
+          tbody
+            each entry in log
+              tr.logTableEntry
+                +logTableEntry(entry, vehicle)
+      
+    .smallScreens
+      .single__details.log
         each entry in log
-          tr.logTableEntry
-            +logTableEntry(entry, vehicle)
-  
-  .inner
-    .log.smallScreens
-      each entry in log
-        +logCard(entry)
+          +logCard(entry)

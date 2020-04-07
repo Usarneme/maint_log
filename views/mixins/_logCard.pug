@@ -7,5 +7,4 @@ mixin logCard(log = {})
       if user && log.author.equals(user._id)
         a.button(href=`/log/${log.slug}`) View
         a.button(href=`/log/${log._id}/edit`) Edit
-      hr
       span.logEntryDateCompleted= h.moment(log.dateCompleted).fromNow()
