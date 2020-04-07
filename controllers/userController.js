@@ -36,8 +36,7 @@ exports.validateAccountUpdate = (req, res, next) => {
 
   // validates both /register and /account POSTed updates. only register has a password field
   if (req.body.hasOwnProperty('password')) {
-    // POSTing to api/register also uses this middleware
-    if (req.body.api) return next('Error validating account update via api')
+    if (req.body.api) return next(errorMessages) // api/register returns json only, not rendered html
     return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
   } else {
     return res.render('account', { title: 'Account', body: req.body, flashes: req.flash() })

@@ -90,11 +90,6 @@ exports.update = async (req, res) => {
   res.redirect('/')
 }
 
-exports.apiLogin = passport.authenticate('local', function(req, res) {
-  console.log('authController - apiLogin succeeded.')
-  return res.status(200).send({ user: req.user })
-})
-
 exports.apiLogout = (req, res) => {
   req.logout()
   res.status(200).send('Logged out successfully!')

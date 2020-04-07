@@ -29,10 +29,15 @@ exports.notFound = (req, res, next) => {
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
-  console.log('flash validation errors err: '+err+'. err.errors: '+err.errors+'. err keys: '+Object.keys(err))
+  // console.log(`flash validation errors err: ${err}`)
+  // console.log(`err.errors: ${err.errors}`)
+  // console.log(`err keys: ${Object.keys(err)}`)
   // console.log(err)
   // console.log(req.body)
-  if (err === 'API cannot confirm user is logged in.') return next() // API error can be ignored by the web application, will be handled by API consumer (e.g.: mobile app, react front end)
+  
+  // Respond w/JSON when encountering an API request error
+  if (err === 'API cannot confirm user is logged in.') return res.status(409).send(err) 
+  if (err[0] === 'That Email is not valid.') return res.status(409).send(err[0]) 
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler
     console.log('No validation errors. Moving to next.')
