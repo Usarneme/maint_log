@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default function deleteLogEntry(pathname) {
-  // pathname will be "/log/somelogID/edit"
+  // pathname will be "/log/some_log_ID/edit"
   const pathRegEx = /\/log\/.+\/edit/
   const logEntryId = window.location.pathname.split('/')[2]
 

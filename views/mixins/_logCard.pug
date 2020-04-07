@@ -1,10 +1,19 @@
 mixin logCard(log = {})
-  .logEntry
+
+  .card.logEntry
     h2.title
-      a(href=`/log/${log.slug}`) #{log.name}
+      a(href=`/log/${log.slug}`)= log.name
     .logEntry__details
+      .twoByTwo
+        strong Completed Last
+        strong Due Next
+      .twoByTwo.lower
+        span.logEntryDateCompleted= h.moment(log.dateCompleted).fromNow() 
+        span.logEntryDateDue= log.dateDue ? h.moment(log.dateDue).fromNow() : 'Not Entered'
+        //- span.logEntryDateDue= log.dateDue ? h.moment(log.dateDue).format('MMM Do YYYY') : 'Not Entered'
+        span.logEntryMileageCompleted #{log.odometer.toLocaleString()} miles
+        span.logEntryMileageDue= log.mileageDue ? log.mileageDue.toLocaleString() : 'Not entered'
       p= log.shortDescription
       if user && log.author.equals(user._id)
         a.button(href=`/log/${log.slug}`) View
         a.button(href=`/log/${log._id}/edit`) Edit
-      span.logEntryDateCompleted= h.moment(log.dateCompleted).fromNow()

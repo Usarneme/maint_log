@@ -8,15 +8,14 @@ body {
   &:before {
     content: '';
     display: block;
-    // background: $grad;
     background:
-    linear-gradient(45deg, hsla(190, 95%, 43%, 1) 0%, hsla(190, 95%, 43%, 0) 70%),
-    linear-gradient(135deg, hsla(219, 93%, 48%, 1) 10%, hsla(219, 93%, 48%, 0) 80%),
-    linear-gradient(315deg, hsla(130, 96%, 45%, 1) 100%, hsla(130, 96%, 45%, 0) 70%);
-    height: 10px;
+      linear-gradient(45deg, hsla(190, 95%, 43%, 1) 0%, hsla(190, 95%, 43%, 0) 70%),
+      linear-gradient(135deg, hsla(219, 93%, 48%, 1) 10%, hsla(219, 93%, 48%, 0) 80%),
+      linear-gradient(315deg, hsla(130, 96%, 45%, 1) 100%, hsla(130, 96%, 45%, 0) 70%);
+    height: 9px;
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    // max-width: 900px;
+    // margin: 0 auto;
   }
 }
 
@@ -40,6 +39,7 @@ svg {
 
 .content {
   background: $darkest;
+  min-height: 80 vh;
 }
 
 .main {
@@ -47,7 +47,7 @@ svg {
   margin: 10px auto;
   padding: 10px;
   border: none;
-  background: $dark;
+  background: $darkest;
   &:hover {
     transform: scale(1.005);
   }

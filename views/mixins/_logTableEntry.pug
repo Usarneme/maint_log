@@ -1,28 +1,21 @@
 mixin logTableEntry(log, vehicle = {})
-  //- pre= h.dump(locals.log)
-
   td.logName 
     span= log.name
     .logButtonsContainer
       if user && log.author.equals(user._id)
         a.button(href=`/log/${log.slug}`) View
         a.button(href=`/log/${log._id}/edit`) Edit
-          //- != h.icon('pencil.svg')
-
   - const year = vehicle.length > 0 ? vehicle[0].year : 'No vehicle associated'
   - const make = vehicle.length > 0 ? vehicle[0].make : ''
   - const model = vehicle.length > 0 ? vehicle[0].model : ''
   td #{year} #{make} #{model} 
   td= log.shortDescription.length > 85 ? `${log.shortDescription.substring(0,85)}...` : log.shortDescription
-  //- td= log.longDescription.length > 85 ? `${log.longDescription.substring(0,85)}...` : log.longDescription
-  //- td= h.moment(log.dateStarted).format("MMM Do YY")
-  td= h.moment(log.dateCompleted).format("MMM Do YY")
-  //- td= h.moment(log.dateEntered).format("MMM Do YY")
-  td= h.moment(log.dateDue).format("MMM Do YY")
-  td= Number(log.mileageDue).toLocaleString()
+  td= h.moment(log.dateCompleted).format("MMM Do YYYY")
+  td= log.dateDue ? h.moment(log.dateDue).format("MMM Do YYYY") : 'Not Entered'
+  td= log.mileageDue ? Number(log.mileageDue).toLocaleString() : 'Not Entered'
   td= log.tools.toString().length > 85 ? `${log.tools.toString().substring(0,85)}...` : log.tools.toString()
   td= log.parts.toString().length > 85 ? `${log.parts.toString().substring(0,85)}...` : log.parts.toString()
-  td $#{log.partsCost}
-  td $#{log.laborCost}
+  td $#{Number(log.partsCost).toLocaleString()}
+  td $#{Number(log.laborCost).toLocaleString()}
   td= log.serviceLocation
   td= Number(log.odometer).toLocaleString()

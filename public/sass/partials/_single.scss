@@ -33,15 +33,11 @@
     display: flex;
     flex-direction: column;
     background: $darker;
-    // clip-path: polygon(0px 2vw, 100% 0, 100% calc(100% - 2vw), 0% 100%);
     position: relative;
+    min-height: 65vh;
     padding: 1rem;
     margin-top: -11rem;
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.15);
-  }
-  &__details > p {
-    margin: 2px 0px;
-    padding: 4px 0;
   }
 }
 
@@ -50,27 +46,15 @@ label[for=previousPhotos] {
 }
 
 .title {
-  word-wrap: break-word;
-  position: relative;
   z-index: 2;
   margin: 0;
-  margin-top: 2rem;
-  min-height: 5rem;
-  padding: 0.5rem;
-  // font-size: 40px;
-  z-index: 2;
-  line-height:1.1;
-  // transform: skew(0, -3deg);
-  &--long {
-    // font-size: 30px;
-  }
-  line-height:1.1;
+  margin-top: 1.5rem;
+  line-height: 1.1;
+  position: relative;
+  word-wrap: break-word;
+  // transform: skew(0, -2deg);
 }
 
-// .title--single {
-//   max-width: 600px;
-//   padding: 20px;
-//   // margin-top: -9rem;
-//   // font-size: 10rem;
-//   text-align: center;
-// }
+.logEntry > .title > a {
+  border-bottom: 2px solid #AAA;
+}

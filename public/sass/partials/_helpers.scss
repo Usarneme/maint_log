@@ -4,20 +4,24 @@
 }
 
 .hidden {
-  visibility: invisible;
-  display: none;
+  visibility: hidden!important;
+  visibility: collapse!important;
+  display: none!important;
 }
 
 .button {
-  cursor: pointer;
   border: 0;
+  width: 100%;
+  padding: 10px;
+  display: block;
+  cursor: pointer;
+  font-weight: 600;
   color: $buttonText;
+  text-align: center;
+  font-family: 'Panama';
+  margin: 10px 0 10px 0;
   background-color: $buttonBlue;
   border: 1px solid $buttonBlue;
-  font-family: 'Panama';
-  font-weight: 600;
-  padding: 10px;
-  margin: 10px 0 10px 0;
 }
 
 // .avatar {
@@ -28,8 +32,8 @@
 // }
 
 .card {
-  background: $white;
-  padding: 1.5rem;
+  background: $darkest;
+  padding: 0.15rem;
   box-shadow: 0 1px 10px rgba(0,0,0,0.15);
 }
 

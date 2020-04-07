@@ -14,12 +14,13 @@ block content
         input(type="text" name="name" value=user.name)
         label(for="email") Email Address
         input(type="email" name="email" value=user.email)
-        +vehicleInfo()
-
         input.button(type="submit" value="Save Account Changes")
+    .card
+      +vehicleInfo()
+
 
     //- .settings
-    //-   h2 Settings
+    //-   h2 Display Settings
     //-   form()
     //-     label(for="darkModeToggle") Dark/Light View Mode
     //-     input(name="darkModeToggle" id="themeSwitch" type="checkbox")
