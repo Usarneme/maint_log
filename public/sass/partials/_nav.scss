@@ -8,7 +8,7 @@ nav.nav {
   margin: 0 auto;
   display: inline-grid;
   grid-template-columns: repeat(3, 1fr);
-  background: $dark;
+  // background: $dark;
   padding: 2px;
   transition: transform 0.25s;
 }
@@ -25,7 +25,6 @@ nav.nav {
   svg {
     transform: scale(1.2)
   }
-  // background: linear-gradient(90deg, #48ded4 0%, #a026bf 20%, #e82c75 60%, $yellow 85%, #48ded4 95%) fixed;
   background: linear-gradient(90deg, #48ded4 0%, hsla(219, 93%, 48%, 1) 10%, hsla(130, 96%, 45%, 1) 100%) fixed;
 }
 

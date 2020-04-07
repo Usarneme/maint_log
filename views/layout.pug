@@ -6,45 +6,46 @@ html
     link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.ico")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    block header
-      header.top
-        if user
-          nav.nav.nav__user
-            each item in h.menu
-              .nav__item: a.nav__link(href=item.slug, class=(currentPath === item.slug ? 'nav__link--active' : ''))
-                  != h.icon(item.icon+'.svg')
-                  span #{item.title}
-            .nav__item: a.nav__link(href="/logout", class=(currentPath.startsWith('/logout') ? 'nav__link--active' : ''))
-              != h.icon('logout.svg')
-              span Logout
-            .nav__item: a.nav__link(href="/account", class=(currentPath.startsWith('/account') ? 'nav__link--active' : ''))
-              != h.icon('register-face.svg')
-              span Account
-        else
-          nav.nav.nav__guest
-            .nav__item: a.nav__link(href="/") 
-              != h.icon('house.svg')
-              span Home
-            .nav__item: a.nav__link(href="/register", class=(currentPath.startsWith('/register') ? 'nav__link--active' : '')) 
-              != h.icon('register.svg')
-              span Register
-            .nav__item: a.nav__link(href="/login", class=(currentPath.startsWith('/login') ? 'nav__link--active' : '')) 
-              != h.icon('login.svg')
-              span Log In
+    .container
+      block header
+        header.top
+          if user
+            nav.nav.nav__user
+              each item in h.menu
+                .nav__item: a.nav__link(href=item.slug, class=(currentPath === item.slug ? 'nav__link--active' : ''))
+                    != h.icon(item.icon+'.svg')
+                    span #{item.title}
+              .nav__item: a.nav__link(href="/logout", class=(currentPath.startsWith('/logout') ? 'nav__link--active' : ''))
+                != h.icon('logout.svg')
+                span Logout
+              .nav__item: a.nav__link(href="/account", class=(currentPath.startsWith('/account') ? 'nav__link--active' : ''))
+                != h.icon('register-face.svg')
+                span Account
+          else
+            nav.nav.nav__guest
+              .nav__item: a.nav__link(href="/") 
+                != h.icon('house.svg')
+                span Home
+              .nav__item: a.nav__link(href="/register", class=(currentPath.startsWith('/register') ? 'nav__link--active' : '')) 
+                != h.icon('register.svg')
+                span Register
+              .nav__item: a.nav__link(href="/login", class=(currentPath.startsWith('/login') ? 'nav__link--active' : '')) 
+                != h.icon('login.svg')
+                span Log In
 
-    block messages
-      if locals.flashes
-        .inner.inner--flashes
-          .flash-messages
-            - const categories = Object.keys(locals.flashes)
-            each category in categories
-              each message in flashes[category]
-                .flash(class=`flash--${category}`)
-                  p.flash__text!= message
-                  button.flash__remove(onClick="this.parentElement.remove()") &times;
-    .content
-      block content
-        p Loading...
+      block messages
+        if locals.flashes
+          .inner.inner--flashes
+            .flash-messages
+              - const categories = Object.keys(locals.flashes)
+              each category in categories
+                each message in flashes[category]
+                  .flash(class=`flash--${category}`)
+                    p.flash__text!= message
+                    button.flash__remove(onClick="this.parentElement.remove()") &times;
+      .content
+        block content
+          p Loading...
 
-    block scripts
-      script(src="/dist/App.bundle.js")
+      block scripts
+        script(src="/dist/App.bundle.js")

@@ -5,18 +5,18 @@ html {
 body {
   background: $darkest;
   color: $blackText;
-  &:before {
-    content: '';
-    display: block;
-    background:
-      linear-gradient(45deg, hsla(190, 95%, 43%, 1) 0%, hsla(190, 95%, 43%, 0) 70%),
-      linear-gradient(135deg, hsla(219, 93%, 48%, 1) 10%, hsla(219, 93%, 48%, 0) 80%),
-      linear-gradient(315deg, hsla(130, 96%, 45%, 1) 100%, hsla(130, 96%, 45%, 0) 70%);
-    height: 9px;
-    width: 100%;
-    // max-width: 900px;
-    // margin: 0 auto;
-  }
+  min-height: 100vh;
+  background: linear-gradient(90deg, #48ded4 0%, hsla(219, 93%, 48%, 1) 10%, hsla(130, 96%, 45%, 1) 100%) fixed;
+  // background:
+  //   linear-gradient(45deg, hsla(190, 95%, 43%, 1) 0%, hsla(190, 95%, 43%, 0) 70%),
+  //   linear-gradient(135deg, hsla(219, 93%, 48%, 1) 10%, hsla(219, 93%, 48%, 0) 80%),
+  //   linear-gradient(315deg, hsla(130, 96%, 45%, 1) 100%, hsla(130, 96%, 45%, 0) 70%);
+}
+
+.container {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  background: rgba(0,0,0,0.65);
 }
 
 .inner {
@@ -35,11 +35,6 @@ svg {
   fill: $blackText;
   width: 40px;
   height: 40px;
-}
-
-.content {
-  background: $darkest;
-  min-height: 80 vh;
 }
 
 .main {

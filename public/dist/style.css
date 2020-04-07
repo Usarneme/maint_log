@@ -4,13 +4,14 @@ html {
 
 body {
   background: #151515;
-  color: #D0D0D0; }
-  body:before {
-    content: '';
-    display: block;
-    background: linear-gradient(45deg, #05b3d6 0%, rgba(5, 179, 214, 0) 70%), linear-gradient(135deg, #0958ec 10%, rgba(9, 88, 236, 0) 80%), linear-gradient(315deg, #05e129 100%, rgba(5, 225, 41, 0) 70%);
-    height: 9px;
-    width: 100%; }
+  color: #D0D0D0;
+  min-height: 100vh;
+  background: linear-gradient(90deg, #48ded4 0%, #0958ec 10%, #05e129 100%) fixed; }
+
+.container {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  background: rgba(0, 0, 0, 0.65); }
 
 .inner {
   max-width: 900px;
@@ -26,10 +27,6 @@ svg {
   fill: #D0D0D0;
   width: 40px;
   height: 40px; }
-
-.content {
-  background: #151515;
-  min-height: 80 vh; }
 
 .main {
   width: 100%;
@@ -619,14 +616,13 @@ select::-ms-expand {
     transform: translateX(0px); } }
 
 .flash {
-  background: #191919;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-  margin-bottom: 2rem;
-  padding: 2rem;
-  position: relative;
   z-index: 1;
-  border-radius: 3px;
+  margin: 1px;
+  padding: 2rem;
   display: flex;
+  position: relative;
+  background: #252525;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   -webkit-animation: slideIn forwards .1s ease-in-out 2;
           animation: slideIn forwards .1s ease-in-out 2;
   -webkit-animation-timing-function: cubic-bezier(0.01, 1.68, 0.58, 1);
@@ -647,7 +643,7 @@ select::-ms-expand {
   .flash:after {
     content: '';
     display: block;
-    background: #191919;
+    background: #252525;
     position: absolute;
     width: calc(100% - 16px);
     height: calc(100% - 16px);
@@ -674,7 +670,6 @@ nav.nav {
   margin: 0 auto;
   display: inline-grid;
   grid-template-columns: repeat(3, 1fr);
-  background: #454545;
   padding: 2px;
   transition: transform 0.25s; }
 
@@ -739,7 +734,8 @@ a.nav__link > svg > g {
 div.log {
   display: flex;
   background: #252525;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05); }
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+  margin: 0 auto; }
 
 .logTable {
   width: 100%;
@@ -884,26 +880,11 @@ a.button.deleteLogEntryConfirm {
     font-size: 1.5rem; } }
 
 .single__hero {
-  height: 200px;
-  position: relative;
-  overflow: hidden;
   display: flex;
   justify-content: center;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
-          clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%); }
-  .single__hero:before {
-    display: block;
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    background: linear-gradient(45deg, #05b3d6 0%, rgba(5, 179, 214, 0) 70%), linear-gradient(135deg, #0958ec 10%, rgba(9, 88, 236, 0) 80%), linear-gradient(315deg, #05e129 100%, rgba(5, 225, 41, 0) 70%);
-    opacity: 0.6;
-    z-index: 1;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%); }
+  align-content: center;
+  margin: 0 auto;
+  padding: 1rem; }
 
 .single__image {
   width: 100%;
@@ -916,10 +897,7 @@ a.button.deleteLogEntryConfirm {
   display: flex;
   flex-direction: column;
   background: #252525;
-  position: relative;
-  min-height: 65vh;
   padding: 1rem;
-  margin-top: -11rem;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15); }
 
 label[for=previousPhotos] {
@@ -954,8 +932,7 @@ label[for=previousPhotos] {
   display: flex;
   align-items: center;
   background: #151515;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin: 2rem auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05); }
   .pagination__next {
     flex: 0 0 auto;
@@ -999,7 +976,8 @@ label[for=previousPhotos] {
 
 .card {
   background: #151515;
-  padding: 0.15rem;
+  padding: 1rem;
+  margin: 1rem 0;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15); }
 
 .card > input {
