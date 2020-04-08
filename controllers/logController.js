@@ -90,7 +90,6 @@ exports.editLogPage = async (req, res) => {
   confirmOwner(log, req.user)
   res.render('editLog', { title: `Edit`, log, vehicle })
 }
-// ---------------------------- END OF SERVER RENDERED PAGES -------------------
 
 // ---------------------------- PHOTO MIDDLEWARE -------------------------------
 const multerOptions = {
@@ -174,7 +173,6 @@ exports.removePhoto = async (req, res) => {
   const updatedLog = await Log.find({ author: req.user._id })
   res.json(updatedLog)
 }
-// ---------------------------- END OF PHOTO MIDDLEWARE ------------------------
 
 // ---------------------------- LOG DATA SETTERS AND GETTERS -------------------
 exports.createLog = async (req, res) => {
@@ -250,7 +248,6 @@ exports.getLogData = async (req, res) => {
   res.json({log, vehicle})
   // res.end(JSON.stringify({log, vehicle}))
 }
-// ---------------------------- END OF LOG DATA SET AND GET --------------------
 
 // ---------------------------- MISC LOG MIDDLEWARE ----------------------------
 const confirmOwner = (log, user) => {
@@ -258,4 +255,3 @@ const confirmOwner = (log, user) => {
     throw Error('You must own a log in order to edit it!')
   }
 }
-// ---------------------------- END OF MISC LOG MIDDLEWARE ---------------------

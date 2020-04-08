@@ -18,11 +18,13 @@ const vehicleSchema = new mongoose.Schema({
 		required: 'Please provide the vehicle model.'
 	},
 	odometer: Number,
+	odometerReadings: [Number],
 	owner: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'User',
 		required: 'Unable to associate Vehicle with User. Please try again.'
-	}
+	},
+	vin: String
 },
 {
 	toJSON: { virtuals: true },

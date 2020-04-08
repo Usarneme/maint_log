@@ -16,7 +16,7 @@ block content
         input(type="email" name="email" value=user.email)
         input.button(type="submit" value="Save Account Changes")
     .card
-      +vehicleInfo()
+      +vehicleInfo(user.name, user.email)
 
 
     //- .settings

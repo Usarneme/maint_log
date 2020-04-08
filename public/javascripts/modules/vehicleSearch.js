@@ -13,13 +13,13 @@ function listeners() {
   document.querySelector('#vehicleLookup').addEventListener('click', e => changeSearchView(e, 'lookup'))
   document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e))
   
-  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
   const lookupMakeSelect = document.querySelector('select[name="lookupMake"]')
+  // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
   lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e))
-  // using keyboard and mouse event listeners to work on desktop and mobile...
+
+  // using keyboard and mouse event listeners wont' work on mobile, onChange is supported everywhere
   // lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
   // lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
-  
   document.querySelector('select[name="lookupModel"]').addEventListener('change', e => modelSelected(e))
 }
 

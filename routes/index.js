@@ -77,14 +77,7 @@ router.post('/account/reset/:token',
 
 // ---------------------- API DATA ----------------------
 router.get('/api/search', catchErrors(logController.searchLog))
-
-router.post('/api/login', passport.authenticate('local'), (req, res) => {
-  const user = req.user
-  const sessionID = req.sessionID
-  const cookies = req.cookies[process.env.KEY]
-  res.status(200).send({ user, sessionID, cookies })
-})
-
+router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getUserData))
 router.post('/api/logout', authController.apiLogout)
 router.get('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
 
@@ -98,12 +91,7 @@ router.post('/api/register',
   userController.validateAccountUpdate,
   catchErrors(userController.register),
   passport.authenticate('local'), 
-  (req, res) => {
-    const user = req.user
-    const sessionID = req.sessionID
-    const cookies = req.cookies[process.env.KEY]
-    res.status(200).send({ user, sessionID, cookies })
-  }
+  catchErrors(userController.getUserData)
 )
 
 module.exports = router
