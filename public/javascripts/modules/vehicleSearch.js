@@ -219,11 +219,14 @@ function updateVehicle(e, year, make, model, vin = '') {
   const yearInput = document.querySelector('input[name="vehicleYear"]')
   const makeInput = document.querySelector('input[name="vehicleMake"]')
   const modelInput = document.querySelector('input[name="vehicleModel"]')
-  const vinInput = document.querySelector('input[name="vin"]')
 
   yearInput.value = year
   makeInput.value = make
   modelInput.value = model
-  vinInput.value = vin
+
+  if (vin !== '') {
+    const vinInput = document.querySelector('input[name="vin"]')
+    vinInput.value = vin  
+  }
   changeSearchView(e, 'manual')
 }
