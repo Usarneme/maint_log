@@ -59,8 +59,7 @@ router.post('/account',
     body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
     body('vehicleYear', 'Please enter a valid vehicle year').not().isEmpty().trim().escape(),
     body('vehicleMake', 'Please ender a valid vehicle manufacturer (make).').not().isEmpty().trim().escape(),
-    body('vehicleModel', 'Please ender a valid vehicle model.').not().isEmpty().trim().escape(),
-    body('vehicleOdometer', 'Please ender a valid odometer reading.').not().isEmpty().trim().escape()
+    body('vehicleModel', 'Please ender a valid vehicle model.').not().isEmpty().trim().escape()
   ],
   userController.validateAccountUpdate,
   userController.updateAccount,
@@ -91,6 +90,16 @@ router.post('/api/register',
   userController.validateAccountUpdate,
   catchErrors(userController.register),
   passport.authenticate('local'), 
+  catchErrors(userController.getUserData)
+)
+
+router.post('/api/update/account', 
+  [
+    body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
+    body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
+  ],
+  userController.validateAccountUpdate,
+  catchErrors(userController.updateAccount),
   catchErrors(userController.getUserData)
 )
 

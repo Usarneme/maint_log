@@ -29,8 +29,8 @@ exports.validateAccountUpdate = (req, res, next) => {
   // otherwise, we have failed validation...
   const errorMessages = []
   errors.array().forEach(val => errorMessages.push(val.msg))
-  // console.log('validation failed')
-  // console.log(errorMessages)
+  console.log('validation failed')
+  console.log(errorMessages)
   // console.log(errors.array())
   req.flash('error', errorMessages)
   // validates both /register and /account posted updates. only register has a password field
@@ -51,6 +51,7 @@ exports.register = async (req, res, next) => {
 }
 
 exports.updateAccount = async (req, res, next) => {
+  console.log('updateAccount func... owner: '+req.user)
   const accountUpdates = {
     name: req.body.name,
     email: req.body.email
@@ -59,23 +60,40 @@ exports.updateAccount = async (req, res, next) => {
     year: req.body.vehicleYear,
     make: req.body.vehicleMake,
     model: req.body.vehicleModel,
-    odometer: req.body.vehicleOdometer,
-    vin: req.body.vin
+    vehicleOdometer: req.body.vehicleOdometer
   }
   const userPromise = User.findByIdAndUpdate(
     req.user._id,
     { $set: accountUpdates },
     { new: true, runValidators: true, context: 'query' }
   )
-  const vehiclePromise = Vehicle.findOneAndUpdate(
-    { owner: req.user._id },
-    { $set: vehicleUpdates,
-      $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
-    },
-    { upsert: true, new: true, runValidators: true, context: 'query'}
-  )
+
+  let vehiclePromise
+
+  // both odometer and VIN are optional updates
+  if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
+  if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
+    console.log('updating vehicle with new odometer reading...')
+    vehiclePromise = Vehicle.findOneAndUpdate(
+      { owner: req.user._id },
+      { $set: vehicleUpdates,
+        $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
+      },
+      { upsert: true, new: true, runValidators: true, context: 'query'}
+    )
+    console.log('done')
+  } else {
+    console.log('updating vehicle (no odometer reading provided)...')
+    vehiclePromise = Vehicle.findOneAndUpdate(
+      { owner: req.user._id },
+      { $set: vehicleUpdates },
+      { upsert: true, new: true, runValidators: true, context: 'query'}
+    )
+    console.log('done')
+  }
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
+  console.log('updateAccount completed')
   return next()
 }
 
