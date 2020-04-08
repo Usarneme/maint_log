@@ -5640,10 +5640,10 @@ function listeners() {
   document.querySelector('#searchByVin').addEventListener('click', e => changeSearchView(e, 'vin'));
   document.querySelector('#manualVehicleEntry').addEventListener('click', e => changeSearchView(e, 'manual'));
   document.querySelector('#vehicleLookup').addEventListener('click', e => changeSearchView(e, 'lookup'));
-  document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e)); // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
+  document.querySelector('#vinSearchButton').addEventListener('click', e => vinSearch(e));
+  const lookupMakeSelect = document.querySelector('select[name="lookupMake"]'); // lookupMakeSelect.addEventListener('change', e => lookupMakeQuery(e))
 
-  const lookupMakeSelect = document.querySelector('select[name="lookupMake"]');
-  lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e)); // using keyboard and mouse event listeners to work on desktop and mobile...
+  lookupMakeSelect.addEventListener('input', e => lookupMakeQuery(e)); // using keyboard and mouse event listeners wont' work on mobile, onChange is supported everywhere
   // lookupMakeSelect.addEventListener('keyup', e => lookupMakeQuery(e))
   // lookupMakeSelect.addEventListener('mouseup', e => lookupMakeQuery(e))
 
@@ -5685,13 +5685,13 @@ function changeSearchView(e, approach = 'manual') {
     vinSwitcherButton.classList.remove('selected');
   }
 
-  window.scrollTo(0, 300); // scroll down to the bottom so the inputs are in view
+  window.scrollTo(0, 300); // scroll down so the inputs are in view
 }
 
 function vinSearch(e) {
   e.stopPropagation();
   e.preventDefault();
-  let vin = document.querySelector('input[name="vin"]').value || 0;
+  let vin = document.querySelector('input[name="vinput"]').value || 0;
   if (vin === 0) return; // console.log('VIN Search clicked... Looking up '+vin)
 
   const resultsDiv = document.querySelector('.vehicleResults');
@@ -5714,7 +5714,7 @@ function vinSearch(e) {
           <div class="vinSearchResult">
             <div>Year: ${year}</div><div>Make: ${make}</div><div>Model: ${model}</div>
           </div>`;
-      confirmVinResultsButton.addEventListener('click', e => updateVehicle(e, year, make, model));
+      confirmVinResultsButton.addEventListener('click', e => updateVehicle(e, year, make, model, vin));
       confirmVinResultsButton.classList.remove('hidden');
     } else {
       resultsDiv.textContent = `No Results Found for VIN "${vin}". Please try again.`;
@@ -5826,16 +5826,18 @@ function modelSelected(e) {
   confirmLookupResultsButton.classList.remove('hidden');
 }
 
-function updateVehicle(e, year, make, model) {
+function updateVehicle(e, year, make, model, vin = '') {
   e.stopPropagation();
   e.preventDefault(); // console.log('Update Vehicle button clicked...')
 
   const yearInput = document.querySelector('input[name="vehicleYear"]');
   const makeInput = document.querySelector('input[name="vehicleMake"]');
   const modelInput = document.querySelector('input[name="vehicleModel"]');
+  const vinInput = document.querySelector('input[name="vin"]');
   yearInput.value = year;
   makeInput.value = make;
   modelInput.value = model;
+  vinInput.value = vin;
   changeSearchView(e, 'manual');
 }
 

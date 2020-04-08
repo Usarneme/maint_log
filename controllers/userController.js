@@ -69,7 +69,9 @@ exports.updateAccount = async (req, res, next) => {
   )
   const vehiclePromise = Vehicle.findOneAndUpdate(
     { owner: req.user._id },
-    { $set: vehicleUpdates },
+    { $set: vehicleUpdates,
+      $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
+    },
     { upsert: true, new: true, runValidators: true, context: 'query'}
   )
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])

@@ -18,7 +18,10 @@ const vehicleSchema = new mongoose.Schema({
 		required: 'Please provide the vehicle model.'
 	},
 	odometer: Number,
-	odometerReadings: [Number],
+	odometerHistory: [{
+		date: Date,
+		value: Number
+	}],
 	owner: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'User',
