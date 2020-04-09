@@ -59,7 +59,8 @@ function changeSearchView(e, approach = 'manual') {
     vinDiv.classList.add('hidden')
     vinSwitcherButton.classList.remove('selected')
   }
-  window.scrollTo(0, 300) // scroll down so the inputs are in view
+  // 73.25 nav 93 heading + 297.5 account card ~= 463px to the top of the Vehicle Search element
+  window.scrollTo(0, 463) // scroll down so the inputs are in view
 }
 
 function vinSearch(e) {

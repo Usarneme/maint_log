@@ -36,6 +36,13 @@ h1, h2, h3, h4, h5, h6 {
   padding: 5px;
 }
 
+/* Form and Section level Heading */
+h3 {
+  padding-bottom: 3px;
+  border-bottom: 2px solid $dark;
+  margin: 15px 0;
+}
+
 a {
   text-decoration: none;
   color: $blackText;

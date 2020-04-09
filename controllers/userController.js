@@ -60,7 +60,7 @@ exports.updateAccount = async (req, res, next) => {
     year: req.body.vehicleYear,
     make: req.body.vehicleMake,
     model: req.body.vehicleModel,
-    vehicleOdometer: req.body.vehicleOdometer
+    odometer: req.body.vehicleOdometer
   }
   const userPromise = User.findByIdAndUpdate(
     req.user._id,

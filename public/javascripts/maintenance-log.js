@@ -7,7 +7,7 @@ import vehicleSearch from './modules/vehicleSearch' // for AJAX requests to the 
 import toggleDarkMode from './modules/darkMode' 
 import deleteLogEntry from './modules/deleteLogEntry'
 
-typeAhead( document.querySelector('.search') )
+typeAhead( document.querySelector('.search__container') )
 removePhoto( document.querySelector('.logFormPhotosContainer') )
 vehicleSearch( document.querySelector('.lookupSwitcher') )
 logDateFiller()

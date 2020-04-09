@@ -4,10 +4,10 @@ include mixins/_logCard
 include mixins/_logTableEntry
 
 block content
-  .single
-    .single__hero
-      h2.title.title--single= title
+  header.pageHeader
+    h2.title= title
 
+  section.pageContent
     .largeScreens
       .single__details.log
         table.logTable

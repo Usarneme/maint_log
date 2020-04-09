@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  .inner
+  header.pageHeader
+    h2.title Error Encountered!
+
+  section.pageContent.inner
     h2= status
     p= message
   pre.error!= stackHighlighted

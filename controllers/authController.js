@@ -26,6 +26,9 @@ exports.isLoggedIn = (req, res, next) => {
 }
 
 exports.forgot = async (req, res) => {
+  console.log('/account/forgot handler...')
+  console.log(user)
+
   const user = await User.findOne({ email: req.body.email })
   if (!user) {
     req.flash('error', 'No account with that email exists.')
@@ -37,12 +40,13 @@ exports.forgot = async (req, res) => {
   await user.save()
 
   const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`
-  await mail.send({
-    user,
-    filename: 'password-reset',
-    subject: 'Password Reset',
-    resetURL
-  })
+  // await mail.send({
+  //   user,
+  //   filename: 'password-reset',
+  //   subject: 'Password Reset',
+  //   resetURL
+  // })
+
   req.flash('success', `You have been emailed a password reset link.`)
   res.redirect('/login')
 }

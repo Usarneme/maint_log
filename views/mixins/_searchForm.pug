@@ -1,5 +1,6 @@
 mixin searchForm()
   if user
-    //- pre= h.dump(locals)
-    input.search__input(type="text" placeholder="Search by part, date, etc..." name="search")
-    .search__results
+    .search__container
+      label(for="search" type="hidden")
+      input.search__input(type="text" placeholder="Search by part, date, etc..." name="search")
+      .search__results

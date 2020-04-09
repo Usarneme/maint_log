@@ -858,8 +858,8 @@ module.exports = function isCancel(value) {
 
 
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js?28b7");
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js?5e2d");
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js?64e2");
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js?30b5");
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js?f6b4");
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/axios/lib/core/dispatchRequest.js?5270");
 var mergeConfig = __webpack_require__(/*! ./mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js?4a7b");
 
@@ -965,9 +965,9 @@ module.exports = Axios;
 
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js?28b7");
 
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js?30b5");
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js?5e2d");
 
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js?f6b4");
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js?64e2");
 
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/axios/lib/core/dispatchRequest.js?3ee6");
 
@@ -1877,7 +1877,7 @@ module.exports = function transformData(data, headers, fns) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js?28b7");
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/axios/lib/helpers/normalizeHeaderName.js?2ebc");
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/axios/lib/helpers/normalizeHeaderName.js?c8af");
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1893,10 +1893,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js?9c93");
+    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js?b50d");
   } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js?9c93");
+    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js?b50d");
   }
   return adapter;
 }
@@ -1988,7 +1988,7 @@ module.exports = defaults;
 
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js?c532");
 
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/axios/lib/helpers/normalizeHeaderName.js?c8af");
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/axios/lib/helpers/normalizeHeaderName.js?2ebc");
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -2005,10 +2005,10 @@ function getDefaultAdapter() {
 
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js?b50d");
+    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js?9c93");
   } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js?b50d");
+    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js?9c93");
   }
 
   return adapter;
@@ -5352,7 +5352,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(_modules_typeAhead__WEBPACK_IMPORTED_MODULE_1__["default"])(document.querySelector('.search'));
+Object(_modules_typeAhead__WEBPACK_IMPORTED_MODULE_1__["default"])(document.querySelector('.search__container'));
 Object(_modules_removePhoto__WEBPACK_IMPORTED_MODULE_3__["default"])(document.querySelector('.logFormPhotosContainer'));
 Object(_modules_vehicleSearch__WEBPACK_IMPORTED_MODULE_4__["default"])(document.querySelector('.lookupSwitcher'));
 Object(_modules_logDateFiller__WEBPACK_IMPORTED_MODULE_2__["default"])();
@@ -5391,7 +5391,7 @@ function toggleDarkMode() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return deleteLogEntry; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?40ae");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?bc3a");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 function deleteLogEntry(pathname) {
@@ -5482,7 +5482,7 @@ function logDateFiller() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?bc3a");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?40ae");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -5536,7 +5536,7 @@ function deletePhoto(name, photosContainer, photoDiv) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?40ae");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?bc3a");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_1__);
@@ -5575,7 +5575,7 @@ function typeAhead(search) {
       } // If nothing came back...
 
 
-      searchResults.innerHTML = dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.sanitize(`<div class="search__result">No results for ${this.value}</div>`);
+      searchResults.innerHTML = dompurify__WEBPACK_IMPORTED_MODULE_1___default.a.sanitize(`<div class="search__result">No results for: <strong>${this.value}</strong></div>`);
     }).catch(err => {
       console.error(err);
     });
@@ -5626,7 +5626,7 @@ function typeAhead(search) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return vehicleSearch; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?bc3a");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js?40ae");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 function vehicleSearch(containingDiv) {
@@ -5683,9 +5683,10 @@ function changeSearchView(e, approach = 'manual') {
     manualSwitcherButton.classList.remove('selected');
     vinDiv.classList.add('hidden');
     vinSwitcherButton.classList.remove('selected');
-  }
+  } // 73.25 nav 93 heading + 297.5 account card ~= 463px to the top of the Vehicle Search element
 
-  window.scrollTo(0, 300); // scroll down so the inputs are in view
+
+  window.scrollTo(0, 463); // scroll down so the inputs are in view
 }
 
 function vinSearch(e) {

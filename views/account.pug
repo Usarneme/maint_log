@@ -3,12 +3,12 @@ extends layout
 include mixins/_vehicleInfo
 
 block content
-  .single
-    .single__hero
-      h2.title.title--single Edit Your Account
+  header.pageHeader
+    h2.title Settings
 
-  .single__details.inner
+  section.pageContent.inner
     .card
+      h3 Account
       form(action="/account" method="POST")
         label(for="name") Name
         input(type="text" name="name" value=user.name)
@@ -18,9 +18,12 @@ block content
     .card
       +vehicleInfo(user.name, user.email)
 
-
     //- .settings
     //-   h2 Display Settings
     //-   form()
     //-     label(for="darkModeToggle") Dark/Light View Mode
     //-     input(name="darkModeToggle" id="themeSwitch" type="checkbox")
+
+    a.button(href="/logout")
+      != h.icon('logout.svg')
+      span Logout

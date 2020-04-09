@@ -4,6 +4,14 @@ include mixins/_loginForm
 include mixins/_forgot
 
 block content
-  .inner
+  header.pageHeader
+    h2.title Login To Your Account
+
+  section.pageContent.inner
     +loginForm()
+
+  header.pageHeader
+    h2.title Forgot Account Password
+
+  section.pageContent.inner
     +forgotForm()

@@ -1,6 +1,6 @@
 div.log {
-  display: flex;
-  background: $darker;
+  display: grid;
+  grid-template-columns: 1fr;
   box-shadow: $shad;
   margin: 0 auto;
 }
@@ -10,7 +10,7 @@ div.log {
   margin: 1px;
   position: sticky;
   thead {
-    background: $white;
+    background: $darkest;
     // color: $blackText;
   }
   td {
@@ -19,10 +19,10 @@ div.log {
     vertical-align: top;
   }
   .logTableEntry {
-    background: $logTableBackground;
+    background: $darker;
   }
   .logTableEntry:nth-of-type(even) {
-    background: $zebraStripe;
+    background: $dark;
   }
 }
 
@@ -38,7 +38,8 @@ td > a {
 }
 
 .logEntry {
-  background: $white;
+  background: $darkest;
+  max-width: 500px;
   margin: 10px 0;
   display: flex;
   flex-direction: column;
@@ -51,12 +52,6 @@ td > a {
       line-height: 1.2;
     }
   }
-  // @media all and (max-width: 850px) {
-  //   width: 48%;
-  // }
-  // @media all and (max-width: 550px) {
-  //   width: 100%;
-  // }
 }
 
 .logEntryDateCompleted {
@@ -68,18 +63,20 @@ td > a {
   align-items: center;
 }
 
-.largeScreens {
-  visibility: hidden!important;
-  visibility: collapse!important;
-  display: none!important;
+section.pageContent > .largeScreens {
+  max-width: 1900px;
+  margin: 0 auto;
+  display: none;
+  visibility: hidden;
+  visibility: collapse;
   line-height: 1;
   font-weight: 400;
   font-size: 1rem;
 }
 
-.smallScreens {
-  visibility: initial!important;
-  display: flex!important;
+section.pageContent > .smallScreens {
+  visibility: initial;
+  display: grid;
 }
 
 .logFormPhotosContainer {
@@ -151,16 +148,10 @@ a.button.deleteLogEntryConfirm {
 }
 
 @media all and (min-width: 768px) {
-  .largeScreens {
-    visibility: initial!important;
-    display: initial!important;
-    font-size: 1.1rem;
-  }
-  .smallScreens {
-    visibility: hidden!important;
-    visibility: collapse!important;
-    display: none!important;
-  }
+  div.log {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }  
   .logFormPhotosContainer {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 6px;
@@ -170,11 +161,21 @@ a.button.deleteLogEntryConfirm {
   }
 }
 
-@media all and (min-width: 900px) {
+@media all and (min-width: 920px) {
+  section.pageContent > .largeScreens {
+    visibility: initial;
+    display: flex;
+    font-size: 1.1rem;
+  }
+  section.pageContent > .smallScreens {
+    display: none;
+    visibility: hidden;
+    visibility: collapse;
+  }
   .logFormPhotosContainer {
     grid-template-columns: repeat(3, 1fr);
   }
-  .largeScreens {
+  section.pageContent > .largeScreens {
     font-size: 1.3rem;
   }
 }
@@ -183,7 +184,7 @@ a.button.deleteLogEntryConfirm {
   .logFormPhotosContainer {
     grid-template-columns: repeat(5, 1fr);
   }
-  .largeScreens {
+  section.pageContent > .largeScreens {
     font-size: 1.5rem;
   }
 }

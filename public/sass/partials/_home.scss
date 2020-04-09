@@ -1,0 +1,32 @@
+.home__option {
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px;
+  border: none;
+  background: $darkest;
+  &:hover {
+    transform: scale(1.005);
+  }
+}
+
+a.home__option {
+  overflow-x: hidden;
+  height: 100%;
+  display: inline-block;
+}
+
+.home__option > span {
+  padding-left: 8px;
+}
+
+@media all and (min-width: 768px) {
+  .home__option {
+    font-size: $medium;
+  }
+}
+
+@media all and (min-width: 1920px) {
+  .home__option {
+    font-size: $large;
+  }
+}

@@ -3,12 +3,11 @@ extends layout
 include mixins/_logPhotos
 
 block content
-  .single
-    .single__hero
-      h2.title.title--single
-        a(href=`/log/${log.slug}`) #{log.name}
+  header.pageHeader
+    h2.title
+      a(href=`/log/${log.slug}`) #{log.name}
 
-  .single__details.inner
+  section.pageContent.inner
     .card
       p 
         - const year = log.vehicle !== null ? log.vehicle.year : 'No vehicle associated'

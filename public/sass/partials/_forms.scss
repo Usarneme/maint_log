@@ -1,8 +1,9 @@
-input, select, textarea {
-  background: $formInput;
+input, select, option, textarea {
   width: 100%;
-  border: 1px solid $grey;
-  padding: 5px 35px 5px 5px;
+  background-color: lighten($dark, 25%);
+  background: lighten($dark, 25%);
+  border: 1px solid $darker;
+  padding: 5px 0 5px 5px;
   height: 40px;
   &.input {
     &--error {
@@ -11,11 +12,12 @@ input, select, textarea {
   }
 }
 
-textarea {
-  min-height: 80px;
+input[type="file"] {
+  color: #FFF;
 }
 
 textarea {
+  min-height: 80px;
   padding: 8px;
 }
 
@@ -24,29 +26,13 @@ label {
   display: block;
 }
 
-.form {
-  background: $white;
-  padding: 2rem;
-  box-shadow: $grad;
-  & + .form {
-    margin-top: 4rem;
-  }
-  h2 {
-    margin: 0;
-    font-size: 2rem;
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid $grey;
-  }
-}
-
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url('../images/icons/add.svg') 99% / 6% no-repeat $formInput;
+  background: url('../images/icons/add.svg') 99% / 6% no-repeat lighten($dark, 25%);
   @media all and (min-width: 768px) {
-    background: url('../images/icons/add.svg') 99% / 4% no-repeat $formInput;
+    background: url('../images/icons/add.svg') 99% / 4% no-repeat lighten($dark, 25%);
   }
 }
 
@@ -59,5 +45,18 @@ select::-ms-expand {
   select {
     background: none\9;
     padding: 5px\9;
+  }
+}
+
+.form {
+  background: $darkest;
+  padding: 2rem;
+  // box-shadow: $grad;
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $darker;
   }
 }

@@ -1,34 +1,47 @@
 .search {
   width: 100%;
   margin: 10px auto;
-  &__main {
-    display: inline-flex;
+  &__home__option {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    div {
+      flex: 1;
+    }
   }
-  &__main > input {
-    padding: 10px 10px 0 10px;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    label {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  &__home__container {
+    padding-left: 10px;
   }
   &__results {
     width: 100%;
     top: 100%;
-    border: 1px groove $gainsboro;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 5;
+    // border: 1px groove $gainsboro;
+    // box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 3;
   }
   &__input {
     outline: 0;
     border: 0;
   }
   &__result {
+    z-index: 4;
     padding: 10px;
     display: block;
-    background: $whiteSmoke;
-    z-index: 4;
-    border-bottom: 2px solid $whiteText;
-    margin: 1px 0;
+    background: $darker;
+    border-bottom: 2px solid $dark;
     &:hover {
-      background: $gainsboro;
+      background: $dark;
+      border-bottom: 2px solid $darker;
       transform: scale(1.015);
-      border: 1px solid $gainsboro;
     }
   }
 }

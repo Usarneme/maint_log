@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  .inner
+  header.pageHeader
+    h2.title Register A New Account
+
+  section.pageContent.inner
     form.form(action="/register" method="POST")
-      h2 Register
       label(for="name") Name
       input(type="text" name="name")
       label(for="email") Email

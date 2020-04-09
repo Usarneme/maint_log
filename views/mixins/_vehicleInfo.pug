@@ -1,9 +1,11 @@
+include _odometerHistory
+
 mixin vehicleInfo(name = "", email = "")
   //- pre= h.dump(locals.vehicle)
 
   - const alphabetizedMakes = [ 'ACG','Aston Martin','Auto Alliance','Blue Diamond','BMW','Buell','Bugatti','Chevrolet','Chrysler','Club Car','Coachworks','Cooper Cycles','Daimler','E-One','Fiat','Ford','GM','Hino','Hombilt','Honda','Hyundia','International','Jaguar','Jialing','Kenworth','Kia','Lamborghini','Land Rover','Latitude','Lotus','Mack Truck','Maserati','Mazda','Mercedes-Benz','Mills Manufacturing','Mitsubishi','Motorcycle Machine Shop Services','NABI','Navistar','Nissan','NUMMI','Optima','Oshkosh','Owosso','PACCAR','Peterbilt','Quest Manufacturing','Renault','Rolls Royce','Subaru','Suzuki','Tesla','TMMBC','Toyota','UD','Volkswagen','Volvo','Westward','Workhorse' ]
 
-  h5 Vehicle Info
+  h3 Vehicle Info
   .lookupSwitcher
     button.button.manualVehicleEntryButton.selected(id="manualVehicleEntry") Enter Info Manually
     button.button.vinLookupButton(id="searchByVin") Search by VIN
@@ -57,3 +59,5 @@ mixin vehicleInfo(name = "", email = "")
       select(name="lookupModel")
         option(value="First select a make..." selected disabled) First select a manufacturer...
     button.button.hidden(id="confirmLookupResults") Vehicle Info Is Correct
+
+  +odometerHistory(locals.vehicle)

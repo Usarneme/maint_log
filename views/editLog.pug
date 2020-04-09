@@ -3,13 +3,12 @@ extends layout
 include mixins/_logForm
 
 block content
-  .single
-    .single__hero
-      h2.title.title--single= title
-        if log && log.slug
-          a(href=`/log/${log.slug}`)  - #{log.name}
+  header.pageHeader
+    h2.title= title
+      if log && log.slug
+        a(href=`/log/${log.slug}`)  - #{log.name}
 
-  .single__details.inner
+  section.pageContent.inner
     +logForm(log, vehicle)
 
     if log

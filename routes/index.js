@@ -66,9 +66,7 @@ router.post('/account',
   catchErrors(userController.accountPage)
 )
 
-// TODO - re-enable after setting up mailer 
-// router.post('/account/forgot', catchErrors(authController.forgot))
-
+router.post('/account/forgot', catchErrors(authController.forgot))
 router.post('/account/reset/:token',
   authController.confirmedPasswords,
   catchErrors(authController.update)
@@ -80,7 +78,7 @@ router.post('/api/login', passport.authenticate('local'), catchErrors(userContro
 router.post('/api/logout', authController.apiLogout)
 router.get('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
 
-router.post('/api/register',
+router.post('/api/register', 
   [
     body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
     body('email', 'That Email is not valid.').isEmail().normalizeEmail(),

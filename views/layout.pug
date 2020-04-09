@@ -11,19 +11,19 @@ html
         header.top
           if user
             nav.nav.nav__user
+              .nav__item: a.nav__link(href="/", class=(currentPath === '/' ? 'nav__link--active' : ''))
+                != h.icon('house.svg')
+                span Home
               each item in h.menu
                 .nav__item: a.nav__link(href=item.slug, class=(currentPath === item.slug ? 'nav__link--active' : ''))
                     != h.icon(item.icon+'.svg')
                     span #{item.title}
-              .nav__item: a.nav__link(href="/logout", class=(currentPath.startsWith('/logout') ? 'nav__link--active' : ''))
-                != h.icon('logout.svg')
-                span Logout
               .nav__item: a.nav__link(href="/account", class=(currentPath.startsWith('/account') ? 'nav__link--active' : ''))
                 != h.icon('register-face.svg')
                 span Account
           else
             nav.nav.nav__guest
-              .nav__item: a.nav__link(href="/") 
+              .nav__item: a.nav__link(href="/", class=(currentPath === '/' ? 'nav__link--active' : ''))
                 != h.icon('house.svg')
                 span Home
               .nav__item: a.nav__link(href="/register", class=(currentPath.startsWith('/register') ? 'nav__link--active' : '')) 
