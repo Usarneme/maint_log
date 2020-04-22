@@ -51,7 +51,7 @@ exports.register = async (req, res, next) => {
 }
 
 exports.updateAccount = async (req, res, next) => {
-  console.log('updateAccount func... owner: '+req.user)
+  // console.log('updateAccount func... owner: '+req.user)
   const accountUpdates = {
     name: req.body.name,
     email: req.body.email

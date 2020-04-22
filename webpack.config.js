@@ -40,17 +40,17 @@ const icons = {
   ]
 }
 
-// const images = {
-//   test: /\.(png|jpe?g|gif)$/,
-//   use: [
-//     {
-//       loader: 'file-loader',
-//       options: {
-//         outputPath: 'images/'
-//       }
-//     }
-//   ]
-// }
+const images = {
+  test: /\.(png|jpe?g|gif)$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        outputPath: 'images/'
+      }
+    }
+  ]
+}
 
 const fonts = {
   test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
@@ -73,8 +73,7 @@ const config = {
     filename: 'App.bundle.js'
   },
   module: {
-    rules: [javascript, styles, fonts, icons]
-    // rules: [javascript, styles, fonts, icons, images]
+    rules: [javascript, styles, fonts, icons, images]
   },
   plugins: [
     new CleanWebpackPlugin(),

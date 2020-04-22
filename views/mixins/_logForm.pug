@@ -7,8 +7,6 @@ mixin logForm(log = {}, vehicle = {})
     label(for="name") Name
     input(type="text" name="name" value=log.name)
 
-    //- pre= h.dump(locals)
-
     if vehicle
       //- Mongo Schema expects a Mongo ObjectID for the vehicle saved as part of a log entry 
       label(for="vehicle") Vehicle
