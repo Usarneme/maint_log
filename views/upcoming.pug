@@ -8,8 +8,7 @@ block content
     h2.title= title
 
   section.pageContent
-    .largeScreens
-      .single__details.log
+    .largeScreens.log
         table.logTable
           thead
             tr.tableHead
@@ -33,7 +32,6 @@ block content
               tr.logTableEntry
                 +logTableEntry(entry, vehicle)
       
-    .smallScreens
-      .single__details.log
-        each entry in log
-          +logCard(entry)
+    .smallScreens.inner.log
+      each entry in log
+        +logCard(entry)
