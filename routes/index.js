@@ -76,7 +76,7 @@ router.post('/account/reset/:token',
 router.get('/api/search', catchErrors(logController.searchLog))
 router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getUserData))
 router.post('/api/logout', authController.apiLogout)
-router.get('/api/getLogData', authController.apiConfirmLoggedIn, logController.getLogData)
+router.get('/api/log', authController.apiConfirmLoggedIn, logController.getLogData)
 
 router.post('/api/register', 
   [

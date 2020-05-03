@@ -73,7 +73,7 @@ exports.updateAccount = async (req, res, next) => {
   // both odometer and VIN are optional updates
   if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
   if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
-    console.log('updating vehicle with new odometer reading...')
+    // console.log('updating vehicle with new odometer reading...')
     vehiclePromise = Vehicle.findOneAndUpdate(
       { owner: req.user._id },
       { $set: vehicleUpdates,
@@ -81,30 +81,27 @@ exports.updateAccount = async (req, res, next) => {
       },
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
-    console.log('done')
   } else {
-    console.log('updating vehicle (no odometer reading provided)...')
+    // console.log('updating vehicle (no odometer reading provided)...')
     vehiclePromise = Vehicle.findOneAndUpdate(
       { owner: req.user._id },
       { $set: vehicleUpdates },
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
-    console.log('done')
   }
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
-  console.log('updateAccount completed')
+  // console.log('updateAccount completed')
   return next()
 }
 
+// Returns a User object with Vehicle array (if User has saved vehicle(s))
 exports.getUserData = async (req, res) => {
   console.log('getUserData')
   const user = req.user
   const sessionID = req.sessionID
   const cookies = req.cookies[process.env.KEY]
   user.vehicle = await Vehicle.findOne({ owner: req.user._id })
-
-  console.log(user)
-  // return res.status(200).json({user, vehicle})
+  // console.log(user)
   res.status(200).send({ user, sessionID, cookies })
 }

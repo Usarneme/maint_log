@@ -176,9 +176,9 @@ exports.removePhoto = async (req, res) => {
 
 // ---------------------------- LOG DATA SETTERS AND GETTERS -------------------
 exports.createLog = async (req, res) => {
-  console.log('CreateLog func...')
+  // console.log('CreateLog func...')
   req.body.author = req.user._id
-  console.log(req.body)
+  // console.log(req.body)
   const newLogEntry = await (new Log(req.body)).save()
   // api posts to this route and expects a 200 + updated log as result
   if (req.body.api) {
@@ -190,10 +190,10 @@ exports.createLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  console.log('updateLog func...')
+  // console.log('updateLog func...')
   // console.log(Object.keys(req))
   req.body.author = req.user._id
-  console.log(req.body)
+  // console.log(req.body)
 
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
