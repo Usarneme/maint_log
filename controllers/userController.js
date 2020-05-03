@@ -60,7 +60,8 @@ exports.updateAccount = async (req, res, next) => {
     year: req.body.vehicleYear,
     make: req.body.vehicleMake,
     model: req.body.vehicleModel,
-    odometer: req.body.vehicleOdometer
+    odometer: req.body.vehicleOdometer,
+    primary: req.body.primary
   }
   const userPromise = User.findByIdAndUpdate(
     req.user._id,
@@ -69,7 +70,6 @@ exports.updateAccount = async (req, res, next) => {
   )
 
   let vehiclePromise
-
   // both odometer and VIN are optional updates
   if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
   if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
@@ -92,6 +92,7 @@ exports.updateAccount = async (req, res, next) => {
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
   // console.log('updateAccount completed')
+  // console.log(user, vehicle)
   return next()
 }
 
@@ -102,6 +103,6 @@ exports.getUserData = async (req, res) => {
   const sessionID = req.sessionID
   const cookies = req.cookies[process.env.KEY]
   user.vehicle = await Vehicle.findOne({ owner: req.user._id })
-  // console.log(user)
+  console.log(user)
   res.status(200).send({ user, sessionID, cookies })
 }
