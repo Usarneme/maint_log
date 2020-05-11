@@ -91,7 +91,7 @@ exports.updateAccount = async (req, res, next) => {
   }
   const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
   req.flash('success', 'Profile updated.')
-  // console.log('updateAccount completed')
+  console.log('updateAccount completed')
   // console.log(user, vehicle)
   return next()
 }
@@ -99,7 +99,7 @@ exports.updateAccount = async (req, res, next) => {
 // Returns a User object with Vehicle array (if User has saved vehicle(s))
 exports.getUserData = async (req, res) => {
   console.log('getUserData')
-  const user = req.user
+  const user = await User.findById( req.user._id )
   const sessionID = req.sessionID
   const cookies = req.cookies[process.env.KEY]
   user.vehicle = await Vehicle.findOne({ owner: req.user._id })

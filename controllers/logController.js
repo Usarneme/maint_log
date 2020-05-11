@@ -107,7 +107,20 @@ const multerOptions = {
 exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
-  console.log('* Upload photo middleware...')
+  // console.log('* Upload photo middleware...')
+  // console.log(req.body)
+
+  // Create the photos array, remove whitespace, and ensure no empty entries
+  // photos[] is converted toString during transport resulting in: photos: "file1.jpeg,file2.jpeg..."
+  const cleanPhotos = []
+  cleanPhotos = req.body.photos.trim().split(',').filter(Boolean)
+  delete req.body.photos
+  req.body.photos = cleanPhotos
+
+  console.log('Req.body.photos reset: ')
+  console.log(req.body.photos)
+  console.log(Array.isArray(req.body.photos))
+
   // if there is no file on the request...
   if (!req.file) {
     // check for a file on the request.body...
@@ -122,13 +135,6 @@ exports.uploadPhoto = async (req, res, next) => {
   // console.log('* Photo included in form submission.')
   // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
-  // if this log entry already had 1+ photo associated...
-  if (req.body.previousPhotos) {
-    // Create the photos array, remove whitespace, and ensure no empty entries
-    req.body.photos = req.body.previousPhotos.trim().split(',').filter(Boolean)
-  } else {
-    req.body.photos = []
-  }
   // create a unique filename and add to the array of photos associated with this log 
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
@@ -190,10 +196,11 @@ exports.createLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  // console.log('updateLog func...')
+  console.log('updateLog func...')
   // console.log(Object.keys(req))
   req.body.author = req.user._id
-  // console.log(req.body)
+  console.log(req.body)
+  console.log(Array.isArray(req.body.photos))
 
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
