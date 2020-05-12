@@ -74,7 +74,7 @@ router.post('/account/reset/:token',
 
 // ---------------------- API DATA ----------------------
 router.get('/api/search', catchErrors(logController.searchLog))
-router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getUserData))
+router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getApiUserData))
 router.post('/api/logout', authController.apiLogout)
 router.get('/api/log', authController.apiConfirmLoggedIn, logController.getLogData)
 
@@ -98,7 +98,7 @@ router.post('/api/update/account',
   ],
   userController.validateAccountUpdate,
   catchErrors(userController.updateAccount),
-  catchErrors(userController.getUserData)
+  catchErrors(userController.getApiUserData)
 )
 
 module.exports = router

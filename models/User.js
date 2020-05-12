@@ -20,10 +20,10 @@ const userSchema = new Schema({
     required: 'Please supply a login name',
     trim: true
   },
-  vehicle: {
+  vehicles: [{
 		type: mongoose.Schema.ObjectId,
 		ref: 'Vehicle'
-  },
+  }],
   resetPasswordToken: String,
   resetPasswordExpires: Date
 })
