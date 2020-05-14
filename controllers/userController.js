@@ -97,7 +97,6 @@ exports.updateAccount = async (req, res, next) => {
   return next()
 }
 
-// Returns a User object
 exports.getApiUserData = async (req, res) => {
   // console.log('getApiUserData')
   const userPromise = User.findById( req.user._id )

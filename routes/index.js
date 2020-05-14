@@ -88,7 +88,7 @@ router.post('/api/register',
   userController.validateAccountUpdate,
   catchErrors(userController.register),
   passport.authenticate('local'), 
-  catchErrors(userController.getUserData)
+  catchErrors(userController.getApiUserData)
 )
 
 router.post('/api/update/account', 
