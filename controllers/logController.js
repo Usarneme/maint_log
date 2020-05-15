@@ -107,27 +107,27 @@ exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
   // console.log('* Upload photo middleware...')
-  // console.log(req.body)
-
-  // Create the photos array, remove whitespace, and ensure no empty entries
-  // photos[] is converted toString during transport resulting in: photos: "file1.jpeg,file2.jpeg..."
-  const cleanPhotos = []
-  cleanPhotos = req.body.photos.trim().split(',').filter(Boolean)
+  // tools, parts, and photos arrays come in as stringified: "photo1.jpeg,photo2.jpeg,photo3.jpeg"
+  const photosArray = req.body.photos.split(',').filter(Boolean) || []
   delete req.body.photos
-  req.body.photos = cleanPhotos
-
-  console.log('Req.body.photos reset: ')
-  console.log(req.body.photos)
-  console.log(Array.isArray(req.body.photos))
-
+  req.body.photos = [...photosArray]
+  const toolsArray = req.body.tools.split(',').filter(Boolean) || []
+  delete req.body.tools
+  req.body.tools = [...toolsArray]
+  const partsArray = req.body.parts.split(',').filter(Boolean) || []
+  delete req.body.parts
+  req.body.parts = [...partsArray]
+  
   // if there is no file on the request...
-  if (!req.file) {
+  if (!req.file || Object.keys(req.file).length === 0) {
     // check for a file on the request.body...
-    if (!req.body.file) {
-      console.log('No req.file found. Moving to next middleware.')
+    if (!req.body.file || Object.keys(req.body.file).length === 0) {
+      // console.log('No file upload found (at req.file or req.body.file). Moving to next middleware.')
       return next() // No file submitted. Skip to the next middleware  
     } else {
+      // TODO does this ever actually happen??
       // ...there was a req.body.file, putting it on req.file for consistent handling
+      // console.log('adding req.body.file to req.file')
       req.file = req.body.file
     }
   }
@@ -150,7 +150,7 @@ exports.uploadPhoto = async (req, res, next) => {
     console.log("Cloudinary - " + image.url)
   })
 
-  console.log('Photo uploaded successfully. ')
+  // console.log('Photo uploaded successfully. ')
   return next()
 }
 
@@ -195,11 +195,9 @@ exports.createLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  console.log('updateLog func...')
-  // console.log(Object.keys(req))
+  // console.log('updateLog func... body: ')
   req.body.author = req.user._id
-  console.log(req.body)
-  console.log(Array.isArray(req.body.photos))
+  // console.log(req.body)
 
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one

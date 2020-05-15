@@ -33,6 +33,7 @@ app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Takes raw request data and puts them on req.body
+// for parsing json and x-www-form-urlencoded header requests
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
