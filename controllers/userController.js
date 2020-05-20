@@ -21,7 +21,7 @@ exports.accountPage = async (req, res) => {
   return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
 }
 
-// ---------------------------- USER DATA GETTERS AND SETTERS -------------------
+// ---------------------------- ACCOUNT DATA GETTERS AND SETTERS -------------------
 exports.validateAccountUpdate = (req, res, next) => {
   console.log('Posting to validate account update...')
   console.log(req.body)
@@ -30,15 +30,15 @@ exports.validateAccountUpdate = (req, res, next) => {
   // otherwise, we have failed validation...
   const errorMessages = []
   errors.array().forEach(val => errorMessages.push(val.msg))
-  console.log('validation failed')
+  console.log('*** Validation Failed ***'.toUpperCase())
   console.log(errorMessages)
   // console.log(errors.array())
   req.flash('error', errorMessages)
-  // validates both /register and /account posted updates. only register has a password field
+  // api requests return JSON data
+  if (req.body.api) return next(errorMessages) 
+  // validates updates posted to both /register and /account. only register has a password field
+  // TODO this is pretty brittle. find a better way to confirm entry route
   if (req.body.hasOwnProperty('password')) {
-    // api request returns json only
-    if (req.body.api) return next(errorMessages) 
-    // web app returns rendered html
     return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
   } else {
     return res.render('account', { title: 'Account', body: req.body, flashes: req.flash() })
@@ -57,25 +57,35 @@ exports.updateAccount = async (req, res, next) => {
     name: req.body.name,
     email: req.body.email
   }
-  const vehicleUpdates = {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: accountUpdates },
+    { new: true, runValidators: true, context: 'query' }
+  )
+  req.flash('success', 'Profile updated.')
+  console.log('updateAccount completed')
+  // console.log(user)
+  return next()
+}
+
+exports.addVehicle = async (req, res) => {
+  console.log('Adding new Vehicle...')
+  console.log(req.body)
+  return res.status(200).send({ "ok": "ok" })
+
+  const newVehicle = {
     year: req.body.vehicleYear,
     make: req.body.vehicleMake,
     model: req.body.vehicleModel,
     odometer: req.body.vehicleOdometer,
     primary: req.body.primary
   }
-  const userPromise = User.findByIdAndUpdate(
-    req.user._id,
-    { $set: accountUpdates },
-    { new: true, runValidators: true, context: 'query' }
-  )
 
-  let vehiclesPromise
-  // both odometer and VIN are optional updates
-  if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
+  // both odometer and VIN are optional fields
+  if (req.body.vin && req.body.vin !== '') newVehicle.vin = req.body.vin
   if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
-    // console.log('updating vehicle with new odometer reading...')
-    vehiclesPromise = Vehicle.findOneAndUpdate(
+    console.log('updating vehicle with new odometer reading...')
+    const vehicle = await Vehicle.findOneAndUpdate(
       { owner: req.user._id },
       { $set: vehicleUpdates,
         $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
@@ -83,18 +93,51 @@ exports.updateAccount = async (req, res, next) => {
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
   } else {
-    // console.log('updating vehicle (no odometer reading provided)...')
-    vehiclesPromise = Vehicle.findOneAndUpdate(
+    console.log('updating vehicle (no odometer reading provided)...')
+    const vehicle = await Vehicle.findOneAndUpdate(
       { owner: req.user._id },
       { $set: vehicleUpdates },
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
   }
-  const [user, vehicle] = await Promise.all([userPromise, vehiclesPromise])
-  req.flash('success', 'Profile updated.')
-  console.log('updateAccount completed')
-  // console.log(user, vehicle)
-  return next()
+
+  return res.status(200).send(vehicle)
+}
+
+exports.updateVehicle = async (req, res) => {
+  console.log('Updating existing vehicle...')
+  console.log(req.body)
+  return res.status(200).send({ "ok": "ok" })
+
+  const vehicleUpdates = {
+    year: req.body.vehicleYear,
+    make: req.body.vehicleMake,
+    model: req.body.vehicleModel,
+    odometer: req.body.vehicleOdometer,
+    primary: req.body.primary
+  }
+
+  // both odometer and VIN are optional updates
+  if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
+  if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
+    console.log('updating vehicle with new odometer reading...')
+    const vehicle = await Vehicle.findOneAndUpdate(
+      { owner: req.user._id },
+      { $set: vehicleUpdates,
+        $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
+      },
+      { upsert: true, new: true, runValidators: true, context: 'query'}
+    )
+  } else {
+    console.log('updating vehicle (no odometer reading provided)...')
+    const vehicle = await Vehicle.findOneAndUpdate(
+      { owner: req.user._id },
+      { $set: vehicleUpdates },
+      { upsert: true, new: true, runValidators: true, context: 'query'}
+    )
+  }
+
+  return res.status(200).send(vehicle)
 }
 
 exports.getApiUserData = async (req, res) => {

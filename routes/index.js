@@ -27,7 +27,7 @@ router.get('/logout', authController.logout)
 
 // ---------------------- POST DATA ----------------------
 router.post('/add',
-  logController.addPhotoToRequest, // TODO allow multiple simultaneous and replace with HOC
+  logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads (HOC?)
   catchErrors(logController.uploadPhoto),
   catchErrors(logController.createLog)
 )
@@ -99,6 +99,27 @@ router.post('/api/update/account',
   userController.validateAccountUpdate,
   catchErrors(userController.updateAccount),
   catchErrors(userController.getApiUserData)
+)
+
+router.post('/api/vehicle/add',
+  [
+    body('year', 'Your must provide a Vehicle year.').not().isEmpty().trim().escape(),
+    body('make', 'Your must provide a Vehicle make.').not().isEmpty().trim().escape(),
+    body('model', 'Your must provide a Vehicle model.').not().isEmpty().trim().escape(),
+  ],
+  userController.validateAccountUpdate,
+  catchErrors(userController.addVehicle)
+)
+
+router.post('/api/vehicle/update',
+  [
+    body('id', 'There was a problem updating the vehicle. Error: No Vehicle ID provided. Please Try Again.').not().isEmpty().trim().escape(),
+    body('year', 'Your must provide a Vehicle year.').not().isEmpty().trim().escape(),
+    body('make', 'Your must provide a Vehicle make.').not().isEmpty().trim().escape(),
+    body('model', 'Your must provide a Vehicle model.').not().isEmpty().trim().escape(),
+  ],
+  userController.validateAccountUpdate,
+  catchErrors(userController.updateVehicle)
 )
 
 module.exports = router
