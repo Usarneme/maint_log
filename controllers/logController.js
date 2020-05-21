@@ -250,7 +250,6 @@ exports.getLogData = async (req, res) => {
   const vehiclesPromise = Vehicle.find({ owner: req.user._id })
   const [log, vehicles] = await Promise.all([logPromise, vehiclesPromise])
   res.json({log, vehicles})
-  // res.end(JSON.stringify({log, vehicle}))
 }
 
 // ---------------------------- MISC LOG MIDDLEWARE ----------------------------

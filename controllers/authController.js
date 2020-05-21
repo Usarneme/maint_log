@@ -18,9 +18,8 @@ exports.logout = (req, res) => {
 }
 
 exports.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next()
-  }
+  if (req.isAuthenticated()) return next()
+  if (req.body.api) return res.status(500).send({ 'error': { 'message': 'API cannot confirm user is logged in.' } })
   req.flash('error', 'Oops you must be logged in to do that!')
   res.redirect('/login')
 }
@@ -66,7 +65,7 @@ exports.reset = async (req, res) => {
 }
 
 exports.confirmedPasswords = (req, res, next) => {
-  if (req.body.password === req.body['password-confirm']) {
+  if (req.body.password === req.body['passwordConfirm']) {
     console.log('Passwords match middleware passed...')
     next()
     return
@@ -97,14 +96,4 @@ exports.update = async (req, res) => {
 exports.apiLogout = (req, res) => {
   req.logout()
   res.status(200).send('Logged out successfully!')
-}
-
-exports.apiConfirmLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    // console.log(`apiConfirmLoggedIn passed...`)
-    return next()
-  } else {
-    // console.log(`apiConfirmLoggedIn failed...`)
-    return res.status(500).send({ error: 'API cannot confirm user is logged in.' })
-  }
 }

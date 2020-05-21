@@ -25,7 +25,7 @@ router.get('/account/reset/:token', catchErrors(authController.reset))
 router.get('/register', userController.registerPage)
 router.get('/logout', authController.logout)
 
-// ---------------------- POST DATA ----------------------
+// ---------------------- POST APP DATA ----------------------
 router.post('/add',
   logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads (HOC?)
   catchErrors(logController.uploadPhoto),
@@ -46,7 +46,7 @@ router.post('/register',
     body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
     body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
     body('password', 'You must supply a password.').isLength({ min: 6 }),
-    body('password-confirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
+    body('passwordConfirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
   ],
   userController.validateAccountUpdate,
   catchErrors(userController.register),
@@ -76,14 +76,14 @@ router.post('/account/reset/:token',
 router.get('/api/search', catchErrors(logController.searchLog))
 router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getApiUserData))
 router.post('/api/logout', authController.apiLogout)
-router.get('/api/log', authController.apiConfirmLoggedIn, logController.getLogData)
+router.get('/api/log', authController.isLoggedIn, logController.getLogData)
 
 router.post('/api/register', 
   [
     body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
     body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
     body('password', 'You must supply a password.').isLength({ min: 6 }),
-    body('password-confirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
+    body('passwordConfirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
   ],
   userController.validateAccountUpdate,
   catchErrors(userController.register),
@@ -91,7 +91,7 @@ router.post('/api/register',
   catchErrors(userController.getApiUserData)
 )
 
-router.post('/api/update/account', 
+router.post('/api/account/update', 
   [
     body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
     body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
