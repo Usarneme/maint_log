@@ -27,7 +27,7 @@ const vehicleSchema = new mongoose.Schema({
 		ref: 'User',
 		required: 'Unable to associate Vehicle with User. Please try again.'
 	},
-	primary: Boolean, // which vehicle is shown on the account by default, change-able in settings
+	primary: Boolean, // which vehicle is shown on the account by default, changed in settings
 	vin: String
 },
 {

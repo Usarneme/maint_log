@@ -23,8 +23,8 @@ exports.accountPage = async (req, res) => {
 
 // ---------------------------- ACCOUNT DATA GETTERS AND SETTERS -------------------
 exports.validateAccountUpdate = (req, res, next) => {
-  console.log('Posting to validate account update...')
-  console.log(req.body)
+  // console.log('Posting to validate account update...')
+  // console.log(req.body)
   const errors = validationResult(req)
   if (errors.isEmpty()) return next() // passed validation. move to next middleware/handler
   // otherwise, we have failed validation...
@@ -70,38 +70,32 @@ exports.updateAccount = async (req, res, next) => {
 
 exports.addVehicle = async (req, res) => {
   console.log('Adding new Vehicle...')
+  req.body.owner = req.user._id
+  // odometer updates are optional; when provided are indexed by date
+  if (req.body.odometer !== '') {
+    console.log('adding new vehicle with new odometer reading...')
+    req.body.odometerHistory = [{
+      "date": Date.now(),
+      "value": req.body.odometer
+    }]
+  } 
   console.log(req.body)
-  return res.status(200).send({ "ok": "ok" })
 
-  const newVehicle = {
-    year: req.body.vehicleYear,
-    make: req.body.vehicleMake,
-    model: req.body.vehicleModel,
-    odometer: req.body.vehicleOdometer,
-    primary: req.body.primary
-  }
+  const userPromise = User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: req.body },
+    { new: true, runValidators: true, context: 'query' }
+  )
 
-  // both odometer and VIN are optional fields
-  if (req.body.vin && req.body.vin !== '') newVehicle.vin = req.body.vin
-  if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
-    console.log('updating vehicle with new odometer reading...')
-    const vehicle = await Vehicle.findOneAndUpdate(
-      { owner: req.user._id },
-      { $set: vehicleUpdates,
-        $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
-      },
-      { upsert: true, new: true, runValidators: true, context: 'query'}
-    )
-  } else {
-    console.log('updating vehicle (no odometer reading provided)...')
-    const vehicle = await Vehicle.findOneAndUpdate(
-      { owner: req.user._id },
-      { $set: vehicleUpdates },
-      { upsert: true, new: true, runValidators: true, context: 'query'}
-    )
-  }
+  const vehiclePromise = Vehicle.updateOne(
+    { owner: req.user._id },
+    { $set: req.body },
+    { upsert: true, new: true, runValidators: true, context: 'query'}
+  )
 
-  return res.status(200).send(vehicle)
+  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
+  console.log(user, vehicle)
+  return res.status(200).send({user, vehicle})
 }
 
 exports.updateVehicle = async (req, res) => {
@@ -141,7 +135,7 @@ exports.updateVehicle = async (req, res) => {
 }
 
 exports.getApiUserData = async (req, res) => {
-  // console.log('getApiUserData')
+  console.log('getApiUserData')
   const userPromise = User.findById( req.user._id )
   const vehiclesPromise = Vehicle.find({ owner: req.user._id })
   const logPromise = Log.find({ author: req.user._id }).sort({ created: 'desc' })
