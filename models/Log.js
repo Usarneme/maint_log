@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
+const mongodbErrorHandler = require('mongoose-mongodb-errors')
 const slug = require('slugs')
+
+mongoose.Promise = global.Promise
 
 const logSchema = new mongoose.Schema({
   name: {
@@ -79,5 +81,7 @@ logSchema.pre('save', async function(next) {
   }
   next()
 })
+
+logSchema.plugin(mongodbErrorHandler)
 
 module.exports = mongoose.model('Log', logSchema)

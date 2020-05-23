@@ -72,30 +72,26 @@ exports.addVehicle = async (req, res) => {
   console.log('Adding new Vehicle...')
   req.body.owner = req.user._id
   // odometer updates are optional; when provided are indexed by date
-  if (req.body.odometer !== '') {
+  if (req.body.odometer !== 0) {
     console.log('adding new vehicle with new odometer reading...')
     req.body.odometerHistory = [{
       "date": Date.now(),
       "value": req.body.odometer
     }]
   } 
-  console.log(req.body)
+  // console.log(req.body)
 
-  const userPromise = User.findOneAndUpdate(
+  const vehicleId = await (new Vehicle( req.body )).save()
+  // console.log(`New vehicle created. ID: ${vehicleId._id}`)
+  console.log(vehicleId.errors)
+  if (vehicleId.errors !== undefined) return res.status(500)
+
+  await User.findOneAndUpdate(
     { _id: req.user._id },
-    { $set: req.body },
-    { new: true, runValidators: true, context: 'query' }
+    { $push: { vehicles: vehicleId._id } },
+    { $upsert: true } // create the new doc if it doesn't exist
   )
-
-  const vehiclePromise = Vehicle.updateOne(
-    { owner: req.user._id },
-    { $set: req.body },
-    { upsert: true, new: true, runValidators: true, context: 'query'}
-  )
-
-  const [user, vehicle] = await Promise.all([userPromise, vehiclePromise])
-  console.log(user, vehicle)
-  return res.status(200).send({user, vehicle})
+  return res.status(200) // API consumer expects a 200 and no data for a Vehicle addition
 }
 
 exports.updateVehicle = async (req, res) => {

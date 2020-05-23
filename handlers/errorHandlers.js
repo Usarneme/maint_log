@@ -8,7 +8,7 @@
 
 exports.catchErrors = (fn) => {
   return function(req, res, next) {
-    // console.log('Catching Errors...')
+    console.log('Catching Errors...')
     return fn(req, res, next).catch(next)
   }
 }
@@ -29,11 +29,11 @@ exports.notFound = (req, res, next) => {
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
-  // console.log(`flash validation errors err: ${err}`)
-  // console.log(`err.errors: ${err.errors}`)
-  // console.log(`err keys: ${Object.keys(err)}`)
-  // console.log(err)
-  // console.log(req.body)
+  console.log(`flash validation errors err: ${err}`)
+  console.log(`err.errors: ${err.errors}`)
+  console.log(`err keys: ${Object.keys(err)}`)
+  console.log(err)
+  console.log(req.body)
   
   // Respond w/JSON when encountering an API request error
   if (err === 'API cannot confirm user is logged in.') return res.status(409).send(err) 

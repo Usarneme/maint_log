@@ -122,8 +122,7 @@ router.post('/api/vehicle/add',
     body('model', 'Your must provide a Vehicle model.').not().isEmpty().trim().escape(),
   ],
   userController.validateAccountUpdate,
-  catchErrors(userController.addVehicle),
-  catchErrors(userController.getApiUserData)
+  catchErrors(userController.addVehicle)
 )
 
 module.exports = router

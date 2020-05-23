@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const mongodbErrorHandler = require('mongoose-mongodb-errors')
+
 mongoose.Promise = global.Promise
 
 const vehicleSchema = new mongoose.Schema({
@@ -34,5 +36,7 @@ const vehicleSchema = new mongoose.Schema({
 	toJSON: { virtuals: true },
 	toObject: { virtuals: true }
 })
+
+vehicleSchema.plugin(mongodbErrorHandler)
 
 module.exports = mongoose.model('Vehicle', vehicleSchema)
