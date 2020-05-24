@@ -72,7 +72,7 @@ exports.addVehicle = async (req, res) => {
   console.log('Adding new Vehicle...')
   req.body.owner = req.user._id
   // odometer updates are optional; when provided are indexed by date
-  if (req.body.odometer !== 0) {
+  if (req.body.odometer > 0) {
     console.log('adding new vehicle with new odometer reading...')
     req.body.odometerHistory = [{
       "date": Date.now(),
@@ -91,42 +91,37 @@ exports.addVehicle = async (req, res) => {
     { $push: { vehicles: vehicleId._id } },
     { $upsert: true } // create the new doc if it doesn't exist
   )
-  return res.status(200) // API consumer expects a 200 and no data for a Vehicle addition
+  // console.log('Success! Replying w/200 status code')
+  return res.status(200).send({"ok": "ok"}) // API consumer expects a 200 and no data for a Vehicle addition
 }
 
 exports.updateVehicle = async (req, res) => {
-  console.log('Updating existing vehicle...')
+  // console.log('Updating existing vehicle...')
+  delete req.body._v // mongo db generated value, not necessary to save
+  delete req.body.id // duplicate of req.body._id, not necessary to save to DB
   console.log(req.body)
-  return res.status(200).send({ "ok": "ok" })
-
-  const vehicleUpdates = {
-    year: req.body.vehicleYear,
-    make: req.body.vehicleMake,
-    model: req.body.vehicleModel,
-    odometer: req.body.vehicleOdometer,
-    primary: req.body.primary
-  }
-
-  // both odometer and VIN are optional updates
-  if (req.body.vin && req.body.vin !== '') vehicleUpdates.vin = req.body.vin
-  if (req.body.vehicleOdometer && req.body.vehicleOdometer !== '') {
-    console.log('updating vehicle with new odometer reading...')
-    const vehicle = await Vehicle.findOneAndUpdate(
-      { owner: req.user._id },
-      { $set: vehicleUpdates,
-        $push: { odometerHistory: { date: Date.now(), value: req.body.vehicleOdometer } }
+  let vehicle
+  // check if the odometer reading is unchanged since the last time this vehicle was saved 
+  if (req.body.odometer && req.body.odometerHistory && 
+    req.body.odometerHistory[req.body.odometerHistory.length-1].value !== odometer) {
+    // console.log('updating vehicle with new odometer reading...')
+    vehicle = await Vehicle.findOneAndUpdate(
+      { _id: req.body._id },
+      { $set: req.body,
+        $push: { odometerHistory: { date: Date.now(), value: req.body.odometer } }
       },
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
   } else {
-    console.log('updating vehicle (no odometer reading provided)...')
-    const vehicle = await Vehicle.findOneAndUpdate(
-      { owner: req.user._id },
-      { $set: vehicleUpdates },
+    // console.log('updating vehicle (no odometer reading provided)...')
+    vehicle = await Vehicle.findOneAndUpdate(
+      { _id: req.body._id },
+      { $set: req.body },
       { upsert: true, new: true, runValidators: true, context: 'query'}
     )
   }
-
+  // console.log('Vehicle updated. New vehicle data:')
+  // console.log(vehicle)
   return res.status(200).send(vehicle)
 }
 
