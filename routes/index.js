@@ -66,18 +66,19 @@ router.post('/add/:id',
   catchErrors(logController.updateLog)
 )
 
-router.post('/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
-router.post('/remove/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 router.post('/account/forgot', catchErrors(authController.forgot))
 router.post('/account/reset/:token',
   authController.confirmedPasswords,
   catchErrors(authController.update)
 )
+router.post('/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
+router.post('/delete/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 
 // ---------------- ONLY USED BY API CONSUMER(S) ----------
 router.get('/api/search', catchErrors(logController.searchLog))
 router.get('/api/log', authController.isLoggedIn, logController.getLogData)
 
+router.post('/api/delete/vehicle/:vehicleId', authController.isLoggedIn, catchErrors(userController.deleteVehicle))
 router.post('/api/login', passport.authenticate('local'), catchErrors(userController.getApiUserData))
 router.post('/api/logout', authController.apiLogout)
 router.post('/api/register', 

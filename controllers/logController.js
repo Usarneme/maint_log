@@ -107,8 +107,13 @@ exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
   // console.log('* Upload photo middleware...')
+  // console.log(req.body.photos)
   // tools, parts, and photos arrays come in as stringified: "photo1.jpeg,photo2.jpeg,photo3.jpeg"
-  const photosArray = req.body.photos.split(',').filter(Boolean) || []
+  // this includes undefined and "undefined" as a string which must be cleaned up
+  // let g = a.map(val => { if (val !== undefined && val !== "undefined") return val }).filter(Boolean)
+  const photosArray = req.body.photos.split(',').map(val => { if (val !== undefined && val !== "undefined") return val }).filter(Boolean) || []
+  // console.log('created photos array:')
+  // console.log(photosArray)
   delete req.body.photos
   req.body.photos = [...photosArray]
   const toolsArray = req.body.tools.split(',').filter(Boolean) || []
@@ -155,8 +160,8 @@ exports.uploadPhoto = async (req, res, next) => {
 }
 
 exports.removePhoto = async (req, res) => {
-  // console.log('Log Controller - Remove Photo. Query: ')
-  // console.log(req.params)
+  console.log('Log Controller - Remove Photo. Query: ')
+  console.log(req.params)
 
   // HEROKU automatically deletes the uploads folder at each re-mount of the dyno...
   // const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
@@ -195,9 +200,9 @@ exports.createLog = async (req, res) => {
 }
 
 exports.updateLog = async (req, res) => {
-  // console.log('updateLog func... body: ')
+  console.log('updateLog func... body: ')
   req.body.author = req.user._id
-  // console.log(req.body)
+  console.log(req.body)
 
   const newLogEntry = await Log.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return the new log instead of the old one
@@ -240,6 +245,8 @@ exports.deleteLogEntry = async (req, res) => {
   console.log('Log Controller - Delete Log Entry. Query: ')
   console.log(req.params)
   const dbUpdate = await Log.findOneAndDelete({ _id: req.params.id })
+  console.log('DB updated. Sending response: ')
+  console.log(dbUpdate)
   res.json(dbUpdate)
 }
 

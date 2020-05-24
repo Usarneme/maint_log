@@ -125,6 +125,13 @@ exports.updateVehicle = async (req, res) => {
   return res.status(200).send(vehicle)
 }
 
+exports.deleteVehicle = async (req, res) => {
+  console.log('User Controller - Delete Vehicle. Vehicle ID per Query: ')
+  console.log(req.params)
+  await Vehicle.findOneAndDelete({ _id: req.params.vehicleId })
+  return res.status(200).send({"ok": "ok"}) // API consumer expects a 200 and no data for a Vehicle deletion
+}
+
 exports.getApiUserData = async (req, res) => {
   console.log('getApiUserData')
   const userPromise = User.findById( req.user._id )
