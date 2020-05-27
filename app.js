@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const { promisify } = require('es6-promisify')
 const flash = require('connect-flash')
+const helmet = require('helmet')
 
 const routes = require('./routes/index')
 const helpers = require('./helpers')
@@ -15,7 +16,7 @@ const errorHandlers = require('./handlers/errorHandlers')
 require('./handlers/passport')
 
 const app = express()
-
+app.use(helmet())
 // const cors = require('cors')
 // app.use(cors())
 
