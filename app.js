@@ -20,9 +20,13 @@ app.use(helmet())
 // const cors = require('cors')
 // app.use(cors())
 
-console.log('Allowing origin: '+process.env.FRONTEND_URL)
+console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL) 
+  console.log('Received request from: '+req.headers.origin)
+  const origin = req.headers.origin
+  if (process.env.FRONTEND_ORIGINS.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin) 
+  }
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   res.header("Access-Control-Allow-Credentials", true)
   next()
