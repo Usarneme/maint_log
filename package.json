@@ -7,7 +7,7 @@
     "node": ">= 10.6.x"
   },
   "scripts": {
-    "start": "node ./start.js",
+    "start": "node start.js",
     "watch": "nodemon ./start.js --ignore public/"
   },
   "browserslist": [
