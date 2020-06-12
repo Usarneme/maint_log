@@ -59,6 +59,21 @@ export async function register(name, email, password, passwordConfirm) {
   }
 }
 
+export async function resetPassword(token, password, passwordConfirm) {
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}`, { token, password, passwordConfirm })
+    if (response.status === 200) return getLogData()
+    console.log('Response received but with status code: '+response.status)
+    const error = new Error(response.error)
+    throw error
+  } catch(err) {
+    console.log('Error posting to /account/reset.')
+    console.dir(err)
+    // TODO error boundary - return false
+    return alert('Error resetting account password. Please try again.')
+  }
+}
+
 // Gets all log and vehicle info for the logged-in user
 // Returns a User's Log and Vehicle arrays
 export async function getLogData() {

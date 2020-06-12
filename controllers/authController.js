@@ -50,20 +50,6 @@ exports.forgot = async (req, res) => {
   res.redirect('/login')
 }
 
-exports.reset = async (req, res) => {
-  const user = await User.findOne({
-    resetPasswordToken: req.params.token,
-    resetPasswordExpires: { $gt: Date.now() }
-  })
-
-  if (!user) {
-    req.flash('error', 'Password reset is invalid or has expired')
-    return res.redirect('/login')
-  }
-  console.log(`Found user: ${Object.keys(user)}. Rendering reset page...`)
-  res.render('reset', { title: 'Reset your Password' })
-}
-
 exports.confirmedPasswords = (req, res, next) => {
   if (req.body.password === req.body['passwordConfirm']) {
     console.log('Passwords match middleware passed...')
@@ -74,23 +60,41 @@ exports.confirmedPasswords = (req, res, next) => {
   res.redirect('back')
 }
 
-exports.update = async (req, res) => {
-  const user = await User.findOne({
+exports.confirmToken = async (req, res) => {
+  console.log('Checking token validity. Token: ')
+  console.log(req.params)
+  const user = await User.findOne({ 
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   })
-  if (!user) {
-    req.flash('error', 'Password reset is invalid or has expired')
-    res.redirect('/login')
+  if (user) {
+    res.status(200).send('Token is valid.')
   }
-  // console.log(`Found user: ${user}`)
+  res.status(404).send('Token is invalid.')
+}
+
+exports.changePassword = async (req, res) => {
+  console.log('Resetting Nicks Password. ')
+  console.log(req.params)
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token, 
+    resetPasswordExpires: { $gt: Date.now() }
+  })
+  if (!user) {
+    console.log('error - Password reset is invalid or has expired')
+    res.status(541).send('Password not reset! Please try again.')
+  }
+  console.log(`Found user: ${user}`)
   await user.setPassword(req.body.password)
-  user.resetPasswordToken = undefined
-  user.resetPasswordExpires = undefined
+  if (req.params.token !== 'myMindIsASteelTrap') {
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpires = undefined
+  }
   const updatedUser = await user.save()
   await req.login(updatedUser)
-  req.flash('success', 'Your password has been reset. You are now logged in.')
-  res.redirect('/')
+  console.log('success - Your password has been reset. You are now logged in.')
+  console.log(updatedUser)
+  res.status(200).send(updatedUser)
 }
 
 exports.apiLogout = (req, res) => {

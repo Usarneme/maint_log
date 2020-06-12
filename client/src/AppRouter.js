@@ -11,6 +11,7 @@ import GuestHome from './pages/GuestHome'
 import Home from './pages/Home'
 import Log from './pages/Log'
 import NotFound from './pages/NotFound'
+import PasswordReset from './pages/PasswordReset'
 import Search from './pages/Search'
 import Settings from './pages/Settings'
 import SingleLogEntry from './pages/SingleLogEntry'
@@ -59,6 +60,9 @@ function AppRouter() {
             <ProtectedRoute path="/" exact={true}>
               <Home user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
+            <Route path="/account/reset/:token" exact>
+              <PasswordReset updateUserState={updateUserState} />
+            </Route>
             <Route path="*">
               <NotFound />
             </Route>

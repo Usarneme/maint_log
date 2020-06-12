@@ -24,9 +24,10 @@ router.post('/add/:id',
 )
 
 router.post('/account/forgot', catchErrors(authController.forgot))
+router.post('/account/reset/:token/confirm', catchErrors(authController.confirmToken))
 router.post('/account/reset/:token',
   authController.confirmedPasswords,
-  catchErrors(authController.update)
+  catchErrors(authController.changePassword)
 )
 router.post('/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
 router.post('/delete/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
