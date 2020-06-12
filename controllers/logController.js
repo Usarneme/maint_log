@@ -146,15 +146,25 @@ exports.uploadPhoto = async (req, res, next) => {
   const photo = await jimp.read(req.file.buffer)
   await photo.resize(800, jimp.AUTO)
   await photo.quality(70)
-  await photo.write(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`)
+  const filename = `./public/uploads/${req.body.photos[req.body.photos.length - 1]}`
+  await photo.write(filename)
 
   // cloudinary options to use the already unique name and not append extra characters
-  await cloudinary.uploader.upload(`./public/uploads/${req.body.photos[req.body.photos.length - 1]}`, { use_filename: true, unique_filename: false }, (err, image) => {
+  await cloudinary.uploader.upload(filename, { use_filename: true, unique_filename: false }, (err, image) => {
     if (err) { console.warn(err) }
     console.log("Cloudinary - " + image.public_id)
     console.log("Cloudinary - " + image.url)
   })
 
+  // remove the file from the local filesystem after it uploads to cloud service
+  fs.unlink(filename, err => {
+    if (err) {
+      // log the error for eventual cleanup
+      console.log('ERROR!\n\tUNLINK ERROR. Unable to Delete Image.\nImage Filename: '+filename)
+      return
+    }
+    // console.log('successfully deleted local copy of photo '+filename)
+  })
   // console.log('Photo uploaded successfully. ')
   return next()
 }
@@ -162,19 +172,6 @@ exports.uploadPhoto = async (req, res, next) => {
 exports.removePhoto = async (req, res) => {
   console.log('Log Controller - Remove Photo. Query: ')
   console.log(req.params)
-
-  // HEROKU automatically deletes the uploads folder at each re-mount of the dyno...
-  // const deleteFilePromise = fs.unlink(`./public/uploads/${req.params.filename}`, err => {
-  //   if (err) {
-  //     req.flash('error', `Unable to delete file ${req.params.filename}`)
-  //     res.redirect('back')
-  //     return
-  //   }
-  //   console.log('successfully deleted photo '+req.params.filename)
-  // })
-  // const logPromise = Log.find({ author: req.user._id })
-  // const [logResult, dbResult, fileResult] = await Promise.all([logPromise, updateDatabasePromise, deleteFilePromise])
-  // res.json({logResult, dbResult, fileResult})
 
   await Log.updateOne(
     { photos: { $in: [req.params.filename] } },

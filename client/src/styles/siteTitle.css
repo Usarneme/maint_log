@@ -1,0 +1,33 @@
+.siteTitle {
+  border: none;
+  font-weight: 500;
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 1.45rem;
+  background: var(--lightBlue);
+  box-shadow: 0px 0px 7px var(--buttonBlue);
+}
+
+.siteTitle:hover {
+  box-shadow: 0px 0px 15px var(--lightBlue);
+}
+
+.siteTitle h1 {
+  padding: 0.76rem;
+}
+
+.siteTitle > div.svg,
+.siteTitle > div > div > svg {
+  position: absolute;
+  /* vertically center an absolute element: */
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0.5rem;
+  height: 36px;
+  width: 36px;
+}

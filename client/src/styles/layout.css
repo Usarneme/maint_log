@@ -1,0 +1,299 @@
+html {
+  font-size: 10px;
+  box-sizing: border-box;
+  --buttonBlue: #164766;
+  --lightBlue: #077077;
+  --buttonTextWhite: #DDDDDD;
+  --cardMaxWidth: 866px;
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: local('./Bitter-Regular.ttf'), format('ttf');
+}
+
+@font-face {
+  font-family: 'Cairo';
+  src: local('./Cairo-Regular.ttf'), format('ttf');
+}
+
+@font-face {
+  font-family: 'Cuprum';
+  src: local('./Cuprum-Regular.ttf'), format('ttf');
+}
+
+.dark {
+  --backgroundLayerOne: #0B0B0B;
+  --backgroundLayerTwo: #141414;
+  --backgroundLayerThree: #2C2C2C;
+  --backgroundLayerFour: #898989;
+  --textColorOne: #A9A9A9;
+  --textColorTwo: #BCBCBC;
+}
+
+.light {
+  --backgroundLayerOne: #BCBCBC;
+  --backgroundLayerTwo: rgba(0,0,0,0.25);
+  --backgroundLayerThree: #E1E1E1;
+  --backgroundLayerFour: #999999;
+  --textColorOne: #414141;
+  --textColorTwo: #262626;
+}
+
+*,
+html,
+body, 
+ul li {
+  color: var(--textColorTwo);
+}
+
+body {
+  font-size: 1.4rem;
+  margin: 0;
+  font-family: 'Bitter', 'Cairo', 'Cuprum', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5 {
+  color: inherit;
+}
+
+h1, h2, h3, h4 {
+  font-size: 1.5rem;
+  padding: 0.85rem;
+  width: 100%;
+}
+
+h1 {
+  font-size: 2.85rem;
+  color: var(--buttonTextWhite);
+}
+
+h2 {
+  background: var(--buttonBlue);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+h2, h2 *, h3, h4 {
+  position: relative;
+  color: var(--buttonTextWhite);
+  background: var(--lightBlue);
+}
+
+h2:after,
+h3:after,
+h4:after {
+  content: "";
+  background: var(--textColorOne);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+} 
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+ul {
+  margin-bottom: 2rem;
+}
+
+li::before {
+  content: "•"; 
+  color: var(--lightBlue);
+  display: inline-block; 
+  width: 1rem;
+  margin-left: -1rem;
+}
+
+img, svg {
+  fill: var(--buttonTextWhite);
+  width: 40px;
+  height: 40px;
+}
+
+.svg__dark__fill * {
+  fill: var(--textColorOne);
+}
+
+.padded {
+  padding: 0.65rem;
+}
+
+textarea {
+  min-height: 80px;
+  padding: 8px;
+}
+
+label {
+  padding: 0.75rem 0 0 0;
+  display: block;
+}
+
+#root {
+  min-height: calc(100vh);
+  background: var(--backgroundLayerOne);
+  transition: all 0.2s ease;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5rem;
+}
+
+.inner {
+  max-width: 1200px;
+  padding: 0.6rem;
+  margin: 0 auto;
+}
+
+.inner--flashes {
+  padding: 0;
+}
+
+input, select, textarea {
+  border: 0;
+  width: 100%;
+  height: 4rem;
+  padding-left: 8px;
+  background: var(--backgroundLayerTwo);
+}
+
+input[type="checkbox"] {
+  height: initial;
+}
+
+.card {
+  max-width: var(--cardMaxWidth);
+  position: relative;
+  margin: 0.15rem auto 3rem;
+  background: var(--backgroundLayerThree);
+  /* box-shadow: 1px 1px 5px var(--backgroundLayerTwo); */
+  box-shadow: 0px 0px 4px var(--lightBlue);
+}
+
+.card:hover {
+  box-shadow: 0px 0px 13px var(--lightBlue);
+}
+
+.button {
+  width: 100%;
+  min-height: 4rem;
+  display: block;
+  display: flex;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: center;
+  align-items: center;
+  margin: 0.5rem auto;
+  align-content: center;
+  text-decoration: none;
+  justify-content: center;
+  text-transform: uppercase;
+  color: var(--buttonTextWhite);
+  background-color: var(--buttonBlue);
+  border: 1px solid lighten(var(--textColorOne), 50%);
+}
+
+.button:hover,
+.button:focus {
+  box-shadow: 0px 0px 4px var(--lightBlue);
+}
+
+input.button {
+  margin-top: 1.75rem;
+}
+
+.input--error {
+  border-color: red;
+}
+
+.well {
+  width: 100%;
+  max-width: var(--cardMaxWidth);
+  margin: 0 auto 0.5rem auto;
+  padding: 0.9rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  /* border: 2px solid var(--lightBlue);   */
+}
+
+.no__log,
+.no__todos,
+.no__vehicle {
+  display: grid;
+  padding: 10px;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url('../images/add.svg') 99% / 6% no-repeat var(--backgroundLayerTwo);
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-content: center;
+  align-items: center;
+}
+
+.flexy {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;  
+  align-content: center;
+  align-items: center;
+}
+
+@media all and (min-width: 768px) {
+  select {
+    background: url('../images/add.svg') 99% / 4% no-repeat var(--backgroundLayerTwo);
+  }
+  /* body * {
+    font-size: 1.4rem;
+  }   */
+}
+
+@media all and (min-width: 900px) {
+  select {
+    background: url('../images/add.svg') 99% / 4% no-repeat var(--backgroundLayerTwo);
+  }
+  /* body * {
+    font-size: 1.5rem;
+  }   */
+}
+
+@media all and (min-width: 1200px) {
+  select {
+    background: url('../images/add.svg') 99% / 4% no-repeat var(--backgroundLayerTwo);
+  }
+  /* body * {
+    font-size: 1.6rem;
+  }   */
+}
+
+@media all and (min-width: 1920px) {
+  select {
+    background: url('../images/add.svg') 99% / 4% no-repeat var(--backgroundLayerTwo);
+  }
+  /* body * {
+    font-size: 1.7rem;
+  }   */
+}
+
+select::-ms-expand {
+  display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
+}
+
+/* Target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+  select {
+    background: none\9;
+    padding: 5px\9;
+  }
+}

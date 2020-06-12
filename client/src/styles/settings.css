@@ -1,0 +1,57 @@
+.logout__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.logout__container > .button {
+  width: 100%;
+  margin: 5px 3px;
+}
+
+button.button.confirm--active {
+  border: 2px solid #ffff3a;
+}
+
+button.button.disconnect {
+  background: red;
+}
+
+.buttons__holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
+
+.lookup__button {
+  border: none;
+  border-bottom: 2px solid var(--buttonBlue);
+  color: var(--textColorTwo);
+  text-transform: uppercase;
+  align-self: center;
+  justify-self: center;
+  background: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.lookup__selected {
+  transform: scale(1.1);
+  color: var(--textColorOne);
+  border-bottom: 4px solid var(--lightBlue);
+}
+
+.current__vehicle__container,
+.current__vehicle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.current__vehicle > span {
+  margin: 2px;
+}

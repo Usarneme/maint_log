@@ -1,0 +1,71 @@
+.single__details {
+  margin: 0 0.5rem;
+  padding: 0 0.5rem;
+  background: var(--backgroundLayerThree);
+  /* border-radius: 5px; */
+}
+
+.single__details > * {
+  margin: 1rem 0;
+}
+
+/* .car.single__details div,
+.car.single__details p {
+  padding-bottom: 1.25rem;
+} */
+
+.editPencil {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.editPencil > div > div > svg {
+  width: 20px;
+  height: 20px;
+}
+
+.editPencil > div {
+  position: absolute;
+  left: 15px;
+  /* The bottom of the pencil svg is emptier so it looks off-center vertically when actually centered */
+  padding-top: 5px;
+}
+
+.photos__div {
+  display: grid;
+  grid-template-columns: 1fr;  
+  margin-bottom: 15px;
+}
+
+.single__photo__div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border: 1px groove var(--backgroundLayerThree);  
+  margin: 2px 0;
+  background: var(--backgroundLayerFive);
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.single__photo {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;  
+  object-fit: cover;
+  position: absolute;
+}
+
+/* label[for=previousPhotos] {
+  margin-top: 15px;
+} */
+
+.delete__photo {
+  z-index: 4;
+  width: 100%;
+  text-align: center;
+}

@@ -1,0 +1,43 @@
+.log__sorter__container {
+  display: flex;
+  max-width: var(--cardMaxWidth);
+  margin: 0 auto;
+}
+
+/* .log__sorter__container > * {
+  border-left: 1px solid var(--backgroundLayerThree);
+} */
+
+.log__sorter__item {
+  padding: 3px; 
+}
+
+.log__sorter__item > span {
+  border-bottom: 1px solid var(--textColorOne);
+  cursor: pointer;
+}
+
+.log__sorter__service {
+  flex-basis: 50%;
+  border-left: none;
+}
+
+.log__sorter__dates {
+  flex-basis: 18%;
+}
+
+.log__sorter__mileage {
+  flex-basis: 20%;
+}
+
+.log__sorter__costs {
+  flex-basis: 12%;
+}
+
+.log__sorter__arrow {
+  display: inline-block;
+}
+
+.log__sorter__arrow__selected {
+  transform: rotate(180deg);
+}

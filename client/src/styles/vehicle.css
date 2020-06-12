@@ -1,0 +1,54 @@
+.vehicleHeader {
+  margin: 1px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+h4.vehicles__selector__header {
+  justify-content: space-between;
+}
+
+h4.vehicles__selector__header > span {
+  /* span children used as header fields: TITLE, SELECTED, ETC. */
+  /* should inherit their color from the H4 rather than the span selector */
+  color: inherit;
+}
+
+div.vehicle__editor {
+  margin: 0;
+}
+
+.vehicle__details__update {
+  margin: 1px;
+  padding: 4px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.vehicle__container {
+  align-items: center;
+  margin: 0.5rem;
+  background: var(--backgroundLayerTwo);
+}
+
+.checkboxes__container {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: auto auto;
+  align-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.vehicleResults {
+  display: flex;
+  flex-direction: column;
+}
+
+.manualVehicleEntryDiv {
+  width: 100%;
+  max-width: var(--cardMaxWidth);
+  margin: 0 auto;
+}

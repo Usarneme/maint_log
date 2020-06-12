@@ -1,0 +1,50 @@
+.welcome__guest__container {
+  max-width: 555px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.welcome__guest__hero {
+  margin-bottom: 5rem;
+}
+
+.guest__options {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 1rem auto;
+}
+
+.button.guest__option {
+  margin: 0.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.guest__option > h4 {
+  padding: 2px;
+}
+
+.guest__option > div {
+  position: absolute;
+  right: 5px;
+}
+
+.guest__option__active {
+  /* transform: scale(1.025); */
+}
+
+.guest__option__active:before {
+  content: '>';
+}
+
+.guest__option > img.svg {
+  border: 1px solid var(--textColorTwo);
+}
+
+.guest__option > h2 {
+  text-align: center;
+}

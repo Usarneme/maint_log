@@ -1,0 +1,47 @@
+.card.log__entry {
+  margin: 2.2rem auto;
+}
+
+.log__entry > a > h5 {
+  margin: 1px 1px 2px 1px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+div.log__details__container {
+  display: flex;
+  padding: 0.4rem;
+}
+
+.log__details__container > * {
+  border-left: 1px solid var(--backgroundLayerTwo);
+}
+
+div.log__details {
+  display: flex;
+  flex-direction: column;
+  min-height: 8rem;
+  padding: 2px;
+}
+
+div.log__details > p {
+  color: var(--textColorTwo);
+}
+
+.log__details__service {
+  flex-basis: 50%;
+  border-left: none;
+  text-overflow: ellipsis;
+}
+
+.log__details__dates {
+  flex-basis: 18%;
+}
+
+.log__details__mileage {
+  flex-basis: 20%;
+}
+
+.log__details__costs {
+  flex-basis: 12%;
+}

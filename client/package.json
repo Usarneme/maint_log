@@ -1,0 +1,63 @@
+{
+  "name": "maint_log_frontend_react",
+  "author": "usarneme",
+  "version": "1.0.0",
+  "private": true,
+  "proxy": "http://localhost:7777",
+  "scripts": {
+    "start": "BROWSER=none REACT_APP_API_DOMAIN=http://localhost:7777 react-scripts start",
+    "build": "REACT_APP_API_DOMAIN=http://localhost:7777 react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "cov": "npm run test -- --coverage --watchAll=false --env=jsdom --coverageDirectory=src/__tests__/coverage/",
+    "todos": "grep -r -n --color --include=*.js --exclude-dir=__tests__ TODO src/",
+    "todos_files": "grep -r -l --color --include=*.js --exclude-dir=__tests__ TODO src/"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.10.0",
+    "@testing-library/react": "^10.2.1",
+    "@testing-library/user-event": "^11.4.2",
+    "axios": "*",
+    "moment": "^2.26.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-svg": "^11.0.25",
+    "react-transition-group": "^4.4.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-security": "^1.4.0",
+    "react-test-renderer": "^16.13.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/build/",
+      "!<rootDir>/public/",
+      "!<rootDir>/src/__tests__/coverage/"
+    ]
+  }
+}

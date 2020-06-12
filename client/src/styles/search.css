@@ -1,0 +1,65 @@
+form.search__form {
+  width: 85%;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.search__input__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.search__input__container > p {
+  padding-left: 3px;
+}
+
+.search__input {
+  /* border-radius: 5px 0 0 5px; */
+  border-right: 0;
+}
+
+.button.search__button {
+  /* border-radius: 0 5px 5px 0; */
+  /* height: 40px; */
+  /* margin: 0; */
+  width: initial;
+  border-left: 0;
+}
+
+.search__button > div > div > svg {
+  width: 20px;
+  height: 20px;
+}
+
+.search__results {
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
+  padding: 2px;
+  background: var(--backgroundLayerOne);
+}
+
+.search__on__homepage {
+  padding-left: 6px;
+}
+
+div.card.search__result {
+  padding: 0.5rem;
+  margin: 1.55rem 0.25rem;
+  background: var(--backgroundLayerTwo);
+}
+
+.search__result__buttons {
+  display: flex;
+}
+
+.search__result__buttons > a.button {
+  margin: 0 0.15rem;
+}
+
+.result__detail {
+  padding: 1rem 0.25rem;
+  text-overflow: ellipsis;
+}

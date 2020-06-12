@@ -1,0 +1,50 @@
+.nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: inline-grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--backgroundLayerTwo);
+}
+
+a.card.navLink {
+  border: none;
+  box-shadow: none;
+  margin: 0.2rem;
+  padding-top: 0.5rem;
+  background: var(--buttonBlue);
+}
+
+a.card.navLink * {
+  color: var(--buttonTextWhite);
+  fill: var(--buttonTextWhite);
+}
+
+a.card.navLink:hover,
+a.card.navLink:focus,
+a.card.navLink--active {
+  /* background: linear-gradient(90deg, var(--buttonBlue) 20%, var(--lightBlue) 80%) fixed; */
+  background: var(--lightBlue);
+}
+
+.nav a,
+.nav h5 {
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+a.navLink img,
+a.navLink svg {
+  max-width: 29px;
+  max-height: 29px;
+  padding: 0;
+  margin: 0;
+  fill: var(--buttonBlue);
+}

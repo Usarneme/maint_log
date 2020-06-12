@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const { promisify } = require('es6-promisify')
-const flash = require('connect-flash')
 const helmet = require('helmet')
 
 const routes = require('./routes/index')
@@ -32,10 +31,10 @@ app.use((req, res, next) => {
   next()
 })
 
-app.set('views', path.join(__dirname, 'views')) 
+// PUG templates are used for sending HTML (and text backup) emails for password resets
 app.set('view engine', 'pug') 
-
-app.use(express.static(path.join(__dirname, 'public')))
+// The React frontend build folder contains static assets for the client-side of the app
+app.use(express.static(path.join(__dirname, 'client/build')))
 
 // Takes raw request data and puts them on req.body
 // for parsing json and x-www-form-urlencoded header requests
@@ -60,14 +59,9 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// The flash middleware let's us use req.flash('error', 'Error message!'), 
-// this will then pass that message to the next page the user requests
-app.use(flash())
-
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
   res.locals.h = helpers
-  res.locals.flashes = req.flash()
   res.locals.user = req.user || null
   res.locals.currentPath = req.path
   next()
