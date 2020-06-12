@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7034ae8e.chunk.css",
+    "main.js": "/static/js/main.8286809a.chunk.js",
+    "main.js.map": "/static/js/main.8286809a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b9e9cb75.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b9e9cb75.js.map",
+    "static/js/2.4d4705de.chunk.js": "/static/js/2.4d4705de.chunk.js",
+    "static/js/2.4d4705de.chunk.js.map": "/static/js/2.4d4705de.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.5d9bad3e8f03521c7aaed048694967b3.js": "/precache-manifest.5d9bad3e8f03521c7aaed048694967b3.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.7034ae8e.chunk.css.map": "/static/css/main.7034ae8e.chunk.css.map",
+    "static/js/2.4d4705de.chunk.js.LICENSE.txt": "/static/js/2.4d4705de.chunk.js.LICENSE.txt",
+    "static/media/account.svg": "/static/media/account.e5a41a1f.svg",
+    "static/media/layout.css": "/static/media/add.48030e75.svg",
+    "static/media/addLog.svg": "/static/media/addLog.a918556d.svg",
+    "static/media/editPencil.svg": "/static/media/editPencil.bd86eac2.svg",
+    "static/media/home.svg": "/static/media/home.d6ad0c97.svg",
+    "static/media/log.svg": "/static/media/log.0476682c.svg",
+    "static/media/magnifying.svg": "/static/media/magnifying.369e264b.svg",
+    "static/media/search.svg": "/static/media/search.fb5ad7c7.svg",
+    "static/media/todo.svg": "/static/media/todo.91e3307a.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b9e9cb75.js",
+    "static/js/2.4d4705de.chunk.js",
+    "static/css/main.7034ae8e.chunk.css",
+    "static/js/main.8286809a.chunk.js"
+  ]
+}
