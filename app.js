@@ -16,13 +16,14 @@ require('./handlers/passport')
 
 const app = express()
 app.use(helmet())
-// const cors = require('cors')
-// app.use(cors())
+const cors = require('cors')
+app.use(cors())
 
 console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
-  console.log('Received request from: '+req.headers.origin)
-  const origin = req.headers.origin
+  const origin = req.headers.origin || `http://${req.headers.host}`
+  console.log('Received request from: '+origin)
+  // console.log(req.headers)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin) 
   }
@@ -31,7 +32,7 @@ app.use((req, res, next) => {
   next()
 })
 
-// PUG templates are used for sending HTML (and text backup) emails for password resets
+// PUG templates are used for sending HTML emails for password reset requests
 app.set('view engine', 'pug') 
 // The React frontend build folder contains static assets for the client-side of the app
 app.use(express.static(path.join(__dirname, 'client/build')))

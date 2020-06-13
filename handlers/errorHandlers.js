@@ -47,11 +47,11 @@ exports.flashValidationErrors = (err, req, res, next) => {
     if (err.errors) {
       console.log("validation errors found")
       const errorKeys = Object.keys(err.errors)
-      errorKeys.forEach(key => req.flash('error', err.errors[key].message))
+      errorKeys.forEach(key => console.log('error', err.errors[key].message))
     } else if (err.message === 'A user with the given username is already registered') {
-      req.flash('error', 'That email address is already in use.')
+      console.log('error - That email address is already in use.')
     } else if (err.message === 'MulterError: Unexpected field') {
-      req.flash('error', 'Error uploading photo. Please try again.')
+      console.log('error - Error uploading photo. Please try again.')
     }
     return res.redirect('back')
   }

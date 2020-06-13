@@ -11,25 +11,29 @@ function PasswordReset(props) {
   const { token } = useParams()
   console.log('Rendering password reset with token: '+token)
   const history = useHistory()
-
   if (!token) history.push('/welcome')
+
   // verify token validity
+  // an invalid token is expired or just the wrong hash, don't render anything...  
   useEffect(() => {
     async function checkValidity() { 
       try {
+        console.log(`posting to: ${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}/confirm`)
         const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}/confirm`)
+        console.log(response)
+        console.dir(response)
         if (response.status === 200) return true
+        if (response.status === 404) history.push('/welcome')
         console.log('Response received but with status code: '+response.status)
         const error = new Error(response.error)
         throw error
       } catch(err) {
-        console.log('Error posting to /account/reset/token/confirm.')
+        console.log('Error posting to /account/reset/'+token+'/confirm')
         console.dir(err)
-        return false
+        history.push('/welcome')
       }
     }
-    // an invalid token is expired or just the wrong hash, don't render anything...
-    if (!checkValidity()) history.push('/welcome')
+    checkValidity()
   }, []) // empty [] indicates only run this on initial render/mount, not re-renders
 
   const [state, setState] = useState({

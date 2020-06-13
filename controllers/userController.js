@@ -5,22 +5,6 @@ const Log = mongoose.model('Log')
 
 const { validationResult } = require('express-validator')
 
-// ---------------------------- SERVER RENDERED PAGES --------------------------
-exports.loginPage = (req, res) => {
-  return res.render('login', { title: 'Login' })
-}
-
-exports.registerPage = (req, res) => {
-  return res.render('register', { title: 'Register' })
-}
-
-exports.accountPage = async (req, res) => {
-  const userPromise = User.findOne({ _id: req.user._id})
-  const vehiclesPromise = Vehicle.find({ owner: req.user._id })
-  const [user, vehicle] = await Promise.all([userPromise, vehiclesPromise])
-  return res.render('account', { title: 'Edit Your Account', user, vehicle, flashes: req.flash() })
-}
-
 // ---------------------------- ACCOUNT DATA GETTERS AND SETTERS -------------------
 exports.validateAccountUpdate = (req, res, next) => {
   // console.log('Posting to validate account update...')
@@ -33,16 +17,9 @@ exports.validateAccountUpdate = (req, res, next) => {
   console.log('*** Validation Failed ***'.toUpperCase())
   console.log(errorMessages)
   // console.log(errors.array())
-  req.flash('error', errorMessages)
+  console.log('error', errorMessages)
   // api requests return JSON data
   if (req.body.api) return next(errorMessages) 
-  // validates updates posted to both /register and /account. only register has a password field
-  // TODO this is pretty brittle. find a better way to confirm entry route
-  if (req.body.hasOwnProperty('password')) {
-    return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() })
-  } else {
-    return res.render('account', { title: 'Account', body: req.body, flashes: req.flash() })
-  }
 }
 
 exports.register = async (req, res, next) => {
@@ -62,7 +39,7 @@ exports.updateAccount = async (req, res, next) => {
     { $set: accountUpdates },
     { new: true, runValidators: true, context: 'query' }
   )
-  req.flash('success', 'Profile updated.')
+  console.log('success - Profile updated.')
   console.log('updateAccount completed')
   // console.log(user)
   return next()
