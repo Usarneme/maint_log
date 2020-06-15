@@ -44,7 +44,8 @@ exports.forgot = async (req, res) => {
   user.resetPasswordExpires = Date.now() + 3600000 // 1 hour from now
   await user.save()
 
-  const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`
+  // req.headers.host was fine, but using origin ensures it has the right protocol (http or https) 
+  const resetURL = `${req.headers.origin}/account/reset/${user.resetPasswordToken}`
   console.log('DB Updated with token and expiry. URL to be sent: ')
   console.log(resetURL)
 
