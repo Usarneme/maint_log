@@ -56,15 +56,14 @@ function PasswordReset(props) {
     setLoading(true)
     console.log('Loading. Sending to /account/reset/:token ')
     console.log(token, password, passwordConfirm)
+    // result upon success is the updated login info (session id, cookies, user, log, vehicles)
     const result = await resetPassword(token, password, passwordConfirm)
+    console.log(result)
     setLoading(false)
     if (!result || result.response !== undefined) {
       return alert(`Error resetting password. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
     }
-    if (Object.keys(result.user).length === 0) {
-      return alert('Unable to reset the password at this time. Please try again.')
-    }
-    await props.updateUserState(result.user)
+    await props.updateUserState(result)
     history.push('/')
   }
 

@@ -62,7 +62,7 @@ export async function register(name, email, password, passwordConfirm) {
 export async function resetPassword(token, password, passwordConfirm) {
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}`, { token, password, passwordConfirm })
-    if (response.status === 200) return getLogData()
+    if (response.status === 200) return response.data
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
     throw error

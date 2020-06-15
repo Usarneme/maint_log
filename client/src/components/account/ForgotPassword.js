@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
 import Loading from '../Loading'
 import '../../styles/forgotPassword.css'
@@ -9,17 +10,28 @@ function ForgotPassword(props) {
   const [loading, setLoading] = useState(false)
   const inputRef = React.createRef()
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault()
     console.log('Forgot password form submitted.')
     console.log(inputRef.current.value)
-    // console.dir(event)
+    const email = inputRef.current.value
+    if (!email || email.length < 1) return alert('Please enter a valid email before attempting to request a password reset.')
     setLoading(true)
-    alert('Password resets are not currently enabled. Apologies.')
-    // TODO - import helper to reach /forgot api... 
-    setTimeout(() => {
+    try {
+      console.log(`posting to: ${process.env.REACT_APP_API_DOMAIN}/account/forgot`)
+      const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/forgot`, {"email": email} )
+      console.log(response)
+      console.dir(response)
       setLoading(false)
-    }, 500)
+      if (response.status === 200) return alert('Password reset requested successfully. Please check your email soon.')
+      console.log('Response received but with status code: '+response.status)
+      const error = new Error(response.error)
+      throw error
+    } catch(err) {
+      console.log('Error posting to /account/forgot')
+      console.dir(err)
+    }
+
   }
 
   if (loading) return <Loading message="Sending password reset email..." />
