@@ -62,6 +62,8 @@ export async function register(name, email, password, passwordConfirm) {
 export async function resetPassword(token, password, passwordConfirm) {
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}`, { token, password, passwordConfirm })
+    // ensure the selectedVehicles array is included in the dataset
+    if (!response || !response.data || !response.data.selectedVehicles || response.data.selectedVehicles === undefined) response.data.selectedVehicles = []
     if (response.status === 200) return response.data
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)

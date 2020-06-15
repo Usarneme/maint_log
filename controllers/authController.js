@@ -29,6 +29,8 @@ exports.isLoggedIn = (req, res, next) => {
 exports.forgot = async (req, res) => {
   console.log('/account/forgot handler... Req.Body and User:')
   console.log(req.body)
+  console.log('Headers: ')
+  console.log(req.headers)
 
   const user = await User.findOne({ email: req.body.email })
   console.log('Found user in db:')
@@ -43,6 +45,9 @@ exports.forgot = async (req, res) => {
   await user.save()
 
   const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`
+  console.log('DB Updated with token and expiry. URL to be sent: ')
+  console.log(resetURL)
+
   await mail.send({
     user,
     filename: 'password_reset',
