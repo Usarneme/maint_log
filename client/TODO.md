@@ -9,14 +9,14 @@
 - [ ] Integration Test all components  
 - [ ] Teardown upon log entry, vehicle, and account deletion. IE: images, db collections, sessions/auth, cache.  
 - [ ] More useful form validation error handling.  
+- [ ] Notifications - ServiceWorker? On each login? 
+- [ ] Loading component - make animation  
 
 ### In Progress
 
 - [ ] Error Boundaries around all data-changing routes  
-- [ ] Unit Test All Components  
+- [ ] Unit Test All Components 
 - [ ] Unit Test All Pages  
-- [ ] Loading component - make animation  
-- [ ] Notifications - ServiceWorker? On each login? 
 - [ ] Vehicle details - images, purchase info, photos of receipts, manual pdf, etc.  
 
 ### Done ✓

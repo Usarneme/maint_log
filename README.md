@@ -1,4 +1,5 @@
-# maint_log
+# Vehicle Service & Maintenance Log
+[Vehicle Service & Maintenance Log] (https://maint-log.herokuapp.com/ "Vehicle Service & Maintenance Log")
 
 ### A vehicle maintenance log application. 
 - Create, Edit, Delete, and View Vehicle Service History
@@ -7,6 +8,7 @@
 
 #### Features
 - Default Dark Mode
+- Theme Switching
 - User Account Creation
 - Forgot Password Reset Utility
 - Save Multiple Vehicles
@@ -18,9 +20,9 @@
 - Indexed Searching
 - Set future due date for upcoming vehicle service
 - Set future mileage for upcoming vehicle service
+- Image Uploads for receipts or to demonstrate service specifics
 
 #### Possible Upcoming Features
-- Theme Switching
 - Charts showing costs by date range, vehicle
 - Metrics detailing service intervals
 - Export and/or Share Log 
@@ -29,13 +31,17 @@
 - Share and compare your service entries with other users - become a social tool for DIY mechanics
 
 #### Built With
+##### Backend
 - NodeJS Server (Express)
-- JavaScript Client (UI/Behavior)
 - MongoDB (via Mongoose Node Driver)
-- PUG (Jade) Templates
-- HTML5
-- CSS3
-- SASS
+- PUG (Jade) Email Templates (w/Text Backup for non-HTML Email Clients)
 - Cloudinary Image Hosting
 
-Development build available at: [maint-log.herokuapp.com](http://maint-log.herokuapp.com "Maintenance Log Devlopment Build")
+##### Frontend
+- React
+- JavaScript (UI/Behavior)
+- HTML5
+- JSX
+- CSS3
+
+Please visit us at: [maint-log.herokuapp.com](https://maint-log.herokuapp.com "Vehicle Service & Maintenance Log")
