@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 
@@ -11,9 +11,20 @@ function Login(props) {
   const history = useHistory()
   const [state, setState] = useState({
     email: '',
-    password: ''
+    password: '',
+    persist: false
   })
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    // if they checked the box to have their username remembered...
+    const email = localStorage.getItem('maint_log_user')
+    if (email && email.length > 0) {
+      setState({
+        ...state, email: email, persist: true
+      })
+    }
+  }, []) // only run at initial page load
 
   const handleInputChange = event => {
     const { value, name } = event.target
@@ -21,6 +32,15 @@ function Login(props) {
       ...state,
       [name]: value
     })
+  }
+
+  const handlePersistCheckboxChange = event => {
+    if (!state.persist && state.email) {
+      localStorage.setItem('maint_log_user', state.email)
+    } else {
+      localStorage.removeItem('maint_log_user')
+    }
+    setState({ ...state, persist: !state.persist })
   }
 
   const handleLogin = async event => {
@@ -58,6 +78,10 @@ function Login(props) {
         <label htmlFor="password">Password</label>
         <input type="password" name="password" placeholder="Enter password..." value={state.password || ''} onChange={handleInputChange} />
         <input className="button" type="submit" value="Log In →" />
+        <div className="remember_box">
+          <label htmlFor="persist">Remember me</label>
+          <input type="checkbox" name="persist" checked={state.persist} onChange={handlePersistCheckboxChange} /> 
+        </div>
       </form>
 
       <ForgotPassword email={state.email || ''} /> 

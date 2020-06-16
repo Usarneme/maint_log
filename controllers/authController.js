@@ -86,7 +86,7 @@ exports.confirmToken = async (req, res) => {
 }
 
 exports.changePassword = async (req, res) => {
-  console.log('Resetting Nicks Password. ')
+  console.log('Resetting a Password. ')
   console.log(req.params)
   const oldUser = await User.findOne({
     resetPasswordToken: req.params.token, 

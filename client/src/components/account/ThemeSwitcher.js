@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function ThemeSwitcher() {
-  const [currentTheme, changeTheme] = useState(document.documentElement.className || 'dark')
+  const [currentTheme, changeTheme] = useState('dark')
+
+  useEffect(() => {
+    const savedTheme = document.documentElement.className || localStorage.getItem('maint_log_theme')
+    if (savedTheme) changeTheme(savedTheme)
+  }, [])
 
   function toggleTheme(event) {
     event.preventDefault()
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
-    localStorage.setItem('theme', newTheme)
+    localStorage.setItem('maint_log_theme', newTheme)
     document.documentElement.className = newTheme
     changeTheme(newTheme) 
   }

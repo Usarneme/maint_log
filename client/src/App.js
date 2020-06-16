@@ -24,11 +24,15 @@ class App extends React.Component {
     }
   }
 
-  // TODO componentDidMount() { // check localStorage.getItem(login-preferences) for a stored username }
-
   updateUserState = async user => {
     // this.saveUserToLocalStorage(user)
     await this.setState({ user })
+  }
+
+  componentDidMount() {
+    const preferredTheme = localStorage.getItem('maint_log_theme') || 'dark'
+    document.documentElement.className = preferredTheme
+    localStorage.setItem('maint_log_theme', preferredTheme)
   }
 
   render() {

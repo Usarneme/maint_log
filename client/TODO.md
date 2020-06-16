@@ -5,15 +5,8 @@
 ### Todo
 
 - [ ] Image tagging, indexed for search  
-- [ ] Notifications SW  
-- [ ] Odometer entry notification - whenever wifi disconnects? Cron job? Interval?  
-- [ ] Email service & API url+key  
-- [ ] HTML email build and style  
-- [ ] HTML and fallback text email tests  
 - [ ] Service Manual image to text file, user/client corrections, text file to upcoming/todo Log entries  
 - [ ] Integration Test all components  
-- [ ] ForgotPassword Component - hook up and test  
-- [ ] Vehicle details - images, purchase info, photos of receipts, manual pdf, etc.  
 - [ ] Teardown upon log entry, vehicle, and account deletion. IE: images, db collections, sessions/auth, cache.  
 - [ ] More useful form validation error handling.  
 
@@ -23,6 +16,8 @@
 - [ ] Unit Test All Components  
 - [ ] Unit Test All Pages  
 - [ ] Loading component - make animation  
+- [ ] Notifications - ServiceWorker? On each login? 
+- [ ] Vehicle details - images, purchase info, photos of receipts, manual pdf, etc.  
 
 ### Done ✓
 
@@ -45,4 +40,7 @@
 - [x] Light Mode and switcher  
 - [x] Color Scheme and abstraction  
 - [x] Break up Settings page components, pull out api setting/getting to a separate module and import was needed  
-
+- [x] Email service & API url+key  
+- [x] HTML email build and style  
+- [x] HTML and fallback text email tests  
+- [x] ForgotPassword Component - hook up and test  

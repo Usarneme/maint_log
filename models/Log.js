@@ -27,6 +27,9 @@ const logSchema = new mongoose.Schema({
   dateDue: {
     type: Date
   },
+  imageTags: {
+    type: Array
+  },
   mileageDue: {
     type: Number
   },
