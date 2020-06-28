@@ -57,7 +57,7 @@ function Register(props) {
         <input type="password" name="password" placeholder="Enter password..." value={state.password || ''} onChange={handleInputChange} />
         <label htmlFor="passwordConfirm">Confirm Password</label>
         <input type="password" name="passwordConfirm" placeholder="Confirm password..." value={state.passwordConfirm || ''} onChange={handleInputChange} />
-        <input className="button" type="submit" value="Register →" />
+        <button className="button" type="submit" >Register →</button>
       </form>
     </div>
   )

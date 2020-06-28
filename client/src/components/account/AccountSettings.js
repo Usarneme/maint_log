@@ -41,7 +41,7 @@ function AccountSettings(props) {
         <input type="email" placeholder="Enter email..." name="email" value={state.email || ''} onChange={handleInputChange} />
         {/* <label htmlFor="password">Password</label>
         <input type="password" placeholder="Enter password..." name="password" value={state.password || ''} onChange={handleInputChange} /> */}
-        <input className="button" type="submit" value="Save Account Changes" />
+        <button className="button" type="submit" >Save Account Changes</button>
       </form>
     </div>
   )

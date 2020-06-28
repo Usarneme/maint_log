@@ -271,7 +271,7 @@ class LogForm extends React.Component {
                 <input type="file" name="file" accept="image/gif, image/png, image/jpeg" onChange={this.handleInputChange} />
               </label>
 
-              <input className="button submit" type="submit" value="Save Log" />
+              <button className="button submit" type="submit">Save Log</button>
             </form>
 
             { this.props.log && this.props.log.photos && this.props.log.photos.length > 0 && <PhotoEditor photos={this.props.log.photos} deletePhoto={this.deletePhoto} /> }

@@ -77,7 +77,7 @@ function Login(props) {
         <input type="email" name="email" placeholder="Enter email..." value={state.email || ''} onChange={handleInputChange} />
         <label htmlFor="password">Password</label>
         <input type="password" name="password" placeholder="Enter password..." value={state.password || ''} onChange={handleInputChange} />
-        <input className="button" type="submit" value="Log In →" />
+        <button className="button" type="submit" >Log In →</button>
         <div className="remember_box">
           <label htmlFor="persist">Remember me</label>
           <input type="checkbox" name="persist" checked={state.persist} onChange={handlePersistCheckboxChange} /> 

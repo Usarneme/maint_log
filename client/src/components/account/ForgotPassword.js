@@ -44,7 +44,7 @@ function ForgotPassword(props) {
       <form onSubmit={handleSubmit} method="POST">
         <label htmlFor="email">Email Address</label>
         <input type="email" name="email" placeholder="Enter email..." defaultValue={props.email} ref={inputRef} />
-        <input className="button" type="submit" value="Send a Reset" />
+        <button className="button" type="submit" >Send a Reset</button>
       </form>
     </div>
   )
