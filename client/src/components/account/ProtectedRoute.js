@@ -7,9 +7,11 @@ function ProtectedRoute(props) {
   const { user, updateUserState } = useContext(UserContext)
   let isLoggedIn = false
   if (user && Object.keys(user).length > 0 && user.cookies && user.cookies.length > 0) isLoggedIn = true
-  return (isLoggedIn ?
-    <Route {...props} user={user} updateUserState={updateUserState} >{props.children}</Route> :
-    <Redirect to='/welcome' />)
+  if (isLoggedIn) {
+    return <Route {...props} user={user} updateUserState={updateUserState} >{props.children}</Route>
+  } else {
+    return <Redirect to='/welcome' />
+  }
 }
 
 export default ProtectedRoute
