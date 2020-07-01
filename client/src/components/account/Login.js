@@ -35,6 +35,8 @@ function Login(props) {
   }
 
   const handlePersistCheckboxChange = event => {
+    // if persist is unchecked/false when they click then they just toggled it to checked/true 
+    // thus we save the email address to storage
     if (!state.persist && state.email) {
       localStorage.setItem('maint_log_user', state.email)
     } else {
@@ -47,6 +49,10 @@ function Login(props) {
     event.preventDefault()
     const { email, password } = state
     setLoading(true)
+    // Save email for next time login
+    if (state.persist && state.email) {
+      localStorage.setItem('maint_log_user', state.email)
+    }
     // login func already wrapped in a try/catch. returns an error in result[response] if there is a failure
     const result = await apiLogin(email, password)
     if (!result || result.response !== undefined) {

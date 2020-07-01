@@ -64,7 +64,7 @@ class App extends React.Component {
       const user = JSON.parse(userRaw)
       console.log('Mounted App. Found Saved User:')
       console.log(user)
-        this.setState({ user })
+        this.setState({ user, isLoggedIn: true })
     }
   }
 
