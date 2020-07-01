@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import ForgotPassword from './ForgotPassword'
 import Loading from '../Loading'
-import { login } from '../../helpers'
+import { apiLogin } from '../../helpers'
 import '../../styles/login.css'
 
 function Login(props) {
@@ -18,7 +18,7 @@ function Login(props) {
 
   useEffect(() => {
     // if they checked the box to have their username remembered...
-    const email = localStorage.getItem('maint_log_user')
+    const email = localStorage.getItem('maint_log_email')
     if (email && email.length > 0) {
       setState({
         ...state, email: email, persist: true
@@ -48,7 +48,7 @@ function Login(props) {
     const { email, password } = state
     setLoading(true)
     // login func already wrapped in a try/catch. returns an error in result[response] if there is a failure
-    const result = await login(email, password)
+    const result = await apiLogin(email, password)
     if (!result || result.response !== undefined) {
       setLoading(false)
       return alert(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
@@ -61,7 +61,7 @@ function Login(props) {
       return alert('Server could not locate that user. Please try again.')
     }
     if (!user.selectedVehicles || user.selectedVehicles === undefined) user.selectedVehicles = []
-    await props.updateUserState(user)
+    await props.login(user)
     setLoading(false)
     console.log('Loading set to false in Login component. Pushing history to /')
     return history.push('/')
@@ -90,7 +90,7 @@ function Login(props) {
 }
 
 Login.propTypes = {
-  updateUserState: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 }
 
 export default Login

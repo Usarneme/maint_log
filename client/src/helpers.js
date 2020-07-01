@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true
 // Authenticates a user via email+password
 // Upon success: returns a User object and 
 // appends server session ID and cookie info to future requests
-export async function login(email, password) {
+export async function apiLogin(email, password) {
   if (!email || !password) return new Error('No email or password provided to Login.')
   try {
     const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/login`, { email, password })

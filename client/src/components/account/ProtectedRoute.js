@@ -1,17 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-
-import UserContext from '../../contexts/UserContext'
+import PropTypes from 'prop-types'
 
 function ProtectedRoute(props) {
-  const { user, updateUserState } = useContext(UserContext)
-  let isLoggedIn = false
-  if (user && Object.keys(user).length > 0 && user.cookies && user.cookies.length > 0) isLoggedIn = true
-  if (isLoggedIn) {
-    return <Route {...props} user={user} updateUserState={updateUserState} >{props.children}</Route>
-  } else {
-    return <Redirect to='/welcome' />
-  }
+  return props.isLoggedIn ? <Route {...props}>{props.children}</Route> : <Redirect to='/welcome' />
+}
+
+ProtectedRoute.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  exact: PropTypes.bool, // exact and path are passed to the Route child component
+  path: PropTypes.string.isRequired
 }
 
 export default ProtectedRoute

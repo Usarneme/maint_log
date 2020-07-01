@@ -26,34 +26,34 @@ function AppRouter() {
       <ScrollToTop />
       <SiteTitle />
       <UserConsumer>
-        {({ user, updateUserState }) => 
+        {({ user, updateUserState, isLoggedIn, login, logout }) => 
         <div className="container">
           <Switch>
             <Route path="/welcome">
-              <GuestHome />
+              <GuestHome login={login} updateUserState={updateUserState} />
             </Route>
-            <ProtectedRoute path="/add">
+            <ProtectedRoute path="/add" isLoggedIn={isLoggedIn} >
               <Add user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/log" exact>
+            <ProtectedRoute path="/log" exact isLoggedIn={isLoggedIn} >
               <Log user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/log/:id/edit" exact>
+            <ProtectedRoute path="/log/:id/edit" exact isLoggedIn={isLoggedIn} >
               <Edit user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/log/:slug" exact>
+            <ProtectedRoute path="/log/:slug" exact isLoggedIn={isLoggedIn} >
               <SingleLogEntry user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/search">
+            <ProtectedRoute path="/search" isLoggedIn={isLoggedIn} >
               <Search user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/settings">
-              <Settings user={user} updateUserState={updateUserState} />
+            <ProtectedRoute path="/settings" isLoggedIn={isLoggedIn} >
+              <Settings user={user} updateUserState={updateUserState} logout={logout} />
             </ProtectedRoute>
-            <ProtectedRoute path="/todo">
+            <ProtectedRoute path="/todo" isLoggedIn={isLoggedIn} >
               <Todo user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
-            <ProtectedRoute path="/" exact={true}>
+            <ProtectedRoute path="/" exact isLoggedIn={isLoggedIn} >
               <Home user={user} updateUserState={updateUserState} />
             </ProtectedRoute>
             <Route path="/account/reset/:token" exact>
@@ -63,7 +63,7 @@ function AppRouter() {
               <NotFound />
             </Route>
           </Switch>
-          { user && user.cookies && user.cookies.length > 0 && <Nav /> }
+          { isLoggedIn && <Nav /> }
         </div>
         }
       </UserConsumer>

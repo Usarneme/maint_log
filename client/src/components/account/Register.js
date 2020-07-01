@@ -29,7 +29,7 @@ function Register(props) {
     const { name, email, password, passwordConfirm } = state
     setLoading(true)
     console.log('Loading. Sending to register: ')
-    console.log(name, email, password, passwordConfirm)
+    // console.log(name, email, password, passwordConfirm)
     const result = await register(name, email, password, passwordConfirm)
     if (!result || result.response !== undefined) {
       setLoading(false)
