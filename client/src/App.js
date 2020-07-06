@@ -61,11 +61,15 @@ class App extends React.Component {
     console.log('User Raw:')
     console.log(userRaw)
 
-    if (userRaw !== null && Object.keys(userRaw).length > 0 && userRaw["name"] && userRaw["name"] !== "" && userRaw["name"].length > 0) {
+    if (userRaw !== null) {
       const user = JSON.parse(userRaw)
-      console.log('Mounted App. Found Previously-Saved User:')
-      console.log(user)
-      this.setState({ user, isLoggedIn: true })
+      if (user && Object.keys(user).length > 0 && user["name"] && user["name"] !== "" && user["name"].length > 0) {
+        console.log('Mounted App. Found Previously-Saved User:')
+        console.log(user)
+        this.setState({ user, isLoggedIn: true })  
+      } else {
+        console.log('Problem getting data from localStorage (possibly malformed data object - check DevTools).')
+      }
     } else {
       // Username Only (for Saved Logins)
       const username = localStorage.getItem('maint_log_username')
