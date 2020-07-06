@@ -43,7 +43,7 @@ function AppRouter() {
 
           <Switch>
             <Route path="/welcome">
-              <GuestHome user={user} login={login} updateUserState={updateUserState} />
+              <GuestHome login={login} updateUserState={updateUserState} />
             </Route>
             <ProtectedRoute path="/add" isLoggedIn={isLoggedIn} >
               <Add user={user} updateUserState={updateUserState} />

@@ -106,3 +106,6 @@ tests/setupEnv.js
 .tern-port
 
 .now
+
+# Client build
+client/build

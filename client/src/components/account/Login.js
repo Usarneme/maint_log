@@ -11,7 +11,7 @@ import '../../styles/login.css'
 function Login(props) {
   const history = useHistory()
   const [state, setState] = useState({
-    email: props.user.name || '',
+    email: '',
     password: '',
     persist: false
   })
