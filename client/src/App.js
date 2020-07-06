@@ -61,7 +61,7 @@ class App extends React.Component {
     console.log('User Raw:')
     console.log(userRaw)
 
-    if (userRaw !== null && Object.keys(userRaw).length > 0 && userRaw["name"] !== "" && userRaw["name"].length > 0) {
+    if (userRaw !== null && Object.keys(userRaw).length > 0 && userRaw["name"] && userRaw["name"] !== "" && userRaw["name"].length > 0) {
       const user = JSON.parse(userRaw)
       console.log('Mounted App. Found Previously-Saved User:')
       console.log(user)
