@@ -108,4 +108,4 @@ tests/setupEnv.js
 .now
 
 # Client build
-client/build
+# client/build
