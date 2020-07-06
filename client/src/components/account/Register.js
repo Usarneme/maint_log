@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { register } from '../../helpers'
 import Loading from '../Loading'
@@ -33,11 +34,11 @@ function Register(props) {
     const result = await register(name, email, password, passwordConfirm)
     if (!result || result.response !== undefined) {
       setLoading(false)
-      return alert(`Error registering a new account. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      return toast(`Error registering a new account. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
     }
     if (Object.keys(result.user).length === 0) {
       setLoading(false)
-      return alert('Server was unable to register you at this time. Please try again.')
+      return toast('Server was unable to register you at this time. Please try again.')
     }
     await props.updateUserState(result.user)
     history.push('/')

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import ForgotPassword from './ForgotPassword'
 import Loading from '../Loading'
@@ -10,7 +11,7 @@ import '../../styles/login.css'
 function Login(props) {
   const history = useHistory()
   const [state, setState] = useState({
-    email: '',
+    email: props.user.name || '',
     password: '',
     persist: false
   })
@@ -18,7 +19,7 @@ function Login(props) {
 
   useEffect(() => {
     // if they checked the box to have their username remembered...
-    const email = localStorage.getItem('maint_log_email')
+    const email = localStorage.getItem('maint_log_username')
     if (email && email.length > 0) {
       setState({
         ...state, email: email, persist: true
@@ -34,15 +35,23 @@ function Login(props) {
     })
   }
 
+  // Called whenever there is a change in the checkbox state
   const handlePersistCheckboxChange = event => {
     // if persist is unchecked/false when they click then they just toggled it to checked/true 
     // thus we save the email address to storage
     if (!state.persist && state.email) {
-      localStorage.setItem('maint_log_user', state.email)
+      localStorage.setItem('maint_log_username', state.email)
     } else {
-      localStorage.removeItem('maint_log_user')
+      localStorage.removeItem('maint_log_username')
     }
     setState({ ...state, persist: !state.persist })
+  }
+
+  // Called each time when leaving (onBlur) the email field
+  const checkAndSave = event => {
+    if (state.persist && state.email) {
+      localStorage.setItem('maint_log_username', state.email)
+    }
   }
 
   const handleLogin = async event => {
@@ -51,20 +60,22 @@ function Login(props) {
     setLoading(true)
     // Save email for next time login
     if (state.persist && state.email) {
-      localStorage.setItem('maint_log_user', state.email)
+      localStorage.setItem('maint_log_username', state.email)
     }
     // login func already wrapped in a try/catch. returns an error in result[response] if there is a failure
     const result = await apiLogin(email, password)
     if (!result || result.response !== undefined) {
       setLoading(false)
-      return alert(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      toast(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      return
     }
     const { user } = result
     console.log('Server returned user:')
     console.log(user)
 
     if (Object.keys(user).length === 0) {
-      return alert('Server could not locate that user. Please try again.')
+      toast('Server could not locate that user. Please try again.')
+      return
     }
     if (!user.selectedVehicles || user.selectedVehicles === undefined) user.selectedVehicles = []
     await props.login(user)
@@ -80,7 +91,7 @@ function Login(props) {
       <h3>Login</h3>
       <form className="padded" onSubmit={handleLogin} method="POST">
         <label htmlFor="email">Email Address</label>
-        <input type="email" name="email" placeholder="Enter email..." value={state.email || ''} onChange={handleInputChange} />
+        <input type="email" name="email" placeholder="Enter email..." value={state.email || ''} onChange={handleInputChange} onBlur={checkAndSave} />
         <label htmlFor="password">Password</label>
         <input type="password" name="password" placeholder="Enter password..." value={state.password || ''} onChange={handleInputChange} />
         <button className="button" type="submit" >Log In →</button>

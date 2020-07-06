@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 import Loading from '../Loading'
 import '../../styles/forgotPassword.css'
@@ -15,7 +16,7 @@ function ForgotPassword(props) {
     console.log('Forgot password form submitted.')
     console.log(inputRef.current.value)
     const email = inputRef.current.value
-    if (!email || email.length < 1) return alert('Please enter a valid email before attempting to request a password reset.')
+    if (!email || email.length < 1) return toast('Please enter a valid email before attempting to request a password reset.')
     setLoading(true)
     try {
       console.log(`posting to: ${process.env.REACT_APP_API_DOMAIN}/account/forgot`)
@@ -23,13 +24,14 @@ function ForgotPassword(props) {
       console.log(response)
       console.dir(response)
       setLoading(false)
-      if (response.status === 200) return alert('Password reset requested successfully. Please check your email soon.')
+      if (response.status === 200) return toast('Password reset requested successfully. Please check your email soon.')
       console.log('Response received but with status code: '+response.status)
       const error = new Error(response.error)
       throw error
     } catch(err) {
       console.log('Error posting to /account/forgot')
       console.dir(err)
+      return toast(err)
     }
 
   }

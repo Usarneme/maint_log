@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import VLVin from './VLVin'
 import VLManual from './VLManual'
@@ -109,7 +110,7 @@ function VehicleSettings(props) {
   }
 
   const deleteVehicle = async vehicleId => {
-    if (!vehicleId) return alert('Unable to locate vehicle ID. Please try again.')
+    if (!vehicleId) return toast('Unable to locate vehicle ID. Please try again.')
     setLoading(true)
     console.log('Deleting vehicle: '+vehicleId)
     // DOMAIN/api/delete/vehicle/:vehicleId

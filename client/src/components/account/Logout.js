@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function Logout(props) {
   const history = useHistory()
@@ -24,7 +25,8 @@ function Logout(props) {
         throw error
       }
     } catch(err) {
-      console.err(err)
+      console.error(err)
+      toast(err)
     }
   }
   return (

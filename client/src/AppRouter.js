@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Add from './pages/Add'
 import Edit from './pages/Edit'
@@ -28,9 +30,20 @@ function AppRouter() {
       <UserConsumer>
         {({ user, updateUserState, isLoggedIn, login, logout }) => 
         <div className="container">
+          <ToastContainer
+            position="top-center"
+            autoClose={6500}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+
           <Switch>
             <Route path="/welcome">
-              <GuestHome login={login} updateUserState={updateUserState} />
+              <GuestHome user={user} login={login} updateUserState={updateUserState} />
             </Route>
             <ProtectedRoute path="/add" isLoggedIn={isLoggedIn} >
               <Add user={user} updateUserState={updateUserState} />

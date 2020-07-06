@@ -28,7 +28,7 @@ class App extends React.Component {
   }
   
   logout = () => {
-    localStorage.removeItem('maint_log_user')
+    localStorage.removeItem('maint_log_username')
     this.setState({
       user: { name: '', userID: '', sessionID: '', cookies: '', email: '', log: [], vehicles: [], selectedVehicles: [] },
       isLoggedIn: false  
@@ -37,10 +37,7 @@ class App extends React.Component {
 
   login = user => {
     this.saveUserToLocalStorage(user)
-    this.setState({ 
-      user, 
-      isLoggedIn: true 
-    })
+    this.setState({ user, isLoggedIn: true })
   }
 
   updateUserState = user => {
@@ -52,19 +49,30 @@ class App extends React.Component {
     localStorage.setItem('maint_log_user', JSON.stringify(user))
   }
 
+  // APP SETUP - find user preferences if any are saved locally
   componentDidMount() {
+    // Theme
     const preferredTheme = localStorage.getItem('maint_log_theme') || 'dark'
     document.documentElement.className = preferredTheme
     localStorage.setItem('maint_log_theme', preferredTheme)
+
+    // Full User Account (for Saved Logins)
     const userRaw = localStorage.getItem('maint_log_user')
     console.log('User Raw:')
     console.log(userRaw)
 
-    if (userRaw !== null) {
+    if (userRaw !== null && Object.keys(userRaw).length > 0 && userRaw["name"] !== "" && userRaw["name"].length > 0) {
       const user = JSON.parse(userRaw)
-      console.log('Mounted App. Found Saved User:')
+      console.log('Mounted App. Found Previously-Saved User:')
       console.log(user)
-        this.setState({ user, isLoggedIn: true })
+      this.setState({ user, isLoggedIn: true })
+    } else {
+      // Username Only (for Saved Logins)
+      const username = localStorage.getItem('maint_log_username')
+      if (username !== null) {
+        console.log('Mounted App. Saved Username Found in LocalStorage.')
+        this.setState({ user: { name: username }, isLoggedIn: false })
+      }
     }
   }
 

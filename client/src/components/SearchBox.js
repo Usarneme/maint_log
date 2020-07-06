@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { ReactSVG } from 'react-svg'
+import { toast } from 'react-toastify'
 
 import SearchResults from './SearchResults'
 import Loading from './Loading'
@@ -31,7 +32,8 @@ class SearchBox extends React.Component {
     } catch (err) {
         console.log('Error posting to /api/search')
         console.dir(err)
-        alert('Error searching log data! Please try again.')
+        toast('Error searching log data! Please try again.')
+        return
     }
   }
 

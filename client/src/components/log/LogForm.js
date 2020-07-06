@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 import Loading from '../Loading'
 import PhotoEditor from '../PhotoEditor' 
@@ -90,7 +91,7 @@ class LogForm extends React.Component {
       console.log(error)
       console.table(error)
       this.setState({ loading: false })
-      alert(error)
+      toast(error)
       // TODO redirect? try again?
     }
   }
@@ -147,7 +148,7 @@ class LogForm extends React.Component {
       }
     } catch(err) {
       // await this.setState({ loading: false })
-      alert('Problem deleting photo. Please try again.')
+      toast('Problem deleting photo. Please try again.')
       console.error(err)
     }
   }

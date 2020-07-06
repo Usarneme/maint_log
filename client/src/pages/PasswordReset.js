@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useParams, useHistory } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 import Loading from '../components/Loading'
 import { resetPassword } from '../helpers'
@@ -61,7 +62,8 @@ function PasswordReset(props) {
     console.log(result)
     setLoading(false)
     if (!result || result.response !== undefined) {
-      return alert(`Error resetting password. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      toast(`Error resetting password. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      return
     }
     await props.updateUserState(result)
     history.push('/')
