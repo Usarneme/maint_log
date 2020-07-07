@@ -110,7 +110,7 @@ function VehicleSettings(props) {
   }
 
   const deleteVehicle = async vehicleId => {
-    if (!vehicleId) return toast('Unable to locate vehicle ID. Please try again.')
+    if (!vehicleId) return toast.error('Unable to locate vehicle ID. Please try again.')
     setLoading(true)
     console.log('Deleting vehicle: '+vehicleId)
     // DOMAIN/api/delete/vehicle/:vehicleId

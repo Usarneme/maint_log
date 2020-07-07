@@ -90,8 +90,8 @@ class LogForm extends React.Component {
       console.dir(error)
       console.log(error)
       console.table(error)
-      this.setState({ loading: false })
-      toast(error)
+      this.setState(prevState => ({ ...prevState, loading: false }))
+      toast.error(error)
       // TODO redirect? try again?
     }
   }
@@ -104,7 +104,7 @@ class LogForm extends React.Component {
     event.preventDefault()
     await this.setState({ loading: true })
     try {
-      const result = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/delete/log/entry/${this.state.id}`)
+      const result = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/delete/log/entry/${this.state.id}`)
       if (result.data === null) {
         console.log('Server unable to find specified log entry. Was it already deleted?')
         await this.setState({ loading: false })
@@ -125,11 +125,8 @@ class LogForm extends React.Component {
 
   deletePhoto = async event => {
     event.preventDefault()
-    // await this.setState({ loading: true })
-    // backend DOMAIN is localhost or hosted (with no trailing slash)
-    // event.target.pathname: /delete/photo/:photo-filename (with a leading slash)
-    // backend expects: DOMAIN/delete/photo/:photo-filename
-    const url = `${process.env.REACT_APP_API_DOMAIN}${event.target.pathname}`
+    this.setState(prevState => ({...prevState, loading: true}))
+    const url = `${process.env.REACT_APP_API_DOMAIN}api/${event.target.pathname}`
     // console.log('Deleting photo via: '+url)
     try {
       const result = await axios.post(url)
@@ -137,18 +134,18 @@ class LogForm extends React.Component {
       // console.dir(result)
       if (result.data === null) {
         console.log('Server unable to find specified photo to delete. Was it already deleted?')
-        // await this.setState({ loading: false })
+        this.setState(prevState => ({...prevState, loading: false}))
       } else if (result.status === 200) {
         // update State to remove the deleted entry
         const user = this.props.user
         user.log = result.data
         this.props.updateUserState(user)
         this.props.history.push(`/log/${this.props.log._id}/edit`)
-        // await this.setState({ loading: false })
+        this.setState(prevState => ({...prevState, loading: false}))
       }
     } catch(err) {
-      // await this.setState({ loading: false })
-      toast('Problem deleting photo. Please try again.')
+      this.setState(prevState => ({...prevState, loading: false}))
+      toast.error('Problem deleting photo. Please try again.')
       console.error(err)
     }
   }

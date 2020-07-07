@@ -58,8 +58,8 @@ class App extends React.Component {
 
     // Full User Account (for Saved Logins)
     const userRaw = localStorage.getItem('maint_log_user')
-    console.log('User Raw:')
-    console.log(userRaw)
+    // console.log('User Raw:')
+    // console.log(userRaw)
 
     if (userRaw !== null) {
       const user = JSON.parse(userRaw)

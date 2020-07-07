@@ -25,8 +25,7 @@ exports.notFound = (req, res, next) => {
 }
 
 /*
-  MongoDB Validation Error Handler
-  Detect if there are mongodb validation errors that we can nicely show via flash messages
+  Detect if there are validation errors that we can show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
   console.log(`flash validation errors err: ${err}`)
@@ -57,17 +56,12 @@ exports.flashValidationErrors = (err, req, res, next) => {
   }
 }
 
-/*
-  Development Error Handler
-
-  In development we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
-*/
+// Development Error Handler - more verbose
 exports.developmentErrors = (err, req, res, next) => {
-  // console.log('dev errors keys: '+Object.keys(err))
-  // console.log('dev errors err: '+err)
-  // console.log('dev errors err.status: '+err.status)
-  // console.log('dev errors err.message: '+err.message)
-
+  console.log('dev errors keys: '+Object.keys(err))
+  console.log('dev errors err: '+err)
+  console.log('dev errors err.status: '+err.status)
+  console.log('dev errors err.message: '+err.message)
 
   err.stack = err.stack || ''
   const errorDetails = {
@@ -86,10 +80,7 @@ exports.developmentErrors = (err, req, res, next) => {
 }
 
 
-/*
-  Production Error Handler
-  No stack traces are leaked to user
-*/
+// Production Error Handler - less verbose - No stack traces are leaked to user
 exports.productionErrors = (err, req, res, next) => {
   console.log('prod errors err: '+err)
 

@@ -54,8 +54,33 @@ function Login(props) {
     }
   }
 
+  const validation = () => {
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const validEmailShape = emailRegex.test(String(state.email).toLowerCase())
+    if (!state.email || state.email.length <= 0 || !validEmailShape) {
+      const message = "Please first type in a valid email address."
+      return {valid: false, message}
+    }
+
+    if (!state.password || state.password.length <= 0) {
+      const message = "Please enter a password."
+      return {valid: false, message}
+    }
+
+    const message = "Validation Passed"
+    return {valid: true, message}
+  }
+
   const handleLogin = async event => {
     event.preventDefault()
+
+    const validationResult = validation()
+    if (validationResult.valid !== true) {
+      setLoading(false)
+      toast.error(validationResult.message)
+      return
+    }
+
     const { email, password } = state
     setLoading(true)
     // Save email for next time login
@@ -66,21 +91,23 @@ function Login(props) {
     const result = await apiLogin(email, password)
     if (!result || result.response !== undefined) {
       setLoading(false)
-      toast(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      toast.error(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
       return
     }
     const { user } = result
     console.log('Server returned user:')
     console.log(user)
 
-    if (Object.keys(user).length === 0) {
-      toast('Server could not locate that user. Please try again.')
+    if (!user || user === undefined || user === null || Object.keys(user).length === 0) {
+      setLoading(false)
+      toast.error('Server could not locate that user. Please check your username and password and try again.')
       return
     }
     if (!user.selectedVehicles || user.selectedVehicles === undefined) user.selectedVehicles = []
     await props.login(user)
     setLoading(false)
     console.log('Loading set to false in Login component. Pushing history to /')
+    toast.success('Login successful...one moment.')
     return history.push('/')
   }
 
@@ -91,9 +118,9 @@ function Login(props) {
       <h3>Login</h3>
       <form className="padded" onSubmit={handleLogin} method="POST">
         <label htmlFor="email">Email Address</label>
-        <input type="email" name="email" placeholder="Enter email..." value={state.email || ''} onChange={handleInputChange} onBlur={checkAndSave} />
+        <input type="email" name="email" placeholder="Enter email..." value={state.email} onChange={handleInputChange} onBlur={checkAndSave} />
         <label htmlFor="password">Password</label>
-        <input type="password" name="password" placeholder="Enter password..." value={state.password || ''} onChange={handleInputChange} />
+        <input type="password" name="password" placeholder="Enter password..." value={state.password} onChange={handleInputChange} />
         <button className="button" type="submit" >Log In →</button>
         <div className="remember_box">
           <label htmlFor="persist">Remember me</label>

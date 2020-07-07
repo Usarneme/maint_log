@@ -73,7 +73,7 @@ export async function resetPassword(token, password, passwordConfirm) {
     console.log('Error posting to /account/reset.')
     console.dir(err)
     // TODO error boundary - return false
-    return toast('Error resetting account password. Please try again.')
+    return toast.error('Error resetting account password. Please try again.')
   }
 }
 
@@ -93,7 +93,7 @@ export async function getLogData() {
   } catch (err) {
       console.log('Error getting data from /api/log/')
       console.dir(err)
-      toast('Error getting log data please try again')
+      toast.error('Error getting log data please try again')
     }
 }
 
@@ -110,7 +110,7 @@ export async function addVehicle(vehicle) {
     console.log('Error posting to /api/vehicle/add.')
     console.dir(err)
     // TODO error boundary - return false
-    return toast('Error adding new vehicle. Please try again.')
+    return toast.error('Error adding new vehicle. Please try again.')
   }
 }
 
@@ -128,7 +128,7 @@ export async function updateVehicle(vehicle) {
     console.log('Error posting to /api/vehicle.')
     console.dir(err)
     // TODO error boundary - return false
-    return toast('Error updating vehicle. Please try again.')
+    return toast.error('Error updating vehicle. Please try again.')
   }
 }
 
@@ -148,7 +148,7 @@ export async function updateUserAccount(userObject) {
       console.log('Error posting to /api/account.')
       console.dir(err)
       // TODO error boundary
-      return toast('Error updating account. Please try again.')
+      return toast.error('Error updating account. Please try again.')
     }
 }
 
@@ -208,24 +208,3 @@ export const manufacturers = [
   "Volkswagen",
   "Volvo"
 ]
-
-// BACKEND API-APP SHARED ROUTES
-// POST
-  // /add 
-  // /add/:id 
-  // /delete/log/entry/:id
-  // /remove/photo/:filename 
-  // /account/forgot 
-  // /account/reset/:token 
-
-// API ONLY ROUTES
-// GET
-  // /api/search       --> cleanly handled by SearchBox component
-  // /api/log          --> not used anywhere... (login and account updates return {User+Vehicle})
-// POST
-  // /api/logout       --> DONE - Handled by Logout component
-  // /api/login        --> DONE 
-  // /api/register     --> DONE (TODO cleanup expectations of children wrt. new user flow i.e. need vehicle asap)
-  // /api/vehicle/add  --> DONE (TODO error boundaries)
-  // /api/vehicle      --> DONE (TODO error boundaries)
-  // /api/account      --> DONE

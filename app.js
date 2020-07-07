@@ -24,19 +24,20 @@ console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
   const origin = req.headers.origin || `http://${req.headers.host}`
   console.log('Received request from: '+origin)
+  console.log(req.headers)
+  console.log(req.url)
+  console.log(req.originalUrl)
+  console.log(req.parsedUrl)
+  
   // console.log(req.headers)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin) 
   }
+  // res.header("Access-Control-Allow-Origin", "*") 
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   res.header("Access-Control-Allow-Credentials", true)
   next()
 })
-
-// PUG templates are used for sending HTML emails for password reset requests
-app.set('view engine', 'pug') 
-// The React frontend build folder contains static assets for the client-side of the app
-app.use(express.static(path.join(__dirname, 'client/build')))
 
 // Takes raw request data and puts them on req.body
 // for parsing json and x-www-form-urlencoded header requests
@@ -77,11 +78,16 @@ app.use((req, res, next) => {
 
 app.use('/', routes)
 
-// One of our error handlers will see if these errors are just validation errors
-app.use(errorHandlers.flashValidationErrors)
+// The React frontend build folder contains static assets for the client-side of the app
+app.use(express.static(path.join(__dirname, 'client/build')))
 
-// If the above routes fail, 404/forward to error handler
-app.use(errorHandlers.notFound)
+// If no API routes are hit, send static assets
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+})
+
+// PUG templates are used for sending HTML emails for password reset requests
+app.set('view engine', 'pug') 
 
 // Development Error Handler - Prints stack trace
 if (app.get('env') === 'development') {
@@ -92,5 +98,12 @@ if (app.get('env') === 'development') {
 if (app.get('env') === 'production') {
   app.use(errorHandlers.productionErrors)
 }
+
+// One of our error handlers will see if these errors are just validation errors
+app.use(errorHandlers.flashValidationErrors)
+
+// If the above routes fail, 404/forward to error handler
+app.use(errorHandlers.notFound)
+
 
 module.exports = app

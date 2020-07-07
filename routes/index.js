@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const { body } = require('express-validator')
 const passport = require('passport')
-const path = require('path')
 
 const authController = require('../controllers/authController')
 const logController = require('../controllers/logController')
@@ -10,8 +9,6 @@ const userController = require('../controllers/userController')
 
 const { catchErrors } = require('../handlers/errorHandlers')
 
-// ---------------- POST APP DATA -----------------------------
-// ---------------- SHARED BY PUG APP AND API ------------
 router.post('/add',
   logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads (HOC?)
   catchErrors(logController.uploadPhoto),
@@ -29,10 +26,9 @@ router.post('/account/reset/:token',
   authController.confirmedPasswords,
   catchErrors(authController.changePassword)
 )
-router.post('/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
-router.post('/delete/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
+router.post('/api/delete/log/entry/:id', authController.isLoggedIn, catchErrors(logController.deleteLogEntry))
+router.post('/api/delete/photo/:filename', authController.isLoggedIn, catchErrors(logController.removePhoto))
 
-// ---------------- ONLY USED BY API CONSUMER(S) ----------
 router.get('/api/search', catchErrors(logController.searchLog))
 router.get('/api/log', authController.isLoggedIn, logController.getLogData)
 
@@ -83,13 +79,5 @@ router.post('/api/vehicle/add',
   userController.validateAccountUpdate,
   catchErrors(userController.addVehicle)
 )
-
-// If no API routes are hit, send the React app
-// if (process.env.NODE_ENV === "production") {
-//   console.log(process.env)
-  router.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-  })
-// }
 
 module.exports = router

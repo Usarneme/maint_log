@@ -62,7 +62,8 @@ function PasswordReset(props) {
     console.log(result)
     setLoading(false)
     if (!result || result.response !== undefined) {
-      toast(`Error resetting password. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      toast.error(`Error resetting password. Please try again.`)
+      console.log(`Status ${result.response.status}: ${result.response.statusText}.`)
       return
     }
     await props.updateUserState(result)

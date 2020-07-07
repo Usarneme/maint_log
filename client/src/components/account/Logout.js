@@ -26,7 +26,7 @@ function Logout(props) {
       }
     } catch(err) {
       console.error(err)
-      toast(err)
+      toast.error(err)
     }
   }
   return (

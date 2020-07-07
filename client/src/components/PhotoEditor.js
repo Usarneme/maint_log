@@ -14,7 +14,7 @@ function PhotoEditor(props) {
           return (
             <div key={photo} className="single__photo__div">
               <img className="single__photo" src={`http://res.cloudinary.com/c00p/image/upload/${photo}`} alt={photo} />
-              { !props.editingBlocked && <Link className="button delete__photo" to={`/delete/photo/${photo}`} onClick={props.deletePhoto} title="Delete This Photo">Delete Photo</Link> }
+              { !props.editingBlocked && <Link className="button delete__photo" to={`/api/delete/photo/${photo}`} onClick={props.deletePhoto} title="Delete This Photo">Delete Photo</Link> }
             </div>
           )
         }

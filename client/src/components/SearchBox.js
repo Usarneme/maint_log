@@ -32,7 +32,7 @@ class SearchBox extends React.Component {
     } catch (err) {
         console.log('Error posting to /api/search')
         console.dir(err)
-        toast('Error searching log data! Please try again.')
+        toast.error('Error searching log data! Please try again.')
         return
     }
   }

@@ -20,7 +20,7 @@ import ProtectedRoute from './components/account/ProtectedRoute'
 import ScrollToTop from './components/ScrollToTop'
 import SiteTitle from './components/SiteTitle'
 
-import { UserConsumer } from './contexts/UserContext'
+import { UserConsumer } from './contexts/UserContext' 
 
 function AppRouter() {
   return (
@@ -43,7 +43,8 @@ function AppRouter() {
 
           <Switch>
             <Route path="/welcome">
-              <GuestHome login={login} updateUserState={updateUserState} />
+              { !isLoggedIn && <GuestHome login={login} updateUserState={updateUserState} /> }
+              { isLoggedIn && <Home user={user} updateUserState={updateUserState} /> }
             </Route>
             <ProtectedRoute path="/add" isLoggedIn={isLoggedIn} >
               <Add user={user} updateUserState={updateUserState} />
