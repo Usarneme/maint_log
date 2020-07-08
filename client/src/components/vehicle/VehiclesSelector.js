@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import '../../styles/vehicle.css'
 
 function VehiclesSelector(props) {
-  console.log('Vehicle selector component with props: ')
-  console.dir(props)
+  // console.log('Vehicle selector component with props: ')
+  // console.dir(props)
   return (
     <div className="card vehicles__selector vehicles">
       <div>

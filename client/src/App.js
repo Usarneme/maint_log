@@ -28,7 +28,7 @@ class App extends React.Component {
   }
   
   logout = () => {
-    localStorage.removeItem('maint_log_username')
+    localStorage.removeItem('maint_log_user')
     this.setState({
       user: { name: '', userID: '', sessionID: '', cookies: '', email: '', log: [], vehicles: [], selectedVehicles: [] },
       isLoggedIn: false  

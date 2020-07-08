@@ -68,8 +68,12 @@ function LogSorter(props) {
         arrow.classList.add('log__sorter__arrow__selected')
       }
       let updatedUser = {...props.user}
+      console.log('sorting by cost. log before sort: ')
+      console.log(updatedUser.log)
       updatedUser.log = tempLogArray
       props.updateUserState(updatedUser)
+      console.log('sorting by cost. log after sort: ')
+      console.log(updatedUser.log)
       return
     }
   }

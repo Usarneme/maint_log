@@ -22,7 +22,6 @@ function AccountSettings(props) {
     userUpdates.email = state.email
     // TODO confirmation and password changing option
     const updates = await updateUserAccount(userUpdates)
-    console.log('1')
     console.log('TODO why props.user instead of the extant userUpdates?')
     const updatedUser = props.user
     updatedUser.log = updates.log

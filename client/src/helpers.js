@@ -8,7 +8,10 @@ axios.defaults.withCredentials = true
 export async function apiLogin(email, password) {
   if (!email || !password) return new Error('No email or password provided to Login.')
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/login`, { email, password })
+    const response = await axios.post('/api/login', { email, password })
+    // const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/login`, { email, password })
+    console.log('response from server recd:')
+    console.log(response)
     if (response.status === 200) {
       const user = response.data
       user.userID = response.data._id
@@ -28,7 +31,7 @@ export async function apiLogin(email, password) {
   } 
   catch(loginError) {
     console.log(`Error posting to ${process.env.REACT_APP_API_DOMAIN}/api/login`)
-    console.dir(loginError)
+    console.log(loginError)
     return loginError
   }
 }

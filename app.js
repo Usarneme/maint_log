@@ -24,10 +24,9 @@ console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
   const origin = req.headers.origin || `http://${req.headers.host}`
   console.log('Received request from: '+origin)
-  console.log(req.headers)
-  console.log(req.url)
-  console.log(req.originalUrl)
-  console.log(req.parsedUrl)
+  // console.log(req.headers)
+  console.log('url',req.url)
+  // console.log('originalUrl',req.originalUrl)
   
   // console.log(req.headers)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
@@ -76,15 +75,11 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/', routes)
+// app.use('/', routes)
+// per docs, suggested route setup:
+require('./routes')(app)
 
-// The React frontend build folder contains static assets for the client-side of the app
-app.use(express.static(path.join(__dirname, 'client/build')))
-
-// If no API routes are hit, send static assets
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-})
+console.log(`Express root dir: ${__dirname}`)
 
 // PUG templates are used for sending HTML emails for password reset requests
 app.set('view engine', 'pug') 
@@ -94,8 +89,14 @@ if (app.get('env') === 'development') {
   app.use(errorHandlers.developmentErrors)
 } 
 
-// Production error handler - Hides stack trace
 if (app.get('env') === 'production') {
+  // If no API routes are hit, send static assets
+  app.get('*', (req, res) => {
+    // The React frontend build folder contains static assets for the client-side of the app
+    app.use(express.static(path.join(__dirname, 'client/build')))
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  })
+  // Production error handler - Hides stack trace
   app.use(errorHandlers.productionErrors)
 }
 

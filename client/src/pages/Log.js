@@ -36,7 +36,8 @@ function Log(props) {
     changeEntriesShowing(ent)
     console.log('After setup. Entries: ')
     console.log(entriesShowing)
-  }, []) // empty [] only runs this at initial startup, prevents infinite re-render loop
+  }, [props.user.log]) // empty [] only runs this at initial startup, prevents infinite re-render loop
+// }, []) // empty [] only runs this at initial startup, prevents infinite re-render loop
 
   console.log('(After useEffect) Vehicles and Logs: ')
   console.log(vehiclesShowing)

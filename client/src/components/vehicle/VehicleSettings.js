@@ -14,8 +14,8 @@ import { addVehicle, updateVehicle } from '../../helpers'
 import '../../styles/vehicle.css'
 
 function VehicleSettings(props) {
-  console.log('loading vehicle settings with props:')
-  console.dir(props)
+  // console.log('loading vehicle settings with props:')
+  // console.dir(props)
   const history = useHistory()
   const [vehicleLookupsShowing, showVehicleLookups] = useState(false)
   const [manualLookupShowing, showManualLookup] = useState(false)
@@ -33,8 +33,8 @@ function VehicleSettings(props) {
       props.vehicles.forEach(vehicle => {
         transform[vehicle._id] = false 
       })
-      console.log('component mounting, initializing state for whether each individual vehicle is being edited or not') 
-      console.log(transform)
+      // console.log('component mounting, initializing state for whether each individual vehicle is being edited or not') 
+      // console.log(transform)
       if (Object.keys(vehiclesEditing).length === 0) changeVehicleEditStatus({...transform})
     }
   }, [props.vehicles, vehiclesEditing])
@@ -117,13 +117,13 @@ function VehicleSettings(props) {
     const url = `${process.env.REACT_APP_API_DOMAIN}/api/delete/vehicle/${vehicleId}`
     try {
       const result = await axios.post(url)
-      console.log('got results from delete vehicle post:')
-      console.dir(result)
+      // console.log('got results from delete vehicle post:')
+      // console.dir(result)
       if (result.status === 200) {
         // update State to remove the deleted entry
         const newVehicleList = user.vehicles.filter(vehicle => vehicle._id !== vehicleId)
-        console.log('Purged deleted vehicle. New vehicle list: ')
-        console.log(newVehicleList)
+        // console.log('Purged deleted vehicle. New vehicle list: ')
+        // console.log(newVehicleList)
         delete user.vehicles
         user.vehicles = [...newVehicleList]
         await updateUserState(user)

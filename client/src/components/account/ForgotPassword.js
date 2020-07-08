@@ -13,16 +13,17 @@ function ForgotPassword(props) {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    console.log('Forgot password form submitted.')
-    console.log(inputRef.current.value)
+    // console.log('Forgot password form submitted.')
+    // console.log(inputRef.current.value)
     const email = inputRef.current.value
     if (!email || email.length < 1) return toast.warn('Please enter a valid email before attempting to request a password reset.')
     setLoading(true)
     try {
-      console.log(`posting to: ${process.env.REACT_APP_API_DOMAIN}/account/forgot`)
-      const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/forgot`, {"email": email} )
-      console.log(response)
-      console.dir(response)
+      // console.log(`posting to: ${process.env.REACT_APP_API_DOMAIN}/account/forgot`)
+      // const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/forgot`, {"email": email} )
+      // console.log('posting to: /account/forgot')
+      const response = await axios.post('/account/forgot', {"email": email} )
+      // console.log(response)
       setLoading(false)
       if (response.status === 200) return toast.success('Password reset requested successfully. Please check your email soon.')
       console.log('Response received but with status code: '+response.status)

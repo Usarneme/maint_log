@@ -18,7 +18,9 @@ function Logout(props) {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/logout`)
       if (response.status === 200) {
-        props.updateUserState({ name: '', userID: '', sessionID: '', cookies: '', email: '', log: [], vehicles: [], selectedVehicles: []})
+        props.logout()
+        // logout func handles clearing state
+        // props.updateUserState({ name: '', userID: '', sessionID: '', cookies: '', email: '', log: [], vehicles: [], selectedVehicles: []})
         return history.push('/welcome')
       } else {
         const error = new Error(response.error)
@@ -41,7 +43,8 @@ function Logout(props) {
 }
 
 Logout.propTypes = {
-  updateUserState: PropTypes.func.isRequired
+  updateUserState: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
 export default Logout

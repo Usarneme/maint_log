@@ -28,13 +28,13 @@ exports.isLoggedIn = (req, res, next) => {
 
 exports.forgot = async (req, res) => {
   console.log('/account/forgot handler... Req.Body and User:')
-  console.log(req.body)
+  // console.log(req.body)
   console.log('Headers: ')
   console.log(req.headers)
 
   const user = await User.findOne({ email: req.body.email })
-  console.log('Found user in db:')
-  console.log(user)
+  // console.log('Found user in db:')
+  // console.log(user)
   if (!user) {
     console.log('error', 'No account with that email exists.')
     return res.status(400).send('Never heard of that user before...')
@@ -44,10 +44,10 @@ exports.forgot = async (req, res) => {
   user.resetPasswordExpires = Date.now() + 3600000 // 1 hour from now
   await user.save()
 
-  // req.headers.host was fine, but using origin ensures it has the right protocol (http or https) 
-  const resetURL = `${req.headers.origin}/account/reset/${user.resetPasswordToken}`
-  console.log('DB Updated with token and expiry. URL to be sent: ')
-  console.log(resetURL)
+  // ensure we have the right protocol (http or https) 
+  const origin = req.headers.origin || `http://${req.headers.host}`
+  const resetURL = `${origin}/account/reset/${user.resetPasswordToken}`
+  console.log('DB Updated with token and expiry. URL to be sent: ',resetURL)
 
   await mail.send({
     user,
@@ -126,6 +126,7 @@ exports.changePassword = async (req, res) => {
 }
 
 exports.apiLogout = (req, res) => {
+  console.log('apiLogout route hit')
   req.logout()
   res.status(200).send('Logged out successfully!')
 }

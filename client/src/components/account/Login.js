@@ -107,7 +107,7 @@ function Login(props) {
     await props.login(user)
     setLoading(false)
     console.log('Loading set to false in Login component. Pushing history to /')
-    toast.success('Login successful...one moment.')
+    toast.success('Login successful!', { autoClose: 3500 })
     return history.push('/')
   }
 

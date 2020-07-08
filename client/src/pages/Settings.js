@@ -23,7 +23,7 @@ function Settings(props) {
           history={history} />
         <AccountSettings user={props.user} updateUserState={props.updateUserState} />
         <ThemeSwitcher />
-        <Logout history={history} user={props.user} updateUserState={props.updateUserState} />
+        <Logout logout={props.logout} history={history} user={props.user} updateUserState={props.updateUserState} />
       </div>
     </div>
   )
@@ -40,7 +40,8 @@ Settings.propTypes = {
     vehicles: PropTypes.array,
     selectedVehicles: PropTypes.array
   }),
-  updateUserState: PropTypes.func.isRequired
+  updateUserState: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
 export default Settings
