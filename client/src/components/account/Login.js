@@ -89,12 +89,15 @@ function Login(props) {
     }
     // login func already wrapped in a try/catch. returns an error in result[response] if there is a failure
     const result = await apiLogin(email, password)
-    if (!result || result.response !== undefined) {
+    console.log('login component, apiLogin call returned: ')
+    console.log(result)
+    if (!result || result.isError === true) {
       setLoading(false)
-      toast.error(`Error logging in. Please try again. Status ${result.response.status}: ${result.response.statusText}.`)
+      toast.error(result.message || 'Problem logging in. Please try again.')
       return
     }
-    const { user } = result
+    // if we get here, login was successul on the server
+    const user = result.user
     console.log('Server returned user:')
     console.log(user)
 

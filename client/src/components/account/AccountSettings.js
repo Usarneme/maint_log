@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 
+import Loading from '../Loading'
 import { updateUserAccount } from '../../helpers'
 
 function AccountSettings(props) {
@@ -10,6 +12,8 @@ function AccountSettings(props) {
     password: ''
   })
 
+  const [loading, setLoading] = useState(false)
+
   const handleInputChange = event => {
     setState({ ...state, [event.target.name]: event.target.value })
   }
@@ -17,6 +21,7 @@ function AccountSettings(props) {
 
   const saveAccountChanges = async event => {
     event.preventDefault()
+    setLoading(true)
     const userUpdates = { ...props.user }
     userUpdates.name = state.name
     userUpdates.email = state.email
@@ -28,7 +33,11 @@ function AccountSettings(props) {
     updatedUser.vehicles = updates.vehicles
     updatedUser.selectedVehicles = state.selectedVehicles
     await props.updateUserState(updatedUser)
+    toast.success('User Account Changes Saved Successfully!')
+    setLoading(false)
   }
+
+  if (loading) return <Loading message="Updating User Account..." />
 
   return (
     <div className="card">

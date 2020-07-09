@@ -116,7 +116,8 @@ exports.getApiUserData = async (req, res) => {
   const logPromise = Log.find({ author: req.user._id }).sort({ created: 'desc' })
   const [rawUser, vehicles, log] = await Promise.all([userPromise, vehiclesPromise, logPromise])
 
-  // console.log(rawUser)
+  console.log('Found user data:')
+  console.log(rawUser)
   // => _id, name, email, vehicle: empty 'String', vehicles: [] empty array
   let user = {}
   user['_id'] = rawUser._id

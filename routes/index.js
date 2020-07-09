@@ -35,7 +35,9 @@ module.exports = function(app) {
   app.get('/api/log', authController.isLoggedIn, logController.getLogData)
 
   app.post('/api/delete/vehicle/:vehicleId', authController.isLoggedIn, catchErrors(userController.deleteVehicle))
-  app.post('/api/login', passport.authenticate('local'), catchErrors(userController.getApiUserData))
+  app.post('/api/login', authController.login, catchErrors(userController.getApiUserData))
+  app.get('/api/login/failure', authController.loginFailure)
+
   app.post('/api/logout', authController.apiLogout)
   app.post('/api/register', 
     [

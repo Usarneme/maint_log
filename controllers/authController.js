@@ -6,12 +6,11 @@ const Vehicle = mongoose.model('Vehicle')
 const Log = mongoose.model('Log')
 const mail = require('../handlers/mail')
 
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
-  failureFlash: 'Login Failed.',
-  successRedirect: '/',
-  successFlash: 'You are now logged in.'
-})
+exports.login = passport.authenticate('local', { failureRedirect: '/api/login/failure' })
+
+exports.loginFailure = (req, res) => {
+  return res.status(401).send("Username or Password are incorrect. Please ensure you've entered them correctly or Register a new user account.")
+}
 
 exports.logout = (req, res) => {
   req.logout()
@@ -23,7 +22,7 @@ exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next()
   if (req.body.api) return res.status(500).send({ 'error': { 'message': 'API cannot confirm user is logged in.' } })
   console.log('error', 'Oops you must be logged in to do that!')
-  res.redirect('/login')
+  return res.redirect('/api/login')
 }
 
 exports.forgot = async (req, res) => {

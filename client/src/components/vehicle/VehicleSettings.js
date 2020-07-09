@@ -81,7 +81,8 @@ function VehicleSettings(props) {
     const newUser = {...user, log: newLogVehicleArrays.log, vehicles: newLogVehicleArrays.vehicles}
     await updateUserState({ ...newUser })
     showVehicleLookups(false)
-    setLoading(false)  
+    setLoading(false)
+    toast.success(`${vehicle.year} ${vehicle.make} ${vehicle.model} Saved Successfully!`)
   }
 
   const saveVehicleChanges = async vehicle => {
@@ -107,6 +108,7 @@ function VehicleSettings(props) {
     await updateUserState({ ...newUser })
     showVehicleLookups(false)
     setLoading(false)
+    toast.success(`${vehicle.year} ${vehicle.make} ${vehicle.model} Update Saved Successfully!`)
   }
 
   const deleteVehicle = async vehicleId => {
@@ -128,6 +130,7 @@ function VehicleSettings(props) {
         user.vehicles = [...newVehicleList]
         await updateUserState(user)
         setLoading(false)
+        toast.warn('Vehicle Removed From Account.')
         return history.push(`/settings`)
       }
     } catch(err) {

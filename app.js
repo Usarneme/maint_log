@@ -23,12 +23,7 @@ app.use(cors())
 console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
   const origin = req.headers.origin || `http://${req.headers.host}`
-  console.log('Received request from: '+origin)
-  // console.log(req.headers)
-  console.log('url',req.url)
-  // console.log('originalUrl',req.originalUrl)
-  
-  // console.log(req.headers)
+  console.log('Received request from: '+origin+req.url)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin) 
   }

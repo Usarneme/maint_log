@@ -126,8 +126,9 @@ class LogForm extends React.Component {
   deletePhoto = async event => {
     event.preventDefault()
     this.setState(prevState => ({...prevState, loading: true}))
-    const url = `${process.env.REACT_APP_API_DOMAIN}api/${event.target.pathname}`
-    // console.log('Deleting photo via: '+url)
+    const url = event.target.pathname
+    // const url = `${process.env.REACT_APP_API_DOMAIN}api/${event.target.pathname}`
+    console.log('Deleting photo via: '+url)
     try {
       const result = await axios.post(url)
       // console.log('Result from delete photo call:')

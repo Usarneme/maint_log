@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true
 export async function apiLogin(email, password) {
   if (!email || !password) return new Error('No email or password provided to Login.')
   try {
-    const response = await axios.post('/api/login', { email, password })
+    const response = await axios.post('api/login', { email, password })
     // const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/login`, { email, password })
     console.log('response from server recd:')
     console.log(response)
@@ -22,7 +22,11 @@ export async function apiLogin(email, password) {
       } else {
         user.selectedVehicles = primaryVehicleArray
       }
-      return { user } 
+      const successMsg = {
+        isError: false,
+        user: user
+      }
+      return successMsg
     } else {
       console.log('Response received but with status code: '+response.status)
       const error = new Error(response.error)
@@ -30,9 +34,14 @@ export async function apiLogin(email, password) {
     }
   } 
   catch(loginError) {
-    console.log(`Error posting to ${process.env.REACT_APP_API_DOMAIN}/api/login`)
+    console.log(`Error posting to api/login`)
     console.log(loginError)
-    return loginError
+    console.log(loginError.response.data)
+    const errMsg = {
+      isError: true,
+      message: loginError.response.data || loginError
+    }
+    return errMsg
   }
 }
 
@@ -65,7 +74,7 @@ export async function register(name, email, password, passwordConfirm) {
 
 export async function resetPassword(token, password, passwordConfirm) {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/account/reset/${token}`, { token, password, passwordConfirm })
+    const response = await axios.post(`account/reset/${token}`, { token, password, passwordConfirm })
     // ensure the selectedVehicles array is included in the dataset
     if (!response || !response.data || !response.data.selectedVehicles || response.data.selectedVehicles === undefined) response.data.selectedVehicles = []
     if (response.status === 200) return response.data
@@ -85,7 +94,7 @@ export async function resetPassword(token, password, passwordConfirm) {
 export async function getLogData() {
   // console.log('Getting new log data...')
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_DOMAIN}/api/log`)
+    const response = await axios.get('api/log')
     console.log('getLogData returned: ')
     console.dir(response)
     if (response.status === 200) return response.data
@@ -104,7 +113,7 @@ export async function getLogData() {
 // If successful, calls getLogData and returns the updated Log/Vehicle arrays
 export async function addVehicle(vehicle) {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/vehicle/add`, vehicle)
+    const response = await axios.post('api/vehicle/add', vehicle)
     if (response.status === 200) return getLogData()
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
@@ -122,7 +131,7 @@ export async function updateVehicle(vehicle) {
   console.log("Updating an extant vehicle: ")
   console.dir(vehicle)
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/vehicle`, vehicle)
+    const response = await axios.post('api/vehicle', vehicle)
     if (response.status === 200) return getLogData()
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
@@ -141,8 +150,8 @@ export async function updateUserAccount(userObject) {
   if (!userObject || Object.keys(userObject).length === 0) return null
   const { name, email } = userObject
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/account`, { name, email })
-    if (response.status === 200) return getLogData()
+    const response = await axios.post('api/account', { name, email })
+    if (response.status === 200) return await getLogData()
     // otherwise ERROR
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
