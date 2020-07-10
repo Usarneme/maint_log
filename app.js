@@ -75,21 +75,23 @@ app.use((req, res, next) => {
 require('./routes')(app)
 
 console.log(`Express root dir: ${__dirname}`)
-
+// If no API routes are hit, send static assets
+app.use(express.static(path.join(__dirname, 'client/build')))
 // PUG templates are used for sending HTML emails for password reset requests
 app.set('view engine', 'pug') 
 
 // Development Error Handler - Prints stack trace
-if (app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   app.use(errorHandlers.developmentErrors)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/public/index.html'))
+  })
 } 
 
-if (app.get('env') === 'production') {
-  // If no API routes are hit, send static assets
+if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     // The React frontend build folder contains static assets for the client-side of the app
-    app.use(express.static(path.join(__dirname, 'client/build')))
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client/build/index.html'))
   })
   // Production error handler - Hides stack trace
   app.use(errorHandlers.productionErrors)
