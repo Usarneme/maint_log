@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 
@@ -84,8 +83,7 @@ export async function resetPassword(token, password, passwordConfirm) {
   } catch(err) {
     console.log('Error posting to /account/reset.')
     console.dir(err)
-    // TODO error boundary - return false
-    return toast.error('Error resetting account password. Please try again.')
+    return { isError: true, message: 'Error resetting account password. Please try again.', err }
   }
 }
 
@@ -116,7 +114,7 @@ export async function getLogData() {
   } catch (err) {
       console.log('Error getting data from /api/log/')
       console.dir(err)
-      toast.error('Error getting log data please try again')
+      return { isError: true, message: 'Error getting log data please try again', err }
     }
 }
 
@@ -132,8 +130,7 @@ export async function addVehicle(vehicle) {
   } catch(err) {
     console.log('Error posting to /api/vehicle/add.')
     console.dir(err)
-    // TODO error boundary - return false
-    return toast.error('Error adding new vehicle. Please try again.')
+    return { isError: true, message: 'Error adding new vehicle. Please try again.', err }
   }
 }
 
@@ -150,8 +147,7 @@ export async function updateVehicle(vehicle) {
   } catch(err) {
     console.log('Error posting to /api/vehicle.')
     console.dir(err)
-    // TODO error boundary - return false
-    return toast.error('Error updating vehicle. Please try again.')
+    return { isError: true, message: 'Error updating vehicle. Please try again.', err }
   }
 }
 
@@ -170,12 +166,10 @@ export async function updateUserAccount(userObject) {
   } catch(err) {
       console.log('Error posting to /api/account.')
       console.dir(err)
-      // TODO error boundary
-      return toast.error('Error updating account. Please try again.')
+      return { isError: true, message: 'Error updating account. Please try again.', err }
     }
 }
 
-//
 export const manufacturers = [
   "ACG",
   "Aston Martin",

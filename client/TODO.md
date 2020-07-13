@@ -8,18 +8,18 @@
 - [ ] Service Manual image to text file, user/client corrections, text file to upcoming/todo Log entries  
 - [ ] Integration Test all components  
 - [ ] Teardown upon log entry, vehicle, and account deletion. IE: images, db collections, sessions/auth, cache.  
-- [ ] Notifications - ServiceWorker? On each login? 
 
 ### In Progress
 
-- [ ] Error Boundaries around all data-changing routes  
+- [ ] Notifications - ServiceWorker? On each login? 
 - [ ] Unit Test All Components 
 - [ ] Unit Test All Pages  
 - [ ] Vehicle details - images, purchase info, photos of receipts, manual pdf, etc.  
-- [ ] More useful form validation error handling.  
+- [ ] Error Boundaries around all data-changing routes  
 
 ### Done ✓
 
+- [x] More useful form validation error handling.  
 - [x] Loading component - make animation  
 - [x] Registration -> 1st time Login -> Should prompt w/component on Home page to enter vehicle for new account  
 - [x] Currently selected/default vehicle passing to props and components  

@@ -12,7 +12,7 @@ const { catchErrors } = require('../handlers/errorHandlers')
 // per docs, recommended routing setup
 module.exports = function(app) {
   app.post('/add',
-    logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads (HOC?)
+    logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads
     catchErrors(logController.uploadPhoto),
     catchErrors(logController.createLog)
   )

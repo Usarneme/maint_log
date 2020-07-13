@@ -22,6 +22,8 @@ const multerOptions = {
   }
 }
 
+// TODO enable multiple photo uploads on front and back ends
+// exports.addPhotosToRequest = multer(multerOptions).array('photos',10) // max 10
 exports.addPhotoToRequest = multer(multerOptions).single('file')
 
 exports.uploadPhoto = async (req, res, next) => {
@@ -49,9 +51,7 @@ exports.uploadPhoto = async (req, res, next) => {
       // console.log('No file upload found (at req.file or req.body.file). Moving to next middleware.')
       return next() // No file submitted. Skip to the next middleware  
     } else {
-      // TODO does this ever actually happen??
       // ...there was a req.body.file, putting it on req.file for consistent handling
-      // console.log('adding req.body.file to req.file')
       req.file = req.body.file
     }
   }
