@@ -25,8 +25,6 @@ import { UserConsumer } from './contexts/UserContext'
 function AppRouter() {
   return (
     <Router>
-      <ScrollToTop />
-      <SiteTitle />
       <UserConsumer>
         {({ user, updateUserState, isLoggedIn, login, logout }) => 
         <div className="container">
@@ -38,9 +36,9 @@ function AppRouter() {
             closeOnClick
             pauseOnFocusLoss
             draggable
-            pauseOnHover
-          />
-
+            pauseOnHover />
+          <ScrollToTop />
+          <SiteTitle />
           <Switch>
             <Route path="/welcome">
               { !isLoggedIn && <GuestHome login={login} updateUserState={updateUserState} /> }

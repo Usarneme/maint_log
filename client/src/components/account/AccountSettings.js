@@ -18,8 +18,8 @@ function AccountSettings(props) {
     setState({ ...state, [event.target.name]: event.target.value })
   }
 
-
   const saveAccountChanges = async event => {
+    console.log('saveAccountChanges func')
     event.preventDefault()
     setLoading(true)
     const userUpdates = { ...props.user }
@@ -27,11 +27,13 @@ function AccountSettings(props) {
     userUpdates.email = state.email
     // TODO confirmation and password changing option
     const updates = await updateUserAccount(userUpdates)
-    console.log('TODO why props.user instead of the extant userUpdates?')
+    console.log('updateUserAccount helper returned:')
+    console.log(updates)
+
     const updatedUser = props.user
     updatedUser.log = updates.log
     updatedUser.vehicles = updates.vehicles
-    updatedUser.selectedVehicles = state.selectedVehicles
+    updatedUser.selectedVehicles = updates.selectedVehicles
     await props.updateUserState(updatedUser)
     toast.success('User Account Changes Saved Successfully!')
     setLoading(false)

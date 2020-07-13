@@ -97,7 +97,18 @@ export async function getLogData() {
     const response = await axios.get('api/log')
     console.log('getLogData returned: ')
     console.dir(response)
-    if (response.status === 200) return response.data
+    // if (response.status === 200) return response.data
+    if (response.status === 200) {
+      const user = response.data
+      // object property "primary" is a boolean indicating if it is the default/main vehicle to display
+      const primaryVehicleArray = user.vehicles.filter(car => car.primary)
+      if (primaryVehicleArray.length === 0) {
+        user.selectedVehicles = [user.vehicles[0]] // if none is primary, display the first vehicle by default
+      } else {
+        user.selectedVehicles = primaryVehicleArray
+      }
+      return user
+    }
     // otherwise ERROR
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)

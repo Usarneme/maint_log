@@ -96,7 +96,7 @@ function Login(props) {
       toast.error(result.message || 'Problem logging in. Please try again.')
       return
     }
-    // if we get here, login was successul on the server
+    // if we get here, login was successful on the server
     const user = result.user
     console.log('Server returned user:')
     console.log(user)
@@ -110,7 +110,7 @@ function Login(props) {
     await props.login(user)
     // setLoading(false)
     console.log('Loading set to false in Login component. Pushing history to /')
-    toast.success('Login successful!', { autoClose: 3500 })
+    toast.success('Logged in successfully!', { autoClose: 3500 })
     return history.push('/')
   }
 
