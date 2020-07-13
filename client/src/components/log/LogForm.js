@@ -48,13 +48,15 @@ class LogForm extends React.Component {
   apiEditLog = async event => {
     // console.log('apiEditLog func...')
     event.preventDefault()
-    this.setState({ loading: true })
+    this.setState(prevState => ({ ...prevState, loading: false }))
     let url = ''
     // can post new and edit existing log entries via this form
     if (this.props && this.props.log) {
-      url = `${process.env.REACT_APP_API_DOMAIN}/add/${this.props.log.id}`
+      // url = `${process.env.REACT_APP_API_DOMAIN}/add/${this.props.log.id}`
+      url = `/add/${this.props.log.id}`
     } else {
-      url = `${process.env.REACT_APP_API_DOMAIN}/add`
+      // url = `${process.env.REACT_APP_API_DOMAIN}/add`
+      url = `/add`
     }
 
     const formDatums = new FormData(document.getElementById('logForm'))
@@ -79,6 +81,11 @@ class LogForm extends React.Component {
         const user = this.props.user
         user.log = log
         this.props.updateUserState(user)
+        if (this.props && this.props.log) {
+          toast.success(`Saved edits to log entry "${newLogEntry.slug}".`)
+        } else {
+          toast.success(`Successfully created new log entry "${newLogEntry.slug}".`)
+        }
         this.props.history.push(`/log/${newLogEntry.slug}`)
       } else {
         console.log('Response received but with status code: '+result.status)
@@ -102,24 +109,32 @@ class LogForm extends React.Component {
 
   deleteLogEntry = async event => {
     event.preventDefault()
-    await this.setState({ loading: true })
+    this.setState(prevState => ({ ...prevState, loading: true }))
     try {
-      const result = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/delete/log/entry/${this.state.id}`)
+      // const result = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/delete/log/entry/${this.state.id}`)
+      const result = await axios.post(`/api/delete/log/entry/${this.state.id}`)
+      console.log('Deleting log entry. Result of post:')
+      console.log(result)
       if (result.data === null) {
         console.log('Server unable to find specified log entry. Was it already deleted?')
-        await this.setState({ loading: false })
+        this.setState(prevState => ({ ...prevState, loading: false }))
       } else if (result.status === 200) {
         // update State to remove the deleted entry
         const updatedLog = this.props.user.log.filter(entry => entry.id !== this.state.id)
         const user = this.props.user
         user.log = updatedLog
+        toast.info('Log Entry Deleted')
         await this.props.updateUserState(user)
         // redirect back to the log page
         this.props.history.push('/log')
+        // "this.props.log does not exist" error is caused by updating state before pushing to the new /log route
+        // calling setState after pushing results in an error related to updating state in an unmounted component
+        // Since this component is unmounted, and then remounted there is no need to set the loading state at all as that will be computed upon re-mount with the correct/newly updated props
+        // this.setState(prevState => ({ ...prevState, loading: false }))
       }
     } catch(err) {
       console.error(err)
-      await this.setState({ loading: false })
+      this.setState(prevState => ({ ...prevState, loading: false }))
     }
   }
 
@@ -135,14 +150,16 @@ class LogForm extends React.Component {
       // console.dir(result)
       if (result.data === null) {
         console.log('Server unable to find specified photo to delete. Was it already deleted?')
+        toast.error('Problem deleting the selected photo. Please try again.')
         this.setState(prevState => ({...prevState, loading: false}))
       } else if (result.status === 200) {
         // update State to remove the deleted entry
         const user = this.props.user
         user.log = result.data
         this.props.updateUserState(user)
-        this.props.history.push(`/log/${this.props.log._id}/edit`)
         this.setState(prevState => ({...prevState, loading: false}))
+        toast.info("Photo deleted successfully.")
+        this.props.history.push(`/log/${this.props.log._id}/edit`)
       }
     } catch(err) {
       this.setState(prevState => ({...prevState, loading: false}))

@@ -77,7 +77,9 @@ require('./routes')(app)
 console.log(`Express root dir: ${__dirname}`)
 // If no API routes are hit, send static assets
 app.use(express.static(path.join(__dirname, 'client/build')))
+
 // PUG templates are used for sending HTML emails for password reset requests
+// TODO inline view instead of using a whole view engine?
 app.set('view engine', 'pug') 
 
 // Development Error Handler - Prints stack trace

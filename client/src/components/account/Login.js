@@ -108,7 +108,7 @@ function Login(props) {
     }
     if (!user.selectedVehicles || user.selectedVehicles === undefined) user.selectedVehicles = []
     await props.login(user)
-    setLoading(false)
+    // setLoading(false)
     console.log('Loading set to false in Login component. Pushing history to /')
     toast.success('Login successful!', { autoClose: 3500 })
     return history.push('/')

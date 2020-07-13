@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Loading from '../Loading'
 
 function Logout(props) {
   const history = useHistory()
   const [showLogoutButton, toggleShowLogoutButton] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const toggleConfirmLogout = event => {
     event.preventDefault()
@@ -15,12 +17,13 @@ function Logout(props) {
 
   const apiLogout = async event => {
     event.preventDefault()
+    setLoading(true)
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/logout`)
       if (response.status === 200) {
         props.logout()
-        // logout func handles clearing state
-        // props.updateUserState({ name: '', userID: '', sessionID: '', cookies: '', email: '', log: [], vehicles: [], selectedVehicles: []})
+        setLoading(false)
+        toast.info('Logged Out Successfully!')        
         return history.push('/welcome')
       } else {
         const error = new Error(response.error)
@@ -28,9 +31,13 @@ function Logout(props) {
       }
     } catch(err) {
       console.error(err)
+      setLoading(false)
       toast.error(err)
     }
   }
+
+  if (isLoading) return <Loading message="Loading Logout..."/>
+
   return (
     <div className="card">
       <h3>Disconnect Account and Logout</h3>

@@ -318,3 +318,26 @@ select::-ms-expand {
     padding: 5px\9;
   }
 }
+
+/* Toast Notifications - Style Overrides */
+
+.Toastify__toast {
+  background: var(--backgroundLayerOne);
+}
+
+.Toastify__toast--default {
+  border: 6px solid #fff;
+  color: #aaa;
+}
+.Toastify__toast--info {
+  border: 6px solid #3498db;
+}
+.Toastify__toast--success {
+  border: 6px solid #07bc0c;
+}
+.Toastify__toast--warning {
+  border: 6px solid #f1c40f;
+}
+.Toastify__toast--error {
+  border: 6px solid #e74c3c;
+}
