@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true
 export async function apiLogin(email, password) {
   if (!email || !password) return new Error('No email or password provided to Login.')
   try {
-    const response = await axios.post('api/login', { email, password })
+    const response = await axios.post('/api/login', { email, password })
     // const response = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/login`, { email, password })
     console.log('response from server recd:')
     console.log(response)
@@ -47,9 +47,8 @@ export async function apiLogin(email, password) {
 // Returns user and session data (id, cookie) for a newly-created account
 export async function register(name, email, password, passwordConfirm) {
   if (!name || !email || !password || !passwordConfirm) return new Error('Not all registration information provided. Please make sure you have entered a username, email address, password, and confirmed your password before trying again.')
-  const url = `${process.env.REACT_APP_API_DOMAIN}/api/register`
   try {
-    const response = await axios.post(url, { name, email, password, passwordConfirm })
+    const response = await axios.post('/api/register', { name, email, password, passwordConfirm })
     if (response.status === 200) {
       const user = response.data
       user.userID = response.data._id
@@ -73,7 +72,7 @@ export async function register(name, email, password, passwordConfirm) {
 // Checks for a valid token, if accepted updates the user's password
 export async function resetPassword(token, password, passwordConfirm) {
   try {
-    const response = await axios.post(`account/reset/${token}`, { token, password, passwordConfirm })
+    const response = await axios.post(`/account/reset/${token}`, { token, password, passwordConfirm })
     // ensure the selectedVehicles array is included in the dataset
     if (!response || !response.data || !response.data.selectedVehicles || response.data.selectedVehicles === undefined) response.data.selectedVehicles = []
     if (response.status === 200) return response.data
@@ -122,7 +121,7 @@ export async function getLogData() {
 // If successful, calls getLogData and returns the updated Log/Vehicle arrays
 export async function addVehicle(vehicle) {
   try {
-    const response = await axios.post('api/vehicle/add', vehicle)
+    const response = await axios.post('/api/vehicle/add', vehicle)
     if (response.status === 200) return getLogData()
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
@@ -139,7 +138,7 @@ export async function updateVehicle(vehicle) {
   console.log("Updating an extant vehicle: ")
   console.dir(vehicle)
   try {
-    const response = await axios.post('api/vehicle', vehicle)
+    const response = await axios.post('/api/vehicle', vehicle)
     if (response.status === 200) return getLogData()
     console.log('Response received but with status code: '+response.status)
     const error = new Error(response.error)
@@ -157,7 +156,7 @@ export async function updateUserAccount(userObject) {
   if (!userObject || Object.keys(userObject).length === 0) return null
   const { name, email } = userObject
   try {
-    const response = await axios.post('api/account', { name, email })
+    const response = await axios.post('/api/account', { name, email })
     if (response.status === 200) return await getLogData()
     // otherwise ERROR
     console.log('Response received but with status code: '+response.status)

@@ -34,8 +34,8 @@ app.use((req, res, next) => {
 
 // Takes raw request data and puts them on req.body
 // for parsing json and x-www-form-urlencoded header requests
-app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 // Populates req.cookies
 app.use(cookieParser())
