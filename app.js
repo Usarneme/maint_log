@@ -9,7 +9,6 @@ const passport = require('passport')
 const { promisify } = require('es6-promisify')
 const helmet = require('helmet')
 
-const routes = require('./routes/index')
 const helpers = require('./helpers')
 const errorHandlers = require('./handlers/errorHandlers')
 require('./handlers/passport')
@@ -70,20 +69,17 @@ app.use((req, res, next) => {
   next()
 })
 
-// app.use('/', routes)
-// per docs, suggested route setup:
 require('./routes')(app)
 
-console.log(`Express root dir: ${__dirname}`)
 // If no API routes are hit, send static assets
 app.use(express.static(path.join(__dirname, 'client/build')))
 
 // PUG templates are used for sending HTML emails for password reset requests
 // TODO inline view instead of using a whole view engine?
-app.set('view engine', 'pug') 
+// app.set('view engine', 'pug') 
 
-// Development Error Handler - Prints stack trace
 if (process.env.NODE_ENV === 'development') {
+  // Development Error Handler - Prints stack trace
   app.use(errorHandlers.developmentErrors)
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/public/index.html'))
@@ -91,12 +87,12 @@ if (process.env.NODE_ENV === 'development') {
 } 
 
 if (process.env.NODE_ENV === 'production') {
+  // Production error handler - Hides stack trace
+  app.use(errorHandlers.productionErrors)
   app.get('*', (req, res) => {
     // The React frontend build folder contains static assets for the client-side of the app
     res.sendFile(path.join(__dirname, 'client/build/index.html'))
   })
-  // Production error handler - Hides stack trace
-  app.use(errorHandlers.productionErrors)
 }
 
 // One of our error handlers will see if these errors are just validation errors

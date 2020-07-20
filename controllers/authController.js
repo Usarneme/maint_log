@@ -9,6 +9,7 @@ const mail = require('../handlers/mail')
 exports.login = passport.authenticate('local', { failureRedirect: '/api/login/failure' })
 
 exports.loginFailure = (req, res) => {
+  console.log('Login Failure')
   return res.status(401).send("Username or Password are incorrect. Please ensure you've entered them correctly or Register a new user account.")
 }
 

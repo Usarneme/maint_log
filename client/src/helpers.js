@@ -2,8 +2,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 
 // Authenticates a user via email+password
-// Upon success: returns a User object and 
-// appends server session ID and cookie info to future requests
+// Upon success: returns a User object containing a server session ID and cookie
 export async function apiLogin(email, password) {
   if (!email || !password) return new Error('No email or password provided to Login.')
   try {
@@ -71,6 +70,7 @@ export async function register(name, email, password, passwordConfirm) {
   }
 }
 
+// Checks for a valid token, if accepted updates the user's password
 export async function resetPassword(token, password, passwordConfirm) {
   try {
     const response = await axios.post(`account/reset/${token}`, { token, password, passwordConfirm })

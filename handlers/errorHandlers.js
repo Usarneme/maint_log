@@ -36,8 +36,14 @@ exports.flashValidationErrors = (err, req, res, next) => {
   console.log(req.body)
   
   // Respond w/JSON when encountering an API request error
-  if (err === 'API cannot confirm user is logged in.') return res.status(409).send(err) 
-  if (err[0] === 'That Email is not valid.') return res.status(409).send(err[0]) 
+  if (err === 'API cannot confirm user is logged in.') {
+    console.log('1')
+    return res.status(409).send(err) 
+  }
+  if (err[0] === 'That Email is not valid.') {
+    console.log('2')
+    return res.status(409).send(err[0]) 
+  }
 
   if (!err && !err.errors) { // if there are no validation errors, move to next handler
     console.log('No validation errors. Moving to next.')
@@ -53,7 +59,7 @@ exports.flashValidationErrors = (err, req, res, next) => {
     } else if (err.message === 'MulterError: Unexpected field') {
       console.log('error - Error uploading photo. Please try again.')
     }
-    return res.redirect('back')
+    return res.status(500).send(err)
   }
 }
 
@@ -88,6 +94,6 @@ exports.productionErrors = (err, req, res, next) => {
   res.status(err.status || 500)
   return res.render('error', {
     message: err.message,
-    error: {}
+    error: err
   })
 }

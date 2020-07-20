@@ -1,5 +1,3 @@
-const express = require('express')
-// const router = express.Router()
 const { body } = require('express-validator')
 const passport = require('passport')
 
@@ -9,7 +7,6 @@ const userController = require('../controllers/userController')
 
 const { catchErrors } = require('../handlers/errorHandlers')
 
-// per docs, recommended routing setup
 module.exports = function(app) {
   app.post('/add',
     logController.addPhotoToRequest, // TODO allow multiple simultaneous photo uploads
@@ -84,4 +81,3 @@ module.exports = function(app) {
     catchErrors(userController.addVehicle)
   )
 }
-// module.exports = router
