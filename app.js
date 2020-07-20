@@ -22,7 +22,7 @@ app.use(cors())
 console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
   const origin = req.headers.origin || `http://${req.headers.host}`
-  console.log('Received request from: '+origin+req.url)
+  console.log('Received request from req.url: '+req.url)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin) 
   }
@@ -69,16 +69,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// API POST and GET routes
 require('./routes')(app)
-
 // If no API routes are hit, send static assets
-app.use(express.static(path.join(__dirname, 'client/build')))
-
-// PUG templates are used for sending HTML emails for password reset requests
-// TODO inline view instead of using a whole view engine?
-// app.set('view engine', 'pug') 
 
 if (process.env.NODE_ENV === 'development') {
+  app.use(express.static(path.join(__dirname, 'client/public')))
   // Development Error Handler - Prints stack trace
   app.use(errorHandlers.developmentErrors)
   app.get('*', (req, res) => {
@@ -87,6 +83,7 @@ if (process.env.NODE_ENV === 'development') {
 } 
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')))
   // Production error handler - Hides stack trace
   app.use(errorHandlers.productionErrors)
   app.get('*', (req, res) => {
@@ -100,6 +97,5 @@ app.use(errorHandlers.flashValidationErrors)
 
 // If the above routes fail, 404/forward to error handler
 app.use(errorHandlers.notFound)
-
 
 module.exports = app

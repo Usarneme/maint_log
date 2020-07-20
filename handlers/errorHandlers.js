@@ -18,8 +18,7 @@ exports.catchErrors = (fn) => {
   If we hit a route that is not found, we mark it as 404 and pass it along to the next error handler to display
 */
 exports.notFound = (req, res, next) => {
-  console.log('404 Error Function... Url: '+req._parsedUrl.pathname)
-  console.log(Object.keys(req))
+  console.log('404 Error Function...') 
   const err = new Error('Not Found')
   err.status = 404
   next(err)
@@ -86,13 +85,10 @@ exports.developmentErrors = (err, req, res, next) => {
   })
 }
 
-
 // Production Error Handler - less verbose - No stack traces are leaked to user
 exports.productionErrors = (err, req, res, next) => {
   console.log('prod errors err: '+err)
-
-  res.status(err.status || 500)
-  return res.render('error', {
+  return res.status(err.status || 500).send('error', {
     message: err.message,
     error: err
   })
