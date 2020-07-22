@@ -2,6 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')(session)
+const morgan = require('morgan')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -18,6 +19,9 @@ const app = express()
 app.use(helmet())
 const cors = require('cors')
 app.use(cors())
+
+// Development logging, provides useful output to console
+app.use(morgan('dev'))
 
 console.log('Allowing origins: '+process.env.FRONTEND_ORIGINS)
 app.use((req, res, next) => {
