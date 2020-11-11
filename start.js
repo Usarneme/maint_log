@@ -6,7 +6,7 @@ mongoose.set('useNewUrlParser', true)
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
 mongoose.set('useUnifiedTopology', true)
-mongoose.connect(process.env.DATABASE)
+mongoose.connect(process.env.ATLAS_DB)
 mongoose.Promise = global.Promise // Have Mongoose use ES6 promises
 mongoose.connection.on('error', (err) => {
   console.error(`Error: ${err.message}`)
