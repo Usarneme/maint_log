@@ -1,8 +1,8 @@
 html {
   font-size: 10px;
   box-sizing: border-box;
-  --buttonBlue: #265776;
-  --lightBlue: #1E659A;
+  --buttonBlue: #1E659A;
+  --lightBlue: #265776;
   --buttonTextWhite: #ddd;
   --cardMaxWidth: 866px;
 }
