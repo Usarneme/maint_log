@@ -1,9 +1,9 @@
 html {
   font-size: 10px;
   box-sizing: border-box;
-  --buttonBlue: #164766;
-  --lightBlue: #077077;
-  --buttonTextWhite: #DDDDDD;
+  --buttonBlue: #265776;
+  --lightBlue: #1E659A;
+  --buttonTextWhite: #ddd;
   --cardMaxWidth: 866px;
 }
 
@@ -23,12 +23,12 @@ html {
 }
 
 .dark {
-  --backgroundLayerOne: #181819;
-  --backgroundLayerTwo: #141414;
-  --backgroundLayerThree: #2C2C2C;
-  --backgroundLayerFour: #898989;
-  --textColorOne: #B5B4A1;
-  --textColorTwo: #EDEDED;
+  --backgroundLayerOne: #161616;
+  --backgroundLayerTwo: #252525;
+  --backgroundLayerThree: #505050;
+  --backgroundLayerFour: #000;
+  --textColorOne: #b5b4a1;
+  --textColorTwo: #f4f4f4;
 }
 
 .light {
