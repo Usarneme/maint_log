@@ -59,7 +59,7 @@ function Todo(props) {
 
   return (
     <div className="inner">
-      <h2>Upcoming Service{Object.keys(entriesShowing).length > 1 ? 's': ''}</h2>
+      <h2 className="card">Upcoming Service{Object.keys(entriesShowing).length > 1 ? 's': ''}</h2>
       <VehiclesSelector allVehicles={props.user.vehicles} vehiclesShowing={vehiclesShowing} changeVehiclesShowing={changeVehicleStatus} />
       { entriesShowing.length === 0 &&
         <div className="card no__todos padded">
@@ -72,7 +72,7 @@ function Todo(props) {
         </div>
       }
       { entriesShowing.length > 0 &&
-        <div className="padded">
+        <div className="card padded">
           <LogSorter {...props} />
           {entriesShowing && entriesShowing.map(entry => <LogEntry key={entry._id} data={entry} />)}
         </div>

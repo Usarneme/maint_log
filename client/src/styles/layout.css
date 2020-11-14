@@ -23,10 +23,11 @@ html {
 }
 
 .dark {
-  --backgroundLayerOne: #161616;
-  --backgroundLayerTwo: #252525;
+  --backgroundLayerOne: #16171b;
+  --backgroundLayerTwo: #2b2c30;
   --backgroundLayerThree: #505050;
   --backgroundLayerFour: #000;
+  --backgroundLayerFive: #2c2d31;
   --textColorOne: #b5b4a1;
   --textColorTwo: #f4f4f4;
 }
@@ -36,6 +37,7 @@ html {
   --backgroundLayerTwo: rgba(0,0,0,0.25);
   --backgroundLayerThree: #E1E1E1;
   --backgroundLayerFour: #999999;
+  --backgroundLayerFive: rgba(0,0,0,0.125);
   --textColorOne: #414141;
   --textColorTwo: #262626;
 }
@@ -48,43 +50,45 @@ ul li {
 }
 
 body {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin: 0;
   font-family: 'Bitter', 'Cairo', 'Cuprum', -apple-system, BlinkMacSystemFont, sans-serif;
   /* 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 h1, h2, h3, h4, h5 {
   color: inherit;
 }
 
 h1, h2, h3, h4 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   padding: 0.85rem;
   width: 100%;
 }
 
 h1 {
-  font-size: 2.85rem;
+  font-size: 3rem;
   color: var(--buttonTextWhite);
 }
 
 h2 {
-  background: var(--buttonBlue);
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  /* background: rgba(255,255,255,0.5); */
+  margin-bottom: 2.4rem;
+  font-size: 2.55rem;
 }
 
-h2, h2 *, h3, h4 {
+/* h2, h2 *, h3, h4 { */
+h3 {
   position: relative;
   color: var(--buttonTextWhite);
   background: var(--lightBlue);
 }
 
-h2:after,
-h3:after,
-h4:after {
+/* h2:after, */
+h3:after {
+/* h4:after { */
   content: "";
   background: var(--textColorOne);
   position: absolute;
@@ -144,9 +148,11 @@ label {
 }
 
 .inner {
+  min-height: 85vh;
   max-width: 1200px;
-  padding: 0.6rem;
+  padding: 2rem 0.6rem 8rem;
   margin: 0 auto;
+  background: var(--backgroundLayerTwo);
 }
 
 .inner--flashes {
@@ -154,6 +160,7 @@ label {
 }
 
 input, select, textarea {
+  font-size: 1.5rem;
   border: 0;
   width: 100%;
   height: 4rem;
@@ -168,7 +175,7 @@ input[type="checkbox"] {
 .card {
   max-width: var(--cardMaxWidth);
   position: relative;
-  margin: 0.15rem auto 3rem;
+  margin: 0.15rem auto 0rem;
   background: var(--backgroundLayerThree);
   border-bottom: 4px solid var(--textColorOne);
 }
@@ -189,9 +196,10 @@ button[type="submit"] {
   position: relative; /* for border corners */
   cursor: pointer;
   font-weight: 700;
+  font-size: 1.6rem;
   text-align: center;
   align-items: center;
-  margin: 0.5rem auto;
+  margin: 1.1rem auto 0;
   align-content: center;
   text-decoration: none;
   justify-content: center;
@@ -269,6 +277,10 @@ select {
   justify-content: center;  
   align-content: center;
   align-items: center;
+}
+
+.cardWidth {
+  max-width: var(--cardMaxWidth);
 }
 
 @media all and (min-width: 768px) {

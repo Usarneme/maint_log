@@ -1,3 +1,7 @@
+.search__div {
+  padding: 1rem 0rem 5rem 0rem;
+}
+
 form.search__form {
   width: 85%;
   padding: 0;

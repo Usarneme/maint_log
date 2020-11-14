@@ -20,7 +20,7 @@ function SingleLogEntry(props) {
   return (
     <div className="inner">
       <div className="card">
-        <h2>{name.length > 120 ? `${name.substring(0,120)}...` : name}</h2>
+        <h2 className="card">{name.length > 120 ? `${name.substring(0,120)}...` : name}</h2>
         <div className="padded single__details">
           <div>
             <div>

@@ -6,8 +6,8 @@ import SearchBox from '../components/SearchBox'
 function Search() {
   return (
     <div className="inner">
-      <h2>Search</h2>
-      <div className="card">
+      <h2 className="card">Search</h2>
+      <div className="card search__div">
         <SearchBox />
       </div>
     </div>

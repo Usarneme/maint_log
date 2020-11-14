@@ -12,7 +12,7 @@ function LogEntry(props) {
   return (
     <div className="card log__entry">
       <Link to={`/log/${log.slug}`}>
-        <h4>{log.name}</h4>
+        <h3>{log.name}</h3>
       </Link>
       <div className="log__details__container">
         <div className="log__details log__details__service">

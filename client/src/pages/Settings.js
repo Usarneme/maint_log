@@ -14,7 +14,7 @@ function Settings(props) {
 
   return (
     <div className="inner">
-      <h2>Settings</h2>
+      <h2 className="card">Settings</h2>
       
       <div className="padded">
         <VehicleSettings 

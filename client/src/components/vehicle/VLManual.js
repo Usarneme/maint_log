@@ -22,7 +22,7 @@ function VLManual(props) {
   }
 
   return (
-    <div className="form manualVehicleEntryDiv">
+    <div className="padded form manualVehicleEntryDiv">
       <label htmlFor="year">Year</label>
       <input type="number" name="year" min="1900" step="1" value={state.year} onChange={handleInputChange} />
       <label htmlFor="make">Make </label>

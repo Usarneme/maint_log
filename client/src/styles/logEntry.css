@@ -1,5 +1,6 @@
 .card.log__entry {
   margin: 2.2rem auto;
+  background: var(--backgroundLayerFive);
 }
 
 .log__entry > a > h5 {

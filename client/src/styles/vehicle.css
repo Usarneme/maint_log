@@ -5,8 +5,13 @@
   flex-direction: column;
 }
 
+div.vehicles__selector {
+  background: var(--backgroundLayerFive);
+}
+
 h4.vehicles__selector__header {
   justify-content: space-between;
+  text-decoration: underline;
 }
 
 h4.vehicles__selector__header > span {

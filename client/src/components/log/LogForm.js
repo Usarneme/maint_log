@@ -48,7 +48,7 @@ class LogForm extends React.Component {
   apiEditLog = async event => {
     // console.log('apiEditLog func...')
     event.preventDefault()
-    this.setState(prevState => ({ ...prevState, loading: false }))
+    this.setState(prevState => ({ ...prevState, loading: true }))
     let url = ''
     // can post new and edit existing log entries via this form
     if (this.props && this.props.log) {
@@ -68,13 +68,14 @@ class LogForm extends React.Component {
       formDatums.append("photos", [])
     }
     if (this.state.id) formDatums.append("id", this.state.id)
-    console.log('FORM DATA before posting:')
-    for (let x of formDatums) console.log(formDatums[x],x)
+    // console.log('FORM DATA before posting:')
+    // for (let x of formDatums) console.log(formDatums[x],x)
 
     try {
       const result = await axios.post(url, formDatums)
       console.log('result received')
       console.log(result)
+      this.setState(prevState => ({ ...prevState, loading: false }))
       if (result.status === 200) {
         const log = result.data.fullLog
         const newLogEntry = result.data.newLogEntry
@@ -168,6 +169,10 @@ class LogForm extends React.Component {
     }
   }
 
+  cancelChanges = () => {
+    this.props.history.push(`/log`)
+  }
+
   componentDidMount() {
     if (!this.props) return this.setState({ loading: false })
     if (!this.props.log) return this.setState({ loading: false })
@@ -228,7 +233,7 @@ class LogForm extends React.Component {
     } else {
       return (
         <div className="inner">
-          <h2>
+          <h2 className="card">
             {this.state.id ? 
               <span>Editing 
                 <Link to={`/log/${this.props.log.slug}`}> 
@@ -242,7 +247,7 @@ class LogForm extends React.Component {
           <div className="card padded">
             <form className="form" id="logForm" onSubmit={this.apiEditLog} method="POST" encType="multipart/form-data" multiple="multiple">
               <label htmlFor="name">Name</label>
-              <input type="text" name="name" autoFocus value={this.state.name} onChange={this.handleInputChange} onFocus={this.alignViewToElement} />
+              <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} onFocus={this.alignViewToElement} />
               <label htmlFor="vehicle">Vehicle</label>
               <select 
                 id="vehicle" 
@@ -276,7 +281,7 @@ class LogForm extends React.Component {
                 </span>
               <label htmlFor="laborCost">Cost of Labor</label>
               <span className="moneySign">$
-                <input className="moneyInput" type="text" name="laborCost" min="0" step="0.01" value={this.state.laborCost} onChange={this.handleInputChange} onFocus={this.alignViewToElement} />
+                <input className="moneyInput" type="number" name="laborCost" min="0" step="0.01" value={this.state.laborCost} onChange={this.handleInputChange} onFocus={this.alignViewToElement} />
               </span>
               <label htmlFor="serviceLocation">Service Location (Name and Address of Mechanic or Self)</label>
               <input type="text" name="serviceLocation" value={this.state.serviceLocation} onChange={this.handleInputChange} onFocus={this.alignViewToElement} />
@@ -290,7 +295,7 @@ class LogForm extends React.Component {
               <button className="button submit" type="submit">Save Log</button>
             </form>
 
-            { this.props.log && this.props.log.photos && this.props.log.photos.length > 0 && <PhotoEditor photos={this.props.log.photos} deletePhoto={this.deletePhoto} /> }
+            <button className="button" onClick={this.cancelChanges} title="Cancel Changes">Cancel Changes</button>
 
             { this.state.id &&
               <>
@@ -300,6 +305,9 @@ class LogForm extends React.Component {
               }
               </>
             }
+
+            { this.props.log && this.props.log.photos && this.props.log.photos.length > 0 && <PhotoEditor photos={this.props.log.photos} deletePhoto={this.deletePhoto} /> }
+
           </div>
         </div>
       )
