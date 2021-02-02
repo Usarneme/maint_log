@@ -11,7 +11,9 @@
     "eject": "react-scripts eject",
     "cov": "npm run test -- --coverage --watchAll=false --env=jsdom --coverageDirectory=src/__tests__/coverage/",
     "todos": "grep -r -n --color --include=*.js --exclude-dir=__tests__ TODO src/",
-    "todos_files": "grep -r -l --color --include=*.js --exclude-dir=__tests__ TODO src/"
+    "todos_files": "grep -r -l --color --include=*.js --exclude-dir=__tests__ TODO src/",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.10.0",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "eslint-plugin-security": "^1.4.0",
+    "react-styleguidist": "^11.1.5",
     "react-test-renderer": "^16.13.1"
   },
   "eslintConfig": {
