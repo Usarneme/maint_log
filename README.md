@@ -1,5 +1,5 @@
 # Vehicle Service & Maintenance Log
-[Vehicle Service & Maintenance Log] (https://maint-log.herokuapp.com/ "Vehicle Service & Maintenance Log")
+[Vehicle Service & Maintenance Log](https://maint-log.herokuapp.com/ "Vehicle Service & Maintenance Log")
 
 ### A vehicle maintenance log application. 
 - Create, Edit, Delete, and View Vehicle Service History
@@ -38,6 +38,7 @@
 - Cloudinary Image Hosting
 
 ##### Frontend
+[Frontend Documentation](https://usarneme.github.io/maint_log_docs/ "Frontend Documentation")
 - React
 - JavaScript (UI/Behavior)
 - HTML5
