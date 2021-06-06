@@ -11,25 +11,25 @@ import PhotoEditor from '../PhotoEditor'
 
 class LogForm extends React.Component {
   constructor(props) {
-    super(props) 
+    super(props)
     this.state = {
-      id: '', 
-      shortDescription: '',  
-      longDescription: '', 
-      dateStarted: '', 
-      dateCompleted: '', 
-      dateEntered: '', 
-      dateDue: '', 
+      id: '',
+      shortDescription: '', 
+      longDescription: '',
+      dateStarted: '',
+      dateCompleted: '',
+      dateEntered: '',
+      dateDue: '',
       file: '',
-      mileageDue: '', 
-      name: '', 
-      odometer: '', 
-      tools: '', 
-      parts: '', 
-      partsCost: '', 
-      laborCost: '', 
-      serviceLocation: '', 
-      photos: [], 
+      mileageDue: '',
+      name: '',
+      odometer: '',
+      tools: '',
+      parts: '',
+      partsCost: '',
+      laborCost: '',
+      serviceLocation: '',
+      photos: [],
       receipts: '',
       vehicle: '', // String vehicle ID associated with this log entry
       showDeleteButton: false,

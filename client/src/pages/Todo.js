@@ -9,13 +9,13 @@ import LogSorter from '../components/log/LogSorter'
 function Todo(props) {
   const [vehiclesShowing, changeVehiclesShowing] = useState([])
   const [entriesShowing, changeEntriesShowing] = useState([])
-  
+
   // at initial mount, setup data for rendering
   useEffect(() => {
     // Defaults to the currently selectedVehicle(s) ID(s) if any, OR
     // Defaults to all ID(s) in the user's vehicles array
     const veh = []
-    if (props.user.selectedVehicles.length > 0) { 
+    if (props.user.selectedVehicles.length > 0) {
       props.user.selectedVehicles.forEach(vehicle => {
         if (vehicle !== undefined && vehicle.id) veh.push(vehicle.id)
       })
@@ -26,18 +26,14 @@ function Todo(props) {
     }
     changeVehiclesShowing([...veh])
 
-    const ent = props.user.log.filter(logEntry => {
-      // each log entry has a:
-      // "vehicle" field which holds the String ID of the vehicle for this service
-      // "mileageDue" field which is an optional future odometer number at which the service repeats
-      // "dateDue" field which is an optional future date at which the service repeats
-      if (veh.includes(logEntry.vehicle) && (logEntry.mileageDue !== null || logEntry.dateDue !== null)) {
-        return logEntry
-      }
-    })
+    // each log entry has a:
+    // "vehicle" field which holds the String ID of the vehicle for this service
+    // "mileageDue" field which is an optional future odometer number at which the service repeats
+    // "dateDue" field which is an optional future date at which the service repeats
+    const ent = props.user.log.filter(logEntry => (veh.includes(logEntry.vehicle) && (logEntry.mileageDue !== null || logEntry.dateDue !== null)) ? logEntry : null)
     changeEntriesShowing(ent)
   }, []) // empty [] only runs this at initial startup, prevents infinite re-render loop
-  
+
   const changeVehicleStatus = event => {
     const clickedOnVehicleId = event.target.name
     let vehicleUpdates = []
@@ -49,11 +45,7 @@ function Todo(props) {
       vehicleUpdates.push(clickedOnVehicleId)
     }
     changeVehiclesShowing(vehicleUpdates)
-    const logUpdates = props.user.log.filter(logEntry => {
-      if (vehicleUpdates.includes(logEntry.vehicle) && (logEntry.mileageDue !== null || logEntry.dateDue !== null)) {
-        return logEntry
-      }
-    })
+    const logUpdates = props.user.log.filter(logEntry => (vehicleUpdates.includes(logEntry.vehicle) && (logEntry.mileageDue !== null || logEntry.dateDue !== null)) ? logEntry : null)
     changeEntriesShowing(logUpdates)
   }
 

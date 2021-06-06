@@ -11,7 +11,7 @@ function Search() {
         <SearchBox />
       </div>
     </div>
-  )  
+  )
 }
 
 Search.propTypes = {

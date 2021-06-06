@@ -28,9 +28,9 @@ app.use((req, res, next) => {
   const origin = req.headers.origin || `http://${req.headers.host}`
   console.log('Received request from req.url: '+req.url)
   if (process.env.FRONTEND_ORIGINS.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin) 
+    res.header("Access-Control-Allow-Origin", origin)
   }
-  // res.header("Access-Control-Allow-Origin", "*") 
+  // res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   res.header("Access-Control-Allow-Credentials", true)
   next()
@@ -84,7 +84,7 @@ if (process.env.NODE_ENV === 'development') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/public/index.html'))
   })
-} 
+}
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')))

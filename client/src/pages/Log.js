@@ -9,7 +9,7 @@ import LogSorter from '../components/log/LogSorter'
 function Log(props) {
   // [] Contains String IDs of all vehicles currently selected for view
   const [vehiclesShowing, changeVehiclesShowing] = useState([])
-  // [] Contains log entries that will be rendered (as that log entry's vehicle has been selected) 
+  // [] Contains log entries that will be rendered (as that log entry's vehicle has been selected)
   const [entriesShowing, changeEntriesShowing] = useState([])
 
   // at initial mount, setup data for rendering
@@ -17,7 +17,7 @@ function Log(props) {
     // Defaults to the currently selectedVehicle(s) ID(s) if any, OR
     // Defaults to all ID(s) in the user's vehicles array
     const veh = []
-    if (props.user.selectedVehicles.length > 0) { 
+    if (props.user.selectedVehicles.length > 0) {
       props.user.selectedVehicles.forEach(vehicle => {
         if (vehicle !== undefined && vehicle.id) veh.push(vehicle.id)
       })
@@ -37,7 +37,6 @@ function Log(props) {
     console.log('After setup. Entries: ')
     console.log(entriesShowing)
   }, [props.user.log]) // empty [] only runs this at initial startup, prevents infinite re-render loop
-// }, []) // empty [] only runs this at initial startup, prevents infinite re-render loop
 
   console.log('(After useEffect) Vehicles and Logs: ')
   console.log(vehiclesShowing)

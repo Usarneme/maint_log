@@ -30,6 +30,7 @@ form.search__form {
   /* margin: 0; */
   width: initial;
   border-left: 0;
+  margin-top: 0;
 }
 
 .search__button > div > div > svg {
