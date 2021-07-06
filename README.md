@@ -1,10 +1,10 @@
 # Vehicle Service & Maintenance Log
-[Vehicle Service & Maintenance Log](https://maint-log.herokuapp.com/ "Vehicle Service & Maintenance Log")
+[Vehicle Service & Maintenance Log](https://www.maintlog.net/ "Vehicle Service & Maintenance Log")
 
-### A vehicle maintenance log application. 
+### A vehicle maintenance log application.
 - Create, Edit, Delete, and View Vehicle Service History
 - Track what was completed, when, by whom, and with what costs (i.e.: parts and labor)
-- Log entries can include part numbers, tools used, short description, longer description for remembering detailed steps/instructions, image uploads for receipts or to show work in progress (before and afters, etc.), all associated with any one of the user's saved vehicles. 
+- Log entries can include part numbers, tools used, short description, longer description for remembering detailed steps/instructions, image uploads for receipts or to show work in progress (before and afters, etc.), all associated with any one of the user's saved vehicles.
 
 #### Features
 - Default Dark Mode
@@ -25,7 +25,7 @@
 #### Possible Upcoming Features
 - Charts showing costs by date range, vehicle
 - Metrics detailing service intervals
-- Export and/or Share Log 
+- Export and/or Share Log
 - Export and/or Share Metrics/Charts
 - Notifications of upcoming services based on odometer and/or date
 - Share and compare your service entries with other users - become a social tool for DIY mechanics
@@ -45,4 +45,4 @@
 - JSX
 - CSS3
 
-Please visit us at: [maint-log.herokuapp.com](https://maint-log.herokuapp.com "Vehicle Service & Maintenance Log")
+Please visit us at: [www.maintlog.net](https://www.maintlog.net/ "Vehicle Service & Maintenance Log")
