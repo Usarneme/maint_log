@@ -20,13 +20,13 @@ import ProtectedRoute from './components/account/ProtectedRoute'
 import ScrollToTop from './components/ScrollToTop'
 import SiteTitle from './components/SiteTitle'
 
-import { UserConsumer } from './contexts/UserContext' 
+import { UserConsumer } from './contexts/UserContext'
 
 function AppRouter() {
   return (
     <Router>
       <UserConsumer>
-        {({ user, updateUserState, isLoggedIn, login, logout }) => 
+        {({ user, updateUserState, isLoggedIn, login, logout }) =>
         <div className="container">
           <ToastContainer
             position="top-center"
