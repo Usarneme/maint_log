@@ -1,4 +1,4 @@
-const { body } = require('express-validator')
+const { body, check } = require('express-validator')
 const passport = require('passport')
 
 const authController = require('../controllers/authController')
@@ -36,20 +36,20 @@ module.exports = function(app) {
   app.get('/api/login/failure', authController.loginFailure)
 
   app.post('/api/logout', authController.apiLogout)
-  app.post('/api/register', 
+  app.post('/api/register',
     [
-      body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
-      body('email', 'That Email is not valid.').isEmail().normalizeEmail(),
-      body('password', 'You must supply a password.').isLength({ min: 6 }),
-      body('passwordConfirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
+      check('name', 'You must supply a name.').not().isEmpty().trim().escape(),
+      check('email', 'That Email is not valid.').isEmail().normalizeEmail(),
+      check('password', 'You must supply a password of at least six characters.').isLength({ min: 6 }),
+      check('passwordConfirm', 'Your passwords do not match.').custom((value, { req }) => value === req.body.password)
     ],
     userController.validateAccountUpdate,
     catchErrors(userController.register),
-    passport.authenticate('local'), 
+    passport.authenticate('local'),
     catchErrors(userController.getApiUserData)
   )
 
-  app.post('/api/account', 
+  app.post('/api/account',
     [
       body('name', 'You must supply a name.').not().isEmpty().trim().escape(),
       body('email', 'That Email is not valid.').isEmail().normalizeEmail(),

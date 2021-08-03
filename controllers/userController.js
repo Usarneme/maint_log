@@ -3,26 +3,30 @@ const User = mongoose.model('User')
 const Vehicle = mongoose.model('Vehicle')
 const Log = mongoose.model('Log')
 
-const { validationResult } = require('express-validator')
+const { body, validationResult } = require('express-validator')
 
 // ---------------------------- ACCOUNT DATA GETTERS AND SETTERS -------------------
 exports.validateAccountUpdate = (req, res, next) => {
   // console.log('Posting to validate account update...')
   // console.log(req.body)
   const errors = validationResult(req)
-  if (errors.isEmpty()) return next() // passed validation. move to next middleware/handler
-  // otherwise, we have failed validation...
-  const errorMessages = []
-  errors.array().forEach(val => errorMessages.push(val.msg))
-  console.log('*** Validation Failed ***'.toUpperCase())
-  console.log(errorMessages)
-  // console.log(errors.array())
-  console.log('error', errorMessages)
+  if (!errors.isEmpty()) {
+    // otherwise, we have failed validation...
+    const errorMessages = []
+    errors.array().forEach(val => errorMessages.push(val.msg))
+    console.log('*** Validation Failed ***'.toUpperCase())
+    console.log(errorMessages)
+    // console.log(errors.array())
+    // console.log('error', errorMessages)
+    return res.status(400).json({ errors: errorMessages })
+  }
   // api requests return JSON data
-  if (req.body.api) return next(errorMessages) 
+  if (req.body.api) return next(errorMessages)
+  return next() // passed validation. move to next middleware/handler
 }
 
 exports.register = async (req, res, next) => {
+  console.log('REGISTER:', req.body)
   const newUser = new User({ email: req.body.email, name: req.body.name })
   await User.registerAsync(newUser, req.body.password)
   return next() // After registering immediately login. pass to login handler

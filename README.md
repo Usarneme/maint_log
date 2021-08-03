@@ -35,9 +35,9 @@ NOTE: You'll have to replace everything between four asterisks with your own ser
 
 5. Enter the client directory `cd client`
 6. Install client dependencies with `npm install`
-7. Return to the project root with `cd..`
+7. Return to the project root with `cd ..`
 8. Run the back end and front end dev servers with `npm run start:dev`
-9. Visit http://localhost:7777 in your browser of choice
+9. Visit http://localhost:3000 in your browser of choice
 
 #### Features
 

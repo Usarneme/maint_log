@@ -35,7 +35,8 @@ function Register(props) {
     if (!result || result.response !== undefined) {
       setLoading(false)
       console.log(`Status ${result.response.status}: ${result.response.statusText}.`)
-      return toast.error(`Error registering a new account. Please try again.`) 
+      console.log(result.response)
+      return toast.error(`Error registering a new account. Please try again. Errors: ${result.response.data.errors}`)
     }
     if (Object.keys(result.user).length === 0) {
       setLoading(false)
