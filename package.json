@@ -35,7 +35,7 @@
     "html-to-text": "^5.1.1",
     "jimp": "^0.13.0",
     "juice": "^8.0.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.9.18",
     "mongoose-mongodb-errors": "0.0.2",
     "multer": "^1.4.2",
