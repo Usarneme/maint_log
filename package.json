@@ -7,9 +7,9 @@
     "node": ">= 10.6.x"
   },
   "scripts": {
-    "start": "node start.js",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node start.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*' BROWSER=none\" \"npm run client\"",
-    "client": "cd client && npm run start",
+    "client": "cd client && NODE_OPTIONS=--openssl-legacy-provider npm run start",
     "watch": "nodemon ./start.js --ignore public/",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
