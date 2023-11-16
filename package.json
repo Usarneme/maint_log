@@ -53,6 +53,6 @@
     "http-proxy-middleware": "^1.0.4",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^3.0.1"
   }
 }
