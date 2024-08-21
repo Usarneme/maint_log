@@ -43,13 +43,13 @@ exports.uploadPhoto = async (req, res, next) => {
   const partsArray = req.body.parts.split(',').filter(Boolean) || []
   delete req.body.parts
   req.body.parts = [...partsArray]
-  
+
   // if there is no file on the request...
   if (!req.file || Object.keys(req.file).length === 0) {
     // check for a file on the request.body...
     if (!req.body.file || Object.keys(req.body.file).length === 0) {
       // console.log('No file upload found (at req.file or req.body.file). Moving to next middleware.')
-      return next() // No file submitted. Skip to the next middleware  
+      return next() // No file submitted. Skip to the next middleware
     } else {
       // ...there was a req.body.file, putting it on req.file for consistent handling
       req.file = req.body.file
@@ -58,33 +58,56 @@ exports.uploadPhoto = async (req, res, next) => {
   // console.log('* Photo included in form submission.')
   // get the filetype e.g.: jpeg, png
   const extension = req.file.mimetype.split('/')[1]
-  // create a unique filename and add to the array of photos associated with this log 
+  // create a unique filename and add to the array of photos associated with this log
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
   // resize photo to allow for reasonable maximums
-  const photo = await jimp.read(req.file.buffer)
-  await photo.resize(800, jimp.AUTO)
-  await photo.quality(70)
-  const filename = `./public/uploads/${req.body.photos[req.body.photos.length - 1]}`
-  await photo.write(filename)
+  // TODO: previous JIMP implementation
+  // const photo = await jimp.read(req.file.buffer)
+  // TODO: upgraded JUMP implementation
+  let filename;
 
-  // cloudinary options to use the already unique name and not append extra characters
-  await cloudinary.uploader.upload(filename, { use_filename: true, unique_filename: false }, (err, image) => {
-    if (err) { console.warn(err) }
-    console.log("Cloudinary - " + image.public_id)
-    console.log("Cloudinary - " + image.url)
-  })
+  jimp.read(req.file.buffer).then(async image => {
+    console.log("🚀 ~ awaitjimp.read ~ image:", image)
+    filename = `./public/uploads/${req.body.photos[req.body.photos.length - 1]}`
 
-  // remove the file from the local filesystem after it uploads to cloud service
-  fs.unlink(filename, err => {
-    if (err) {
-      // log the error for eventual cleanup
-      console.log('ERROR!\n\tUNLINK ERROR. Unable to Delete Image.\nImage Filename: '+filename)
-      return
-    }
-    // console.log('successfully deleted local copy of photo '+filename)
-  })
-  // console.log('Photo uploaded successfully. ')
+    image
+      .resize(800, jimp.AUTO)
+      .quality(70)
+      .write(filename)
+    // await photo.resize(800, jimp.AUTO)
+    // await photo.quality(70)
+    // await photo.write(filename)
+
+  }).catch(err => {
+  // handle error here
+    console.error(`Error reading image: ${err}`)
+  });
+
+  if (filename) {
+    // cloudinary options to use the already unique name and not append extra characters
+    console.log("Uploading image to Cloudinary...")
+    await cloudinary.uploader.upload(filename, { use_filename: true, unique_filename: false }, (err, image) => {
+      if (err) { console.warn(err) }
+      console.log("Cloudinary - " + image.public_id)
+      console.log("Cloudinary - " + image.url)
+    })
+    console.log("Finished uploading image to Cloudinary...")
+
+    // remove the file from the local filesystem after it uploads to cloud service
+    fs.unlink(filename, err => {
+      if (err) {
+        // log the error for eventual cleanup
+        console.error('ERROR!\n\tUNLINK ERROR. Unable to Delete Image.\nImage Filename: '+filename)
+        return
+      }
+      // console.log('successfully deleted local copy of photo '+filename)
+    })
+  } else {
+    console.error("Error processing file upload...")
+  }
+
+  console.log('Photo uploaded successfully. ')
   return next()
 }
 
