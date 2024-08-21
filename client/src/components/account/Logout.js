@@ -23,7 +23,7 @@ function Logout(props) {
       if (response.status === 200) {
         props.logout()
         setLoading(false)
-        toast.info('Logged Out Successfully!')        
+        toast.info('Logged Out Successfully!')
         return history.push('/welcome')
       } else {
         const error = new Error(response.error)

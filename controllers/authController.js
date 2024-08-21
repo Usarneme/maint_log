@@ -125,8 +125,10 @@ exports.changePassword = async (req, res) => {
   return res.status(200).send(user)
 }
 
-exports.apiLogout = (req, res) => {
+exports.apiLogout = (req, res, next) => {
   console.log('apiLogout route hit')
-  req.logout()
-  res.status(200).send('Logged out successfully!')
+  req.logout((err) => {
+    if (err) return next(err)
+    res.status(200).send('Logged out successfully!')
+  })
 }
