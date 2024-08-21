@@ -62,37 +62,26 @@ exports.uploadPhoto = async (req, res, next) => {
   req.body.photos.push(`${uuid.v4()}.${extension}`)
 
   // resize photo to allow for reasonable maximums
-  // TODO: previous JIMP implementation
-  // const photo = await jimp.read(req.file.buffer)
-  // TODO: upgraded JUMP implementation
   let filename;
 
-  jimp.read(req.file.buffer).then(async image => {
-    console.log("🚀 ~ awaitjimp.read ~ image:", image)
+  await jimp.read(req.file.buffer).then(async image => {
     filename = `./public/uploads/${req.body.photos[req.body.photos.length - 1]}`
 
     image
       .resize(800, jimp.AUTO)
       .quality(70)
       .write(filename)
-    // await photo.resize(800, jimp.AUTO)
-    // await photo.quality(70)
-    // await photo.write(filename)
-
   }).catch(err => {
-  // handle error here
     console.error(`Error reading image: ${err}`)
   });
 
   if (filename) {
     // cloudinary options to use the already unique name and not append extra characters
-    console.log("Uploading image to Cloudinary...")
     await cloudinary.uploader.upload(filename, { use_filename: true, unique_filename: false }, (err, image) => {
       if (err) { console.warn(err) }
       console.log("Cloudinary - " + image.public_id)
       console.log("Cloudinary - " + image.url)
     })
-    console.log("Finished uploading image to Cloudinary...")
 
     // remove the file from the local filesystem after it uploads to cloud service
     fs.unlink(filename, err => {
